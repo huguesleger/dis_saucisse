@@ -10,6 +10,9 @@ import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_mont
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_quality_tiles.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_top_bar.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/rules/photo_quality_rules.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/photo_quality_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
@@ -45,7 +48,25 @@ class HomeLoadedView extends StatelessWidget {
               onSelected: context.read<HomeCubit>().selectMonth,
             ),
             const SizedBox(height: DsSpacing.xl),
-            const Padding(padding: _gutter, child: HomeQualityTiles(duplicateCount: 31, blurryCount: 12)),
+            Padding(
+              padding: _gutter,
+              child: BlocBuilder<PhotoQualityCubit, PhotoQualityState>(
+                builder: (BuildContext context, PhotoQualityState quality) => HomeQualityTiles(
+                  duplicateCount: photosToReviewCount(
+                    QualityIssue.duplicates,
+                    state.photosLeftToSort,
+                    quality.qualities,
+                  ),
+                  blurryCount: photosToReviewCount(QualityIssue.blurry, state.photosLeftToSort, quality.qualities),
+                  photosLeftToAnalyze: switch (quality) {
+                    PhotoQualityAnalyzing(:final int remaining) => remaining,
+                    PhotoQualityReady() => 0,
+                  },
+                  onOpen: (QualityIssue issue) =>
+                      openQualityReview(context, cubit: context.read<HomeCubit>(), issue: issue),
+                ),
+              ),
+            ),
             const SizedBox(height: DsSpacing.xl),
             Padding(
               padding: _gutter,

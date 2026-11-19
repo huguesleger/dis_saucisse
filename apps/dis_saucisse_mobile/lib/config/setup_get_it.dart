@@ -34,6 +34,10 @@ import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository
 import 'package:dis_saucisse_mobile/features/free_space/data/data_sources/photo_deletion_data_source.dart';
 import 'package:dis_saucisse_mobile/features/free_space/data/repositories/free_space_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/free_space/domain/free_space_repository.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/data/data_sources/photo_analysis_data_source.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/data/data_sources/photo_quality_data_source.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/data/repositories/photo_quality_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/photo_quality_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,4 +81,9 @@ void configureDependencies() => getIt
   ..registerLazySingleton<PhotoDeletionDataSource>(PhotoDeletionDataSource.new)
   ..registerLazySingleton<FreeSpaceRepository>(
     () => FreeSpaceRepositoryImpl(sentPhotos: getIt.get(), deletion: getIt.get()),
+  )
+  ..registerLazySingleton<PhotoQualityDataSource>(() => PhotoQualityDataSource(getIt.get()))
+  ..registerLazySingleton<PhotoAnalysisDataSource>(PhotoAnalysisDataSource.new)
+  ..registerLazySingleton<PhotoQualityRepository>(
+    () => PhotoQualityRepositoryImpl(storage: getIt.get(), analysis: getIt.get()),
   );

@@ -5,6 +5,11 @@ class HomePageRoute extends GoRouteData with $HomePageRoute {
   const HomePageRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      BlocProvider<HomeCubit>(create: (_) => HomeCubit()..load(), child: const HomeScreen());
+  Widget build(BuildContext context, GoRouterState state) => MultiBlocProvider(
+    providers: <BlocProvider<Object?>>[
+      BlocProvider<HomeCubit>(create: (_) => HomeCubit()..load()),
+      BlocProvider<PhotoQualityCubit>(create: (_) => PhotoQualityCubit()),
+    ],
+    child: const HomeScreen(),
+  );
 }

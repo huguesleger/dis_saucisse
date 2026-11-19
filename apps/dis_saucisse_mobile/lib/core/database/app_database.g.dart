@@ -586,17 +586,386 @@ class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
   }
 }
 
+class $PhotoQualitiesTable extends PhotoQualities with TableInfo<$PhotoQualitiesTable, PhotoQualityRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PhotoQualitiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _photoIdMeta = const VerificationMeta(
+    'photoId',
+  );
+  @override
+  late final GeneratedColumn<String> photoId = GeneratedColumn<String>(
+    'photo_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sharpnessMeta = const VerificationMeta(
+    'sharpness',
+  );
+  @override
+  late final GeneratedColumn<double> sharpness = GeneratedColumn<double>(
+    'sharpness',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fingerprintMeta = const VerificationMeta(
+    'fingerprint',
+  );
+  @override
+  late final GeneratedColumn<int> fingerprint = GeneratedColumn<int>(
+    'fingerprint',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _algorithmMeta = const VerificationMeta(
+    'algorithm',
+  );
+  @override
+  late final GeneratedColumn<int> algorithm = GeneratedColumn<int>(
+    'algorithm',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _analyzedAtMeta = const VerificationMeta(
+    'analyzedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> analyzedAt = GeneratedColumn<DateTime>(
+    'analyzed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    photoId,
+    sharpness,
+    fingerprint,
+    algorithm,
+    analyzedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'photo_qualities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PhotoQualityRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('photo_id')) {
+      context.handle(
+        _photoIdMeta,
+        photoId.isAcceptableOrUnknown(data['photo_id']!, _photoIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_photoIdMeta);
+    }
+    if (data.containsKey('sharpness')) {
+      context.handle(
+        _sharpnessMeta,
+        sharpness.isAcceptableOrUnknown(data['sharpness']!, _sharpnessMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sharpnessMeta);
+    }
+    if (data.containsKey('fingerprint')) {
+      context.handle(
+        _fingerprintMeta,
+        fingerprint.isAcceptableOrUnknown(
+          data['fingerprint']!,
+          _fingerprintMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_fingerprintMeta);
+    }
+    if (data.containsKey('algorithm')) {
+      context.handle(
+        _algorithmMeta,
+        algorithm.isAcceptableOrUnknown(data['algorithm']!, _algorithmMeta),
+      );
+    }
+    if (data.containsKey('analyzed_at')) {
+      context.handle(
+        _analyzedAtMeta,
+        analyzedAt.isAcceptableOrUnknown(data['analyzed_at']!, _analyzedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_analyzedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {photoId};
+  @override
+  PhotoQualityRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PhotoQualityRow(
+      photoId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_id'],
+      )!,
+      sharpness: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}sharpness'],
+      )!,
+      fingerprint: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}fingerprint'],
+      )!,
+      algorithm: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}algorithm'],
+      )!,
+      analyzedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}analyzed_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PhotoQualitiesTable createAlias(String alias) {
+    return $PhotoQualitiesTable(attachedDatabase, alias);
+  }
+}
+
+class PhotoQualityRow extends DataClass implements Insertable<PhotoQualityRow> {
+  final String photoId;
+  final double sharpness;
+  final int fingerprint;
+  final int algorithm;
+  final DateTime analyzedAt;
+  const PhotoQualityRow({
+    required this.photoId,
+    required this.sharpness,
+    required this.fingerprint,
+    required this.algorithm,
+    required this.analyzedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['photo_id'] = Variable<String>(photoId);
+    map['sharpness'] = Variable<double>(sharpness);
+    map['fingerprint'] = Variable<int>(fingerprint);
+    map['algorithm'] = Variable<int>(algorithm);
+    map['analyzed_at'] = Variable<DateTime>(analyzedAt);
+    return map;
+  }
+
+  PhotoQualitiesCompanion toCompanion(bool nullToAbsent) {
+    return PhotoQualitiesCompanion(
+      photoId: Value(photoId),
+      sharpness: Value(sharpness),
+      fingerprint: Value(fingerprint),
+      algorithm: Value(algorithm),
+      analyzedAt: Value(analyzedAt),
+    );
+  }
+
+  factory PhotoQualityRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PhotoQualityRow(
+      photoId: serializer.fromJson<String>(json['photoId']),
+      sharpness: serializer.fromJson<double>(json['sharpness']),
+      fingerprint: serializer.fromJson<int>(json['fingerprint']),
+      algorithm: serializer.fromJson<int>(json['algorithm']),
+      analyzedAt: serializer.fromJson<DateTime>(json['analyzedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'photoId': serializer.toJson<String>(photoId),
+      'sharpness': serializer.toJson<double>(sharpness),
+      'fingerprint': serializer.toJson<int>(fingerprint),
+      'algorithm': serializer.toJson<int>(algorithm),
+      'analyzedAt': serializer.toJson<DateTime>(analyzedAt),
+    };
+  }
+
+  PhotoQualityRow copyWith({
+    String? photoId,
+    double? sharpness,
+    int? fingerprint,
+    int? algorithm,
+    DateTime? analyzedAt,
+  }) => PhotoQualityRow(
+    photoId: photoId ?? this.photoId,
+    sharpness: sharpness ?? this.sharpness,
+    fingerprint: fingerprint ?? this.fingerprint,
+    algorithm: algorithm ?? this.algorithm,
+    analyzedAt: analyzedAt ?? this.analyzedAt,
+  );
+  PhotoQualityRow copyWithCompanion(PhotoQualitiesCompanion data) {
+    return PhotoQualityRow(
+      photoId: data.photoId.present ? data.photoId.value : this.photoId,
+      sharpness: data.sharpness.present ? data.sharpness.value : this.sharpness,
+      fingerprint: data.fingerprint.present ? data.fingerprint.value : this.fingerprint,
+      algorithm: data.algorithm.present ? data.algorithm.value : this.algorithm,
+      analyzedAt: data.analyzedAt.present ? data.analyzedAt.value : this.analyzedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PhotoQualityRow(')
+          ..write('photoId: $photoId, ')
+          ..write('sharpness: $sharpness, ')
+          ..write('fingerprint: $fingerprint, ')
+          ..write('algorithm: $algorithm, ')
+          ..write('analyzedAt: $analyzedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(photoId, sharpness, fingerprint, algorithm, analyzedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PhotoQualityRow &&
+          other.photoId == this.photoId &&
+          other.sharpness == this.sharpness &&
+          other.fingerprint == this.fingerprint &&
+          other.algorithm == this.algorithm &&
+          other.analyzedAt == this.analyzedAt);
+}
+
+class PhotoQualitiesCompanion extends UpdateCompanion<PhotoQualityRow> {
+  final Value<String> photoId;
+  final Value<double> sharpness;
+  final Value<int> fingerprint;
+  final Value<int> algorithm;
+  final Value<DateTime> analyzedAt;
+  final Value<int> rowid;
+  const PhotoQualitiesCompanion({
+    this.photoId = const Value.absent(),
+    this.sharpness = const Value.absent(),
+    this.fingerprint = const Value.absent(),
+    this.algorithm = const Value.absent(),
+    this.analyzedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PhotoQualitiesCompanion.insert({
+    required String photoId,
+    required double sharpness,
+    required int fingerprint,
+    this.algorithm = const Value.absent(),
+    required DateTime analyzedAt,
+    this.rowid = const Value.absent(),
+  }) : photoId = Value(photoId),
+       sharpness = Value(sharpness),
+       fingerprint = Value(fingerprint),
+       analyzedAt = Value(analyzedAt);
+  static Insertable<PhotoQualityRow> custom({
+    Expression<String>? photoId,
+    Expression<double>? sharpness,
+    Expression<int>? fingerprint,
+    Expression<int>? algorithm,
+    Expression<DateTime>? analyzedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (photoId != null) 'photo_id': photoId,
+      if (sharpness != null) 'sharpness': sharpness,
+      if (fingerprint != null) 'fingerprint': fingerprint,
+      if (algorithm != null) 'algorithm': algorithm,
+      if (analyzedAt != null) 'analyzed_at': analyzedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PhotoQualitiesCompanion copyWith({
+    Value<String>? photoId,
+    Value<double>? sharpness,
+    Value<int>? fingerprint,
+    Value<int>? algorithm,
+    Value<DateTime>? analyzedAt,
+    Value<int>? rowid,
+  }) {
+    return PhotoQualitiesCompanion(
+      photoId: photoId ?? this.photoId,
+      sharpness: sharpness ?? this.sharpness,
+      fingerprint: fingerprint ?? this.fingerprint,
+      algorithm: algorithm ?? this.algorithm,
+      analyzedAt: analyzedAt ?? this.analyzedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (photoId.present) {
+      map['photo_id'] = Variable<String>(photoId.value);
+    }
+    if (sharpness.present) {
+      map['sharpness'] = Variable<double>(sharpness.value);
+    }
+    if (fingerprint.present) {
+      map['fingerprint'] = Variable<int>(fingerprint.value);
+    }
+    if (algorithm.present) {
+      map['algorithm'] = Variable<int>(algorithm.value);
+    }
+    if (analyzedAt.present) {
+      map['analyzed_at'] = Variable<DateTime>(analyzedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PhotoQualitiesCompanion(')
+          ..write('photoId: $photoId, ')
+          ..write('sharpness: $sharpness, ')
+          ..write('fingerprint: $fingerprint, ')
+          ..write('algorithm: $algorithm, ')
+          ..write('analyzedAt: $analyzedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $PhotoDecisionsTable photoDecisions = $PhotoDecisionsTable(this);
   late final $PhotoTransfersTable photoTransfers = $PhotoTransfersTable(this);
+  late final $PhotoQualitiesTable photoQualities = $PhotoQualitiesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     photoDecisions,
     photoTransfers,
+    photoQualities,
   ];
 }
 
@@ -927,10 +1296,206 @@ typedef $$PhotoTransfersTableProcessedTableManager =
       PhotoTransferRow,
       PrefetchHooks Function()
     >;
+typedef $$PhotoQualitiesTableCreateCompanionBuilder =
+    PhotoQualitiesCompanion Function({
+      required String photoId,
+      required double sharpness,
+      required int fingerprint,
+      Value<int> algorithm,
+      required DateTime analyzedAt,
+      Value<int> rowid,
+    });
+typedef $$PhotoQualitiesTableUpdateCompanionBuilder =
+    PhotoQualitiesCompanion Function({
+      Value<String> photoId,
+      Value<double> sharpness,
+      Value<int> fingerprint,
+      Value<int> algorithm,
+      Value<DateTime> analyzedAt,
+      Value<int> rowid,
+    });
+
+class $$PhotoQualitiesTableFilterComposer extends Composer<_$AppDatabase, $PhotoQualitiesTable> {
+  $$PhotoQualitiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get photoId => $composableBuilder(
+    column: $table.photoId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get sharpness => $composableBuilder(
+    column: $table.sharpness,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get algorithm => $composableBuilder(
+    column: $table.algorithm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get analyzedAt => $composableBuilder(
+    column: $table.analyzedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PhotoQualitiesTableOrderingComposer extends Composer<_$AppDatabase, $PhotoQualitiesTable> {
+  $$PhotoQualitiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get photoId => $composableBuilder(
+    column: $table.photoId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get sharpness => $composableBuilder(
+    column: $table.sharpness,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get algorithm => $composableBuilder(
+    column: $table.algorithm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get analyzedAt => $composableBuilder(
+    column: $table.analyzedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PhotoQualitiesTableAnnotationComposer extends Composer<_$AppDatabase, $PhotoQualitiesTable> {
+  $$PhotoQualitiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get photoId => $composableBuilder(column: $table.photoId, builder: (column) => column);
+
+  GeneratedColumn<double> get sharpness => $composableBuilder(column: $table.sharpness, builder: (column) => column);
+
+  GeneratedColumn<int> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get algorithm => $composableBuilder(column: $table.algorithm, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get analyzedAt => $composableBuilder(
+    column: $table.analyzedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$PhotoQualitiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PhotoQualitiesTable,
+          PhotoQualityRow,
+          $$PhotoQualitiesTableFilterComposer,
+          $$PhotoQualitiesTableOrderingComposer,
+          $$PhotoQualitiesTableAnnotationComposer,
+          $$PhotoQualitiesTableCreateCompanionBuilder,
+          $$PhotoQualitiesTableUpdateCompanionBuilder,
+          (
+            PhotoQualityRow,
+            BaseReferences<_$AppDatabase, $PhotoQualitiesTable, PhotoQualityRow>,
+          ),
+          PhotoQualityRow,
+          PrefetchHooks Function()
+        > {
+  $$PhotoQualitiesTableTableManager(
+    _$AppDatabase db,
+    $PhotoQualitiesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$PhotoQualitiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$PhotoQualitiesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () => $$PhotoQualitiesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> photoId = const Value.absent(),
+                Value<double> sharpness = const Value.absent(),
+                Value<int> fingerprint = const Value.absent(),
+                Value<int> algorithm = const Value.absent(),
+                Value<DateTime> analyzedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PhotoQualitiesCompanion(
+                photoId: photoId,
+                sharpness: sharpness,
+                fingerprint: fingerprint,
+                algorithm: algorithm,
+                analyzedAt: analyzedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String photoId,
+                required double sharpness,
+                required int fingerprint,
+                Value<int> algorithm = const Value.absent(),
+                required DateTime analyzedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => PhotoQualitiesCompanion.insert(
+                photoId: photoId,
+                sharpness: sharpness,
+                fingerprint: fingerprint,
+                algorithm: algorithm,
+                analyzedAt: analyzedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PhotoQualitiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PhotoQualitiesTable,
+      PhotoQualityRow,
+      $$PhotoQualitiesTableFilterComposer,
+      $$PhotoQualitiesTableOrderingComposer,
+      $$PhotoQualitiesTableAnnotationComposer,
+      $$PhotoQualitiesTableCreateCompanionBuilder,
+      $$PhotoQualitiesTableUpdateCompanionBuilder,
+      (
+        PhotoQualityRow,
+        BaseReferences<_$AppDatabase, $PhotoQualitiesTable, PhotoQualityRow>,
+      ),
+      PhotoQualityRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$PhotoDecisionsTableTableManager get photoDecisions => $$PhotoDecisionsTableTableManager(_db, _db.photoDecisions);
   $$PhotoTransfersTableTableManager get photoTransfers => $$PhotoTransfersTableTableManager(_db, _db.photoTransfers);
+  $$PhotoQualitiesTableTableManager get photoQualities => $$PhotoQualitiesTableTableManager(_db, _db.photoQualities);
 }

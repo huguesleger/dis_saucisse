@@ -14,6 +14,8 @@ import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo
 import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/sorting_start_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_screen.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/photo_quality.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/photo_quality_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
@@ -28,6 +30,8 @@ class _MockEventBoundaryRepository extends Mock implements EventBoundaryReposito
 
 class _MockPhotoDecisionRepository extends Mock implements PhotoDecisionRepository {}
 
+class _MockPhotoQualityRepository extends Mock implements PhotoQualityRepository {}
+
 void main() {
   late _MockPhotoLibraryRepository photoLibraryRepository;
   late _MockSortingStartRepository sortingStartRepository;
@@ -41,12 +45,20 @@ void main() {
     eventNameRepository = _MockEventNameRepository();
     eventBoundaryRepository = _MockEventBoundaryRepository();
     photoDecisionRepository = _MockPhotoDecisionRepository();
+    final _MockPhotoQualityRepository photoQualityRepository = _MockPhotoQualityRepository();
+    when(() => photoQualityRepository.loadQualities()).thenReturn(
+      TaskEither.right(<PhotoId, PhotoQuality>{
+        for (final String id in <String>['1', '2'])
+          PhotoId(id): PhotoQuality(photoId: PhotoId(id), sharpness: 500, fingerprint: id.hashCode),
+      }),
+    );
     getIt
       ..registerSingleton<PhotoDecisionRepository>(photoDecisionRepository)
       ..registerSingleton<EventBoundaryRepository>(eventBoundaryRepository)
       ..registerSingleton<EventNameRepository>(eventNameRepository)
       ..registerSingleton<PhotoLibraryRepository>(photoLibraryRepository)
-      ..registerSingleton<SortingStartRepository>(sortingStartRepository);
+      ..registerSingleton<SortingStartRepository>(sortingStartRepository)
+      ..registerSingleton<PhotoQualityRepository>(photoQualityRepository);
   });
 
   tearDown(getIt.reset);

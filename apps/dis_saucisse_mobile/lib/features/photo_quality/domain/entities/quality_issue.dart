@@ -1,0 +1,1 @@
+enum QualityIssue { duplicates, blurry }

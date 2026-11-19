@@ -9,6 +9,10 @@ import 'package:dis_saucisse_mobile/features/pairing/presentation/bloc/pair_comp
 import 'package:dis_saucisse_mobile/features/pairing/presentation/pair_computer_screen.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_id.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_screen.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/photo_quality_cubit.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/quality_review_cubit.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/quality_review_screen.dart';
 import 'package:dis_saucisse_mobile/features/transfer/presentation/bloc/transfer_cubit.dart';
 import 'package:dis_saucisse_mobile/features/transfer/presentation/transfer_screen.dart';
 import 'package:flutter/widgets.dart';
@@ -21,5 +25,6 @@ part '../../features/free_space/presentation/free_space_page_route.dart';
 part '../../features/home/presentation/home_page_route.dart';
 part '../../features/pairing/presentation/pair_computer_page_route.dart';
 part '../../features/photo_library/presentation/sorting_start/sorting_start_page_route.dart';
+part '../../features/photo_quality/presentation/quality_review_page_route.dart';
 part '../../features/transfer/presentation/transfer_page_route.dart';
 part 'routes.g.dart';

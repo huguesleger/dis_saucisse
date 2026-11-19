@@ -12,6 +12,7 @@ List<RouteBase> get $appRoutes => [
   $homePageRoute,
   $pairComputerPageRoute,
   $sortingStartPageRoute,
+  $qualityReviewPageRoute,
   $transferPageRoute,
 ];
 
@@ -149,6 +150,49 @@ mixin $SortingStartPageRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $qualityReviewPageRoute => GoRouteData.$route(
+  path: '/qualite/:issue',
+  name: 'qualityReview',
+  hasOverriddenOnExit: false,
+  factory: $QualityReviewPageRoute._fromState,
+);
+
+mixin $QualityReviewPageRoute on GoRouteData {
+  static QualityReviewPageRoute _fromState(GoRouterState state) => QualityReviewPageRoute(
+    issue: _$QualityIssueEnumMap._$fromName(
+      state.pathParameters['issue']!,
+    )!,
+  );
+
+  QualityReviewPageRoute get _self => this as QualityReviewPageRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/qualite/${Uri.encodeComponent(_$QualityIssueEnumMap[_self.issue]!)}',
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+const _$QualityIssueEnumMap = {
+  QualityIssue.duplicates: 'duplicates',
+  QualityIssue.blurry: 'blurry',
+};
+
+extension<T extends Enum> on Map<T, String> {
+  T? _$fromName(String? value) => entries.where((element) => element.value == value).firstOrNull?.key;
 }
 
 RouteBase get $transferPageRoute => GoRouteData.$route(
