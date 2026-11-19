@@ -2,7 +2,7 @@ name: dis_saucisse_workspace
 publish_to: none
 
 environment:
-  sdk: ^3.10.0
+  sdk: ^3.11.0
 
 workspace:
   - apps/dis_saucisse_mobile
