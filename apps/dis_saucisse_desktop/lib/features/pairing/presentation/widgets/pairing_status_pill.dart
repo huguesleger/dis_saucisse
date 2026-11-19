@@ -1,0 +1,16 @@
+import 'package:core_ui/core_ui.dart';
+import 'package:flutter/material.dart';
+
+class PairingStatusPill extends StatelessWidget {
+  const PairingStatusPill({super.key, required this.pairedPhoneName});
+
+  final String? pairedPhoneName;
+
+  @override
+  Widget build(BuildContext context) {
+    final String? name = pairedPhoneName;
+    return name == null
+        ? const DsStatusBadge(label: 'En attente du téléphone…', tone: DsStatusTone.neutral, icon: Icons.wifi_rounded)
+        : DsStatusBadge(label: '$name est associé', icon: Icons.check_rounded);
+  }
+}

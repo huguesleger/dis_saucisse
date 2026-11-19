@@ -2,7 +2,9 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
 class HomeTopBar extends StatelessWidget {
-  const HomeTopBar({super.key});
+  const HomeTopBar({super.key, required this.onComputerTap});
+
+  final VoidCallback onComputerTap;
 
   @override
   Widget build(BuildContext context) => Row(
@@ -13,9 +15,9 @@ class HomeTopBar extends StatelessWidget {
       const SizedBox(width: DsSpacing.xs),
       DsRoundIconButton(
         icon: Icons.desktop_windows_outlined,
-        tooltip: 'Envoyer vers le PC',
+        tooltip: 'Ordinateur',
         variant: DsRoundIconButtonVariant.dark,
-        onPressed: () {},
+        onPressed: onComputerTap,
       ),
     ],
   );

@@ -3,6 +3,8 @@ import 'package:dis_saucisse_mobile/features/burst_sort/presentation/burst_sort_
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_screen.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/bloc/sorting_start_cubit.dart';
+import 'package:dis_saucisse_mobile/features/pairing/presentation/bloc/pair_computer_cubit.dart';
+import 'package:dis_saucisse_mobile/features/pairing/presentation/pair_computer_screen.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_id.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_screen.dart';
 import 'package:flutter/widgets.dart';
@@ -12,5 +14,6 @@ import 'package:go_router/go_router.dart';
 
 part '../../features/burst_sort/presentation/burst_sort_page_route.dart';
 part '../../features/home/presentation/home_page_route.dart';
+part '../../features/pairing/presentation/pair_computer_page_route.dart';
 part '../../features/photo_library/presentation/sorting_start/sorting_start_page_route.dart';
 part 'routes.g.dart';

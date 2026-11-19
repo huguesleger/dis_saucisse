@@ -10,6 +10,19 @@
 	<string>Dis Saucisse ! lit tes photos pour t'aider à les trier. Elles restent chez toi et ne passent jamais par internet.</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>La caméra sert à scanner le QR code affiché sur ton ordinateur.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Dis Saucisse ! envoie tes photos à ton ordinateur par le Wi-Fi de la maison, sans passer par internet.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dissaucisse._tcp</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>CFBundleDisplayName</key>
 	<string>Dis Saucisse !</string>
 	<key>CFBundleExecutable</key>

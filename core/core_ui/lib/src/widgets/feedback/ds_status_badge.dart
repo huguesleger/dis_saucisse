@@ -33,7 +33,14 @@ class DsStatusBadge extends StatelessWidget {
               Icon(leadingIcon, size: 14, color: foreground),
               const SizedBox(width: DsSpacing.xxs),
             ],
-            Text(label, style: DsTextStyles.caption.copyWith(color: foreground, fontSize: 12)),
+            Flexible(
+              child: Text(
+                label,
+                style: DsTextStyles.caption.copyWith(color: foreground, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),

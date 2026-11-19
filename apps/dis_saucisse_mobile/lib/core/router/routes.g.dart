@@ -9,6 +9,7 @@ part of 'routes.dart';
 List<RouteBase> get $appRoutes => [
   $burstSortPageRoute,
   $homePageRoute,
+  $pairComputerPageRoute,
   $sortingStartPageRoute,
 ];
 
@@ -56,6 +57,32 @@ mixin $HomePageRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $pairComputerPageRoute => GoRouteData.$route(
+  path: '/associer',
+  name: 'pairComputer',
+  hasOverriddenOnExit: false,
+  factory: $PairComputerPageRoute._fromState,
+);
+
+mixin $PairComputerPageRoute on GoRouteData {
+  static PairComputerPageRoute _fromState(GoRouterState state) => const PairComputerPageRoute();
+
+  @override
+  String get location => GoRouteData.$location('/associer');
 
   @override
   void go(BuildContext context) => context.go(location);

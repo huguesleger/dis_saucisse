@@ -3,6 +3,11 @@ import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/drift_
 import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/photo_decision_data_source.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/data/repositories/photo_decision_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
+import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_api_data_source.dart';
+import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_storage_data_source.dart';
+import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/qr_image_data_source.dart';
+import 'package:dis_saucisse_mobile/features/pairing/data/repositories/pairing_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/pairing/domain/pairing_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/event_boundary_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/event_name_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/shared_preferences_event_boundary_data_source.dart';
@@ -39,4 +44,10 @@ void configureDependencies() => getIt
   ..registerLazySingleton<EventBoundaryRepository>(() => EventBoundaryRepositoryImpl(getIt.get()))
   ..registerLazySingleton<AppDatabase>(AppDatabase.new)
   ..registerLazySingleton<PhotoDecisionDataSource>(() => DriftPhotoDecisionDataSource(getIt.get()))
-  ..registerLazySingleton<PhotoDecisionRepository>(() => PhotoDecisionRepositoryImpl(getIt.get()));
+  ..registerLazySingleton<PhotoDecisionRepository>(() => PhotoDecisionRepositoryImpl(getIt.get()))
+  ..registerLazySingleton<PairingApiDataSource>(PairingApiDataSource.new)
+  ..registerLazySingleton<PairingStorageDataSource>(() => PairingStorageDataSource(SharedPreferencesAsync()))
+  ..registerLazySingleton<QrImageDataSource>(QrImageDataSource.new)
+  ..registerLazySingleton<PairingRepository>(
+    () => PairingRepositoryImpl(api: getIt.get(), storage: getIt.get(), qrImages: getIt.get()),
+  );

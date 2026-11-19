@@ -32,7 +32,9 @@ class DsLogoPill extends StatelessWidget {
             child: const DsMascot(width: 34),
           ),
           const SizedBox(width: DsSpacing.xs),
-          Text('Dis Saucisse !', style: DsTextStyles.label),
+          Flexible(
+            child: Text('Dis Saucisse !', style: DsTextStyles.label, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ),
         ],
       ),
     ),

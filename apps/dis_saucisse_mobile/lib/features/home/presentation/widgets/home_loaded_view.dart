@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/router/routes.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_event_menu.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_navigation.dart';
@@ -28,7 +29,10 @@ class HomeLoadedView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 200),
           children: <Widget>[
-            const Padding(padding: _gutter, child: HomeTopBar()),
+            Padding(
+              padding: _gutter,
+              child: HomeTopBar(onComputerTap: () => const PairComputerPageRoute().push<void>(context)),
+            ),
             const SizedBox(height: DsSpacing.xl),
             Padding(
               padding: _gutter,
