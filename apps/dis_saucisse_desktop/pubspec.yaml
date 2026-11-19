@@ -12,6 +12,7 @@ dependencies:
     path: ../../core/core
   core_ui:
     path: ../../core/core_ui
+  crypto: ^3.0.8
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -25,6 +26,7 @@ dependencies:
   shelf: ^1.4.3
   transfer_protocol:
     path: ../../shared_packages/transfer_protocol
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   bloc_test: ^10.0.0

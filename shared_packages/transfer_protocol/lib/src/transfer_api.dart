@@ -14,4 +14,16 @@ abstract final class TransferApi {
 
   /// `POST` a `PairRequest`, answered by a `PairResponse`.
   static const String pairPath = '/v1/pair';
+
+  /// `POST` a `TransferStartRequest`, answered by a `TransferStartResponse`.
+  static const String transferStartPath = '/v1/transfers/start';
+
+  /// `POST` a `TransferFinishRequest` once every photo is uploaded.
+  static const String transferFinishPath = '/v1/transfers/finish';
+
+  /// Prefix of `PUT /v1/photos/{photoId}`: the body is the photo file, the headers a `PhotoUpload`.
+  static const String photosPath = '/v1/photos/';
+
+  /// Path where the photo [photoId] is uploaded.
+  static String photoPath(String photoId) => '$photosPath${Uri.encodeComponent(photoId)}';
 }

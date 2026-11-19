@@ -31,7 +31,7 @@ class HomeLoadedView extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: _gutter,
-              child: HomeTopBar(onComputerTap: () => const PairComputerPageRoute().push<void>(context)),
+              child: HomeTopBar(onComputerTap: () => const TransferPageRoute().push<void>(context)),
             ),
             const SizedBox(height: DsSpacing.xl),
             Padding(

@@ -4,6 +4,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_failure.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
+import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
+import 'package:dis_saucisse_desktop/features/reception/domain/reception_repository.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -12,8 +14,11 @@ import 'package:transfer_protocol/transfer_protocol.dart';
 
 class _MockPairingRepository extends Mock implements PairingRepository {}
 
+class _MockReceptionRepository extends Mock implements ReceptionRepository {}
+
 void main() {
   late _MockPairingRepository repository;
+  late _MockReceptionRepository receptionRepository;
   late StreamController<PairedPhone> pairings;
   const PairingPayload invitation = PairingPayload(
     computerId: ComputerId('computer-1'),
@@ -33,6 +38,8 @@ void main() {
 
   setUp(() {
     repository = _MockPairingRepository();
+    receptionRepository = _MockReceptionRepository();
+    when(() => receptionRepository.events).thenAnswer((_) => const Stream<ReceptionEvent>.empty());
     pairings = StreamController<PairedPhone>();
     when(() => repository.pairedPhones).thenAnswer((_) => pairings.stream);
     when(() => repository.stopReception()).thenReturn(TaskEither.right(unit));
@@ -46,7 +53,7 @@ void main() {
       when(() => repository.startReception()).thenReturn(TaskEither.right(invitation));
       when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));
     },
-    build: () => ReceptionCubit(pairingRepository: repository),
+    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
     act: (ReceptionCubit cubit) => cubit.start(),
     expect: () => <Matcher>[
       isA<ReceptionStarting>(),
@@ -61,7 +68,7 @@ void main() {
       when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));
       when(() => repository.savePairedPhone(any())).thenReturn(TaskEither.right(unit));
     },
-    build: () => ReceptionCubit(pairingRepository: repository),
+    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
     act: (ReceptionCubit cubit) async {
       await cubit.start();
       pairings.add(iphone);
@@ -79,7 +86,7 @@ void main() {
   blocTest<ReceptionCubit, ReceptionState>(
     'explains that the computer has no network',
     setUp: () => when(() => repository.startReception()).thenReturn(TaskEither.left(const NoLocalNetworkFailure())),
-    build: () => ReceptionCubit(pairingRepository: repository),
+    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
     act: (ReceptionCubit cubit) => cubit.start(),
     expect: () => <Matcher>[
       isA<ReceptionStarting>(),

@@ -15,10 +15,29 @@ class PhotoDecisions extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{photoId};
 }
 
-@DriftDatabase(tables: <Type>[PhotoDecisions])
+@DataClassName('PhotoTransferRow')
+class PhotoTransfers extends Table {
+  TextColumn get photoId => text()();
+
+  TextColumn get computerId => text()();
+
+  DateTimeColumn get sentAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{photoId, computerId};
+}
+
+@DriftDatabase(tables: <Type>[PhotoDecisions, PhotoTransfers])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'dis_saucisse'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (Migrator migrator, int from, int to) async {
+      if (from < 2) await migrator.createTable(photoTransfers);
+    },
+  );
 }

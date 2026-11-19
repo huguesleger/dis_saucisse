@@ -271,14 +271,284 @@ class PhotoDecisionsCompanion extends UpdateCompanion<PhotoDecisionRow> {
   }
 }
 
+class $PhotoTransfersTable extends PhotoTransfers with TableInfo<$PhotoTransfersTable, PhotoTransferRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PhotoTransfersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _photoIdMeta = const VerificationMeta(
+    'photoId',
+  );
+  @override
+  late final GeneratedColumn<String> photoId = GeneratedColumn<String>(
+    'photo_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _computerIdMeta = const VerificationMeta(
+    'computerId',
+  );
+  @override
+  late final GeneratedColumn<String> computerId = GeneratedColumn<String>(
+    'computer_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sentAtMeta = const VerificationMeta('sentAt');
+  @override
+  late final GeneratedColumn<DateTime> sentAt = GeneratedColumn<DateTime>(
+    'sent_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [photoId, computerId, sentAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'photo_transfers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PhotoTransferRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('photo_id')) {
+      context.handle(
+        _photoIdMeta,
+        photoId.isAcceptableOrUnknown(data['photo_id']!, _photoIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_photoIdMeta);
+    }
+    if (data.containsKey('computer_id')) {
+      context.handle(
+        _computerIdMeta,
+        computerId.isAcceptableOrUnknown(data['computer_id']!, _computerIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_computerIdMeta);
+    }
+    if (data.containsKey('sent_at')) {
+      context.handle(
+        _sentAtMeta,
+        sentAt.isAcceptableOrUnknown(data['sent_at']!, _sentAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sentAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {photoId, computerId};
+  @override
+  PhotoTransferRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PhotoTransferRow(
+      photoId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_id'],
+      )!,
+      computerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}computer_id'],
+      )!,
+      sentAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sent_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PhotoTransfersTable createAlias(String alias) {
+    return $PhotoTransfersTable(attachedDatabase, alias);
+  }
+}
+
+class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow> {
+  final String photoId;
+  final String computerId;
+  final DateTime sentAt;
+  const PhotoTransferRow({
+    required this.photoId,
+    required this.computerId,
+    required this.sentAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['photo_id'] = Variable<String>(photoId);
+    map['computer_id'] = Variable<String>(computerId);
+    map['sent_at'] = Variable<DateTime>(sentAt);
+    return map;
+  }
+
+  PhotoTransfersCompanion toCompanion(bool nullToAbsent) {
+    return PhotoTransfersCompanion(
+      photoId: Value(photoId),
+      computerId: Value(computerId),
+      sentAt: Value(sentAt),
+    );
+  }
+
+  factory PhotoTransferRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PhotoTransferRow(
+      photoId: serializer.fromJson<String>(json['photoId']),
+      computerId: serializer.fromJson<String>(json['computerId']),
+      sentAt: serializer.fromJson<DateTime>(json['sentAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'photoId': serializer.toJson<String>(photoId),
+      'computerId': serializer.toJson<String>(computerId),
+      'sentAt': serializer.toJson<DateTime>(sentAt),
+    };
+  }
+
+  PhotoTransferRow copyWith({
+    String? photoId,
+    String? computerId,
+    DateTime? sentAt,
+  }) => PhotoTransferRow(
+    photoId: photoId ?? this.photoId,
+    computerId: computerId ?? this.computerId,
+    sentAt: sentAt ?? this.sentAt,
+  );
+  PhotoTransferRow copyWithCompanion(PhotoTransfersCompanion data) {
+    return PhotoTransferRow(
+      photoId: data.photoId.present ? data.photoId.value : this.photoId,
+      computerId: data.computerId.present ? data.computerId.value : this.computerId,
+      sentAt: data.sentAt.present ? data.sentAt.value : this.sentAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PhotoTransferRow(')
+          ..write('photoId: $photoId, ')
+          ..write('computerId: $computerId, ')
+          ..write('sentAt: $sentAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(photoId, computerId, sentAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PhotoTransferRow &&
+          other.photoId == this.photoId &&
+          other.computerId == this.computerId &&
+          other.sentAt == this.sentAt);
+}
+
+class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
+  final Value<String> photoId;
+  final Value<String> computerId;
+  final Value<DateTime> sentAt;
+  final Value<int> rowid;
+  const PhotoTransfersCompanion({
+    this.photoId = const Value.absent(),
+    this.computerId = const Value.absent(),
+    this.sentAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PhotoTransfersCompanion.insert({
+    required String photoId,
+    required String computerId,
+    required DateTime sentAt,
+    this.rowid = const Value.absent(),
+  }) : photoId = Value(photoId),
+       computerId = Value(computerId),
+       sentAt = Value(sentAt);
+  static Insertable<PhotoTransferRow> custom({
+    Expression<String>? photoId,
+    Expression<String>? computerId,
+    Expression<DateTime>? sentAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (photoId != null) 'photo_id': photoId,
+      if (computerId != null) 'computer_id': computerId,
+      if (sentAt != null) 'sent_at': sentAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PhotoTransfersCompanion copyWith({
+    Value<String>? photoId,
+    Value<String>? computerId,
+    Value<DateTime>? sentAt,
+    Value<int>? rowid,
+  }) {
+    return PhotoTransfersCompanion(
+      photoId: photoId ?? this.photoId,
+      computerId: computerId ?? this.computerId,
+      sentAt: sentAt ?? this.sentAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (photoId.present) {
+      map['photo_id'] = Variable<String>(photoId.value);
+    }
+    if (computerId.present) {
+      map['computer_id'] = Variable<String>(computerId.value);
+    }
+    if (sentAt.present) {
+      map['sent_at'] = Variable<DateTime>(sentAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PhotoTransfersCompanion(')
+          ..write('photoId: $photoId, ')
+          ..write('computerId: $computerId, ')
+          ..write('sentAt: $sentAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $PhotoDecisionsTable photoDecisions = $PhotoDecisionsTable(this);
+  late final $PhotoTransfersTable photoTransfers = $PhotoTransfersTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [photoDecisions];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    photoDecisions,
+    photoTransfers,
+  ];
 }
 
 typedef $$PhotoDecisionsTableCreateCompanionBuilder =
@@ -434,9 +704,166 @@ typedef $$PhotoDecisionsTableProcessedTableManager =
       PhotoDecisionRow,
       PrefetchHooks Function()
     >;
+typedef $$PhotoTransfersTableCreateCompanionBuilder =
+    PhotoTransfersCompanion Function({
+      required String photoId,
+      required String computerId,
+      required DateTime sentAt,
+      Value<int> rowid,
+    });
+typedef $$PhotoTransfersTableUpdateCompanionBuilder =
+    PhotoTransfersCompanion Function({
+      Value<String> photoId,
+      Value<String> computerId,
+      Value<DateTime> sentAt,
+      Value<int> rowid,
+    });
+
+class $$PhotoTransfersTableFilterComposer extends Composer<_$AppDatabase, $PhotoTransfersTable> {
+  $$PhotoTransfersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get photoId => $composableBuilder(
+    column: $table.photoId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get computerId => $composableBuilder(
+    column: $table.computerId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PhotoTransfersTableOrderingComposer extends Composer<_$AppDatabase, $PhotoTransfersTable> {
+  $$PhotoTransfersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get photoId => $composableBuilder(
+    column: $table.photoId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get computerId => $composableBuilder(
+    column: $table.computerId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PhotoTransfersTableAnnotationComposer extends Composer<_$AppDatabase, $PhotoTransfersTable> {
+  $$PhotoTransfersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get photoId => $composableBuilder(column: $table.photoId, builder: (column) => column);
+
+  GeneratedColumn<String> get computerId => $composableBuilder(
+    column: $table.computerId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get sentAt => $composableBuilder(column: $table.sentAt, builder: (column) => column);
+}
+
+class $$PhotoTransfersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PhotoTransfersTable,
+          PhotoTransferRow,
+          $$PhotoTransfersTableFilterComposer,
+          $$PhotoTransfersTableOrderingComposer,
+          $$PhotoTransfersTableAnnotationComposer,
+          $$PhotoTransfersTableCreateCompanionBuilder,
+          $$PhotoTransfersTableUpdateCompanionBuilder,
+          (
+            PhotoTransferRow,
+            BaseReferences<_$AppDatabase, $PhotoTransfersTable, PhotoTransferRow>,
+          ),
+          PhotoTransferRow,
+          PrefetchHooks Function()
+        > {
+  $$PhotoTransfersTableTableManager(
+    _$AppDatabase db,
+    $PhotoTransfersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$PhotoTransfersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$PhotoTransfersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () => $$PhotoTransfersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> photoId = const Value.absent(),
+                Value<String> computerId = const Value.absent(),
+                Value<DateTime> sentAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PhotoTransfersCompanion(
+                photoId: photoId,
+                computerId: computerId,
+                sentAt: sentAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String photoId,
+                required String computerId,
+                required DateTime sentAt,
+                Value<int> rowid = const Value.absent(),
+              }) => PhotoTransfersCompanion.insert(
+                photoId: photoId,
+                computerId: computerId,
+                sentAt: sentAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PhotoTransfersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PhotoTransfersTable,
+      PhotoTransferRow,
+      $$PhotoTransfersTableFilterComposer,
+      $$PhotoTransfersTableOrderingComposer,
+      $$PhotoTransfersTableAnnotationComposer,
+      $$PhotoTransfersTableCreateCompanionBuilder,
+      $$PhotoTransfersTableUpdateCompanionBuilder,
+      (
+        PhotoTransferRow,
+        BaseReferences<_$AppDatabase, $PhotoTransfersTable, PhotoTransferRow>,
+      ),
+      PhotoTransferRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$PhotoDecisionsTableTableManager get photoDecisions => $$PhotoDecisionsTableTableManager(_db, _db.photoDecisions);
+  $$PhotoTransfersTableTableManager get photoTransfers => $$PhotoTransfersTableTableManager(_db, _db.photoTransfers);
 }
