@@ -19,7 +19,7 @@ void main() {
 
   setUp(() async {
     root = await Directory.systemTemp.createTemp('reception_server_test');
-    server = ReceptionServerDataSource(PhotoStorageDataSource(root: root));
+    server = ReceptionServerDataSource(PhotoStorageDataSource.fixed(root));
     client = HttpClient();
     await server.start(port: port, token: token, identity: identity).run();
   });

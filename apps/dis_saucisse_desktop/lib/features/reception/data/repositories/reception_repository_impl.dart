@@ -19,7 +19,7 @@ class ReceptionRepositoryImpl implements ReceptionRepository {
   @override
   TaskEither<AppFailure, Unit> openStorageFolder() => TaskEither<AppFailure, Unit>.tryCatch(
     () async {
-      await launchUrl(Uri.directory(_server.storagePath));
+      await launchUrl(Uri.directory(await _server.storagePath()));
       return unit;
     },
     (Object error, StackTrace stackTrace) {

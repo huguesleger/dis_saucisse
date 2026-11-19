@@ -42,11 +42,13 @@ class TransferScreen extends StatelessWidget {
         ),
         TransferSending(:final progress) => TransferProgressView(progress: progress, paused: false),
         TransferPaused(:final progress) => TransferProgressView(progress: progress, paused: true),
-        TransferFinished(:final computerName, :final sentCount, :final eventCount) => TransferDoneView(
-          computerName: computerName,
-          sentCount: sentCount,
-          eventCount: eventCount,
-        ),
+        TransferFinished(:final computerName, :final sentCount, :final eventCount, :final sentBytes) =>
+          TransferDoneView(
+            computerName: computerName,
+            sentCount: sentCount,
+            eventCount: eventCount,
+            sentBytes: sentBytes,
+          ),
       },
     ),
   );

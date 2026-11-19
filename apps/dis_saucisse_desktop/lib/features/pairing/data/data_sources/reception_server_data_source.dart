@@ -7,6 +7,7 @@ import 'package:core/core.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_failure.dart';
 import 'package:dis_saucisse_desktop/features/reception/data/data_sources/photo_storage_data_source.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
+import 'package:dis_saucisse_desktop/features/storage/domain/rules/photo_folder.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -24,7 +25,7 @@ class ReceptionServerDataSource {
 
   Stream<ReceptionEvent> get receptionEvents => _receptionEvents.stream;
 
-  String get storagePath => _storage.root.path;
+  Future<String> storagePath() async => (await _storage.currentRoot()).path;
 
   TaskEither<AppFailure, Unit> start({
     required int port,
@@ -113,7 +114,12 @@ class ReceptionServerDataSource {
                   },
                   (String folder) {
                     _receptionEvents.add(
-                      PhotoReceived(folder: folder, byteCount: request.contentLength ?? 0, decision: upload.decision),
+                      PhotoReceived(
+                        folder: folder,
+                        eventKey: eventKeyOf(upload),
+                        byteCount: request.contentLength ?? 0,
+                        decision: upload.decision,
+                      ),
                     );
                     return _json(PhotoStoredResponse(folder: folder).toJson());
                   },

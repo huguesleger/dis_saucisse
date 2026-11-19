@@ -14,11 +14,15 @@ void main() {
     final SentPhotoDataSource dataSource = SentPhotoDataSource(database);
     final DateTime sentAt = DateTime(2026, 11, 19, 21);
 
-    await dataSource.markSent('mac', <String>['a', 'b'], sentAt).run();
-    await dataSource.markSent('mac', <String>['b'], sentAt).run();
-    await dataSource.markSent('windows', <String>['c'], sentAt).run();
+    await dataSource.markSent('mac', <String, int>{'a': 100, 'b': 200}, sentAt).run();
+    await dataSource.markSent('mac', <String, int>{'b': 250}, sentAt).run();
+    await dataSource.markSent('windows', <String, int>{'c': 300}, sentAt).run();
 
     final Set<String> sentToMac = (await dataSource.loadSentPhotoIds('mac').run()).getOrElse((_) => <String>{});
     expect(sentToMac, <String>{'a', 'b'});
+    expect(
+      (await dataSource.loadSentPhotoBytes().run()).getOrElse((_) => <String, int>{}),
+      <String, int>{'a': 100, 'b': 250, 'c': 300},
+    );
   });
 }

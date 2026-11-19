@@ -7,6 +7,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event_library_load.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_event_library.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_progress.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/rules/photos_to_send.dart';
@@ -79,7 +80,15 @@ class TransferCubit extends SafeCubit<TransferState> {
             .flatMap(
               (List<TransferItem> items) => items.isEmpty
                   ? TaskEither<AppFailure, TransferState>.right(const TransferNothingToSend())
-                  : _startWith(computer, items),
+                  : _startWith(computer, items).orElse(
+                      (AppFailure failure) => switch (failure) {
+                        ComputerUnreachableFailure() =>
+                          _pairingRepository
+                              .locateComputer(computer)
+                              .flatMap((PairedComputer located) => _startWith(located, items)),
+                        _ => TaskEither<AppFailure, TransferState>.left(failure),
+                      },
+                    ),
             ),
       EventLibraryNeedsSortingStart() || EventLibraryAccessDenied() => TaskEither<AppFailure, TransferState>.right(
         const TransferNothingToSend(),
@@ -126,7 +135,7 @@ class TransferCubit extends SafeCubit<TransferState> {
     final TransferItem item = progress.remaining.first;
     return _transferRepository
         .sendPhoto(progress.computer, item)
-        .match(_failed, (String folder) => _withProgress(progress.afterSending(item, folder)))
+        .match(_failed, (SentPhoto sent) => _withProgress(progress.afterSending(item, sent)))
         .flatMap(_emitThenContinue)
         .run();
   }
@@ -154,6 +163,7 @@ class TransferCubit extends SafeCubit<TransferState> {
     computerName: progress.computer.name,
     sentCount: progress.sent,
     eventCount: progress.eventCount,
+    sentBytes: progress.sentBytes,
   );
 
   TransferState _failed(AppFailure failure) => TransferFailed(switch (failure) {

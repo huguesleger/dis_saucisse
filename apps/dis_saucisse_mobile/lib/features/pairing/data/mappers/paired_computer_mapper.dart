@@ -34,3 +34,12 @@ Option<PairedComputer> storedToPairedComputer(StoredPairedComputer stored) =>
         token: PairingToken(stored.token),
       ),
     );
+
+PairedComputer pairedComputerAt(PairedComputer computer, {required String host, required int port}) => PairedComputer(
+  id: computer.id,
+  name: computer.name,
+  platform: computer.platform,
+  host: host,
+  port: port,
+  token: computer.token,
+);

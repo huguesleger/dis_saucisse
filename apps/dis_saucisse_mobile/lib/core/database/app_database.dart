@@ -23,6 +23,8 @@ class PhotoTransfers extends Table {
 
   DateTimeColumn get sentAt => dateTime()();
 
+  IntColumn get byteCount => integer().withDefault(const Constant(0))();
+
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{photoId, computerId};
 }
@@ -32,12 +34,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'dis_saucisse'));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (Migrator migrator, int from, int to) async {
       if (from < 2) await migrator.createTable(photoTransfers);
+      if (from == 2) await migrator.addColumn(photoTransfers, photoTransfers.byteCount);
     },
   );
 }

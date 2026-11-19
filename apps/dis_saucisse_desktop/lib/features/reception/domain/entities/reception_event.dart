@@ -14,9 +14,15 @@ final class TransferStarted extends ReceptionEvent {
 }
 
 final class PhotoReceived extends ReceptionEvent {
-  const PhotoReceived({required this.folder, required this.byteCount, required this.decision});
+  const PhotoReceived({
+    required this.folder,
+    required this.eventKey,
+    required this.byteCount,
+    required this.decision,
+  });
 
   final String folder;
+  final String eventKey;
   final int byteCount;
   final PhotoDecisionKind decision;
 }

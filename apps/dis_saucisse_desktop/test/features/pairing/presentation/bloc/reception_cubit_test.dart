@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:dis_saucisse_desktop/features/history/domain/history_repository.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_failure.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
@@ -15,6 +16,8 @@ import 'package:transfer_protocol/transfer_protocol.dart';
 class _MockPairingRepository extends Mock implements PairingRepository {}
 
 class _MockReceptionRepository extends Mock implements ReceptionRepository {}
+
+class _MockHistoryRepository extends Mock implements HistoryRepository {}
 
 void main() {
   late _MockPairingRepository repository;
@@ -53,7 +56,11 @@ void main() {
       when(() => repository.startReception()).thenReturn(TaskEither.right(invitation));
       when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));
     },
-    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
+    build: () => ReceptionCubit(
+      pairingRepository: repository,
+      receptionRepository: receptionRepository,
+      historyRepository: _MockHistoryRepository(),
+    ),
     act: (ReceptionCubit cubit) => cubit.start(),
     expect: () => <Matcher>[
       isA<ReceptionStarting>(),
@@ -68,7 +75,11 @@ void main() {
       when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));
       when(() => repository.savePairedPhone(any())).thenReturn(TaskEither.right(unit));
     },
-    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
+    build: () => ReceptionCubit(
+      pairingRepository: repository,
+      receptionRepository: receptionRepository,
+      historyRepository: _MockHistoryRepository(),
+    ),
     act: (ReceptionCubit cubit) async {
       await cubit.start();
       pairings.add(iphone);
@@ -86,7 +97,11 @@ void main() {
   blocTest<ReceptionCubit, ReceptionState>(
     'explains that the computer has no network',
     setUp: () => when(() => repository.startReception()).thenReturn(TaskEither.left(const NoLocalNetworkFailure())),
-    build: () => ReceptionCubit(pairingRepository: repository, receptionRepository: receptionRepository),
+    build: () => ReceptionCubit(
+      pairingRepository: repository,
+      receptionRepository: receptionRepository,
+      historyRepository: _MockHistoryRepository(),
+    ),
     act: (ReceptionCubit cubit) => cubit.start(),
     expect: () => <Matcher>[
       isA<ReceptionStarting>(),

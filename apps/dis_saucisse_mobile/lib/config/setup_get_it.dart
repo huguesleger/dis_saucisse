@@ -3,6 +3,7 @@ import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/drift_
 import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/photo_decision_data_source.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/data/repositories/photo_decision_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
+import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/computer_discovery_data_source.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_api_data_source.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_storage_data_source.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/qr_image_data_source.dart';
@@ -29,6 +30,9 @@ import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/sent_pho
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/transfer_api_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/repositories/transfer_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
+import 'package:dis_saucisse_mobile/features/free_space/data/data_sources/photo_deletion_data_source.dart';
+import 'package:dis_saucisse_mobile/features/free_space/data/repositories/free_space_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/free_space/domain/free_space_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,12 +57,22 @@ void configureDependencies() => getIt
   ..registerLazySingleton<PairingApiDataSource>(PairingApiDataSource.new)
   ..registerLazySingleton<PairingStorageDataSource>(() => PairingStorageDataSource(SharedPreferencesAsync()))
   ..registerLazySingleton<QrImageDataSource>(QrImageDataSource.new)
+  ..registerLazySingleton<ComputerDiscoveryDataSource>(ComputerDiscoveryDataSource.new)
   ..registerLazySingleton<PairingRepository>(
-    () => PairingRepositoryImpl(api: getIt.get(), storage: getIt.get(), qrImages: getIt.get()),
+    () => PairingRepositoryImpl(
+      api: getIt.get(),
+      storage: getIt.get(),
+      qrImages: getIt.get(),
+      discovery: getIt.get(),
+    ),
   )
   ..registerLazySingleton<TransferApiDataSource>(TransferApiDataSource.new)
   ..registerLazySingleton<PhotoFileDataSource>(PhotoFileDataSource.new)
   ..registerLazySingleton<SentPhotoDataSource>(() => SentPhotoDataSource(getIt.get()))
   ..registerLazySingleton<TransferRepository>(
     () => TransferRepositoryImpl(api: getIt.get(), files: getIt.get(), sentPhotos: getIt.get(), pairing: getIt.get()),
+  )
+  ..registerLazySingleton<PhotoDeletionDataSource>(PhotoDeletionDataSource.new)
+  ..registerLazySingleton<FreeSpaceRepository>(
+    () => FreeSpaceRepositoryImpl(sentPhotos: getIt.get(), deletion: getIt.get()),
   );

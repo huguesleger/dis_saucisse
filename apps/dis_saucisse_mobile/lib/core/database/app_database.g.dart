@@ -307,8 +307,25 @@ class $PhotoTransfersTable extends PhotoTransfers with TableInfo<$PhotoTransfers
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _byteCountMeta = const VerificationMeta(
+    'byteCount',
+  );
   @override
-  List<GeneratedColumn> get $columns => [photoId, computerId, sentAt];
+  late final GeneratedColumn<int> byteCount = GeneratedColumn<int>(
+    'byte_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    photoId,
+    computerId,
+    sentAt,
+    byteCount,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -345,6 +362,12 @@ class $PhotoTransfersTable extends PhotoTransfers with TableInfo<$PhotoTransfers
     } else if (isInserting) {
       context.missing(_sentAtMeta);
     }
+    if (data.containsKey('byte_count')) {
+      context.handle(
+        _byteCountMeta,
+        byteCount.isAcceptableOrUnknown(data['byte_count']!, _byteCountMeta),
+      );
+    }
     return context;
   }
 
@@ -366,6 +389,10 @@ class $PhotoTransfersTable extends PhotoTransfers with TableInfo<$PhotoTransfers
         DriftSqlType.dateTime,
         data['${effectivePrefix}sent_at'],
       )!,
+      byteCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}byte_count'],
+      )!,
     );
   }
 
@@ -379,10 +406,12 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
   final String photoId;
   final String computerId;
   final DateTime sentAt;
+  final int byteCount;
   const PhotoTransferRow({
     required this.photoId,
     required this.computerId,
     required this.sentAt,
+    required this.byteCount,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -390,6 +419,7 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
     map['photo_id'] = Variable<String>(photoId);
     map['computer_id'] = Variable<String>(computerId);
     map['sent_at'] = Variable<DateTime>(sentAt);
+    map['byte_count'] = Variable<int>(byteCount);
     return map;
   }
 
@@ -398,6 +428,7 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
       photoId: Value(photoId),
       computerId: Value(computerId),
       sentAt: Value(sentAt),
+      byteCount: Value(byteCount),
     );
   }
 
@@ -410,6 +441,7 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
       photoId: serializer.fromJson<String>(json['photoId']),
       computerId: serializer.fromJson<String>(json['computerId']),
       sentAt: serializer.fromJson<DateTime>(json['sentAt']),
+      byteCount: serializer.fromJson<int>(json['byteCount']),
     );
   }
   @override
@@ -419,6 +451,7 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
       'photoId': serializer.toJson<String>(photoId),
       'computerId': serializer.toJson<String>(computerId),
       'sentAt': serializer.toJson<DateTime>(sentAt),
+      'byteCount': serializer.toJson<int>(byteCount),
     };
   }
 
@@ -426,16 +459,19 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
     String? photoId,
     String? computerId,
     DateTime? sentAt,
+    int? byteCount,
   }) => PhotoTransferRow(
     photoId: photoId ?? this.photoId,
     computerId: computerId ?? this.computerId,
     sentAt: sentAt ?? this.sentAt,
+    byteCount: byteCount ?? this.byteCount,
   );
   PhotoTransferRow copyWithCompanion(PhotoTransfersCompanion data) {
     return PhotoTransferRow(
       photoId: data.photoId.present ? data.photoId.value : this.photoId,
       computerId: data.computerId.present ? data.computerId.value : this.computerId,
       sentAt: data.sentAt.present ? data.sentAt.value : this.sentAt,
+      byteCount: data.byteCount.present ? data.byteCount.value : this.byteCount,
     );
   }
 
@@ -444,37 +480,42 @@ class PhotoTransferRow extends DataClass implements Insertable<PhotoTransferRow>
     return (StringBuffer('PhotoTransferRow(')
           ..write('photoId: $photoId, ')
           ..write('computerId: $computerId, ')
-          ..write('sentAt: $sentAt')
+          ..write('sentAt: $sentAt, ')
+          ..write('byteCount: $byteCount')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(photoId, computerId, sentAt);
+  int get hashCode => Object.hash(photoId, computerId, sentAt, byteCount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is PhotoTransferRow &&
           other.photoId == this.photoId &&
           other.computerId == this.computerId &&
-          other.sentAt == this.sentAt);
+          other.sentAt == this.sentAt &&
+          other.byteCount == this.byteCount);
 }
 
 class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
   final Value<String> photoId;
   final Value<String> computerId;
   final Value<DateTime> sentAt;
+  final Value<int> byteCount;
   final Value<int> rowid;
   const PhotoTransfersCompanion({
     this.photoId = const Value.absent(),
     this.computerId = const Value.absent(),
     this.sentAt = const Value.absent(),
+    this.byteCount = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   PhotoTransfersCompanion.insert({
     required String photoId,
     required String computerId,
     required DateTime sentAt,
+    this.byteCount = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : photoId = Value(photoId),
        computerId = Value(computerId),
@@ -483,12 +524,14 @@ class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
     Expression<String>? photoId,
     Expression<String>? computerId,
     Expression<DateTime>? sentAt,
+    Expression<int>? byteCount,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (photoId != null) 'photo_id': photoId,
       if (computerId != null) 'computer_id': computerId,
       if (sentAt != null) 'sent_at': sentAt,
+      if (byteCount != null) 'byte_count': byteCount,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -497,12 +540,14 @@ class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
     Value<String>? photoId,
     Value<String>? computerId,
     Value<DateTime>? sentAt,
+    Value<int>? byteCount,
     Value<int>? rowid,
   }) {
     return PhotoTransfersCompanion(
       photoId: photoId ?? this.photoId,
       computerId: computerId ?? this.computerId,
       sentAt: sentAt ?? this.sentAt,
+      byteCount: byteCount ?? this.byteCount,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -519,6 +564,9 @@ class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
     if (sentAt.present) {
       map['sent_at'] = Variable<DateTime>(sentAt.value);
     }
+    if (byteCount.present) {
+      map['byte_count'] = Variable<int>(byteCount.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -531,6 +579,7 @@ class PhotoTransfersCompanion extends UpdateCompanion<PhotoTransferRow> {
           ..write('photoId: $photoId, ')
           ..write('computerId: $computerId, ')
           ..write('sentAt: $sentAt, ')
+          ..write('byteCount: $byteCount, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -709,6 +758,7 @@ typedef $$PhotoTransfersTableCreateCompanionBuilder =
       required String photoId,
       required String computerId,
       required DateTime sentAt,
+      Value<int> byteCount,
       Value<int> rowid,
     });
 typedef $$PhotoTransfersTableUpdateCompanionBuilder =
@@ -716,6 +766,7 @@ typedef $$PhotoTransfersTableUpdateCompanionBuilder =
       Value<String> photoId,
       Value<String> computerId,
       Value<DateTime> sentAt,
+      Value<int> byteCount,
       Value<int> rowid,
     });
 
@@ -739,6 +790,11 @@ class $$PhotoTransfersTableFilterComposer extends Composer<_$AppDatabase, $Photo
 
   ColumnFilters<DateTime> get sentAt => $composableBuilder(
     column: $table.sentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get byteCount => $composableBuilder(
+    column: $table.byteCount,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -765,6 +821,11 @@ class $$PhotoTransfersTableOrderingComposer extends Composer<_$AppDatabase, $Pho
     column: $table.sentAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get byteCount => $composableBuilder(
+    column: $table.byteCount,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PhotoTransfersTableAnnotationComposer extends Composer<_$AppDatabase, $PhotoTransfersTable> {
@@ -783,6 +844,8 @@ class $$PhotoTransfersTableAnnotationComposer extends Composer<_$AppDatabase, $P
   );
 
   GeneratedColumn<DateTime> get sentAt => $composableBuilder(column: $table.sentAt, builder: (column) => column);
+
+  GeneratedColumn<int> get byteCount => $composableBuilder(column: $table.byteCount, builder: (column) => column);
 }
 
 class $$PhotoTransfersTableTableManager
@@ -818,11 +881,13 @@ class $$PhotoTransfersTableTableManager
                 Value<String> photoId = const Value.absent(),
                 Value<String> computerId = const Value.absent(),
                 Value<DateTime> sentAt = const Value.absent(),
+                Value<int> byteCount = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => PhotoTransfersCompanion(
                 photoId: photoId,
                 computerId: computerId,
                 sentAt: sentAt,
+                byteCount: byteCount,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -830,11 +895,13 @@ class $$PhotoTransfersTableTableManager
                 required String photoId,
                 required String computerId,
                 required DateTime sentAt,
+                Value<int> byteCount = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => PhotoTransfersCompanion.insert(
                 photoId: photoId,
                 computerId: computerId,
                 sentAt: sentAt,
+                byteCount: byteCount,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),

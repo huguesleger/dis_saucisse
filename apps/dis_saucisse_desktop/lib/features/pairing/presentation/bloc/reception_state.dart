@@ -49,6 +49,7 @@ final class ReceptionInProgress extends ReceptionActivity {
     required this.rejected,
     required this.byteCount,
     required this.folders,
+    required this.eventKeys,
   });
 
   final String phoneName;
@@ -57,6 +58,7 @@ final class ReceptionInProgress extends ReceptionActivity {
   final int rejected;
   final int byteCount;
   final List<String> folders;
+  final Set<String> eventKeys;
 
   Option<String> get currentFolder => Option<String>.fromNullable(folders.lastOrNull);
 }

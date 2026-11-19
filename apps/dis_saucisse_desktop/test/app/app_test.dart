@@ -1,5 +1,6 @@
 import 'package:dis_saucisse_desktop/app/app.dart';
 import 'package:dis_saucisse_desktop/config/setup_get_it.dart';
+import 'package:dis_saucisse_desktop/features/history/domain/history_repository.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
@@ -15,6 +16,8 @@ class _MockPairingRepository extends Mock implements PairingRepository {}
 
 class _MockReceptionRepository extends Mock implements ReceptionRepository {}
 
+class _MockHistoryRepository extends Mock implements HistoryRepository {}
+
 void main() {
   late _MockPairingRepository repository;
 
@@ -24,7 +27,8 @@ void main() {
     when(() => receptionRepository.events).thenAnswer((_) => const Stream<ReceptionEvent>.empty());
     getIt
       ..registerSingleton<PairingRepository>(repository)
-      ..registerSingleton<ReceptionRepository>(receptionRepository);
+      ..registerSingleton<ReceptionRepository>(receptionRepository)
+      ..registerSingleton<HistoryRepository>(_MockHistoryRepository());
     when(() => repository.pairedPhones).thenAnswer((_) => const Stream<PairedPhone>.empty());
     when(() => repository.stopReception()).thenReturn(TaskEither.right(unit));
     when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));

@@ -1,6 +1,6 @@
+import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
-import 'package:dis_saucisse_desktop/features/reception/presentation/byte_size_label.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_current_folder_card.dart';
 import 'package:flutter/material.dart';
 

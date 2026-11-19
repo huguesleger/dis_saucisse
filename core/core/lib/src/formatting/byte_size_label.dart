@@ -1,3 +1,4 @@
+/// French label of a file size: "340 Mo", "1,2 Go".
 String byteSizeLabel(int bytes) {
   const int megabyte = 1000 * 1000;
   const int gigabyte = 1000 * megabyte;

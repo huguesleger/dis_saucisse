@@ -38,9 +38,15 @@ final class TransferPaused extends TransferState {
 }
 
 final class TransferFinished extends TransferState {
-  const TransferFinished({required this.computerName, required this.sentCount, required this.eventCount});
+  const TransferFinished({
+    required this.computerName,
+    required this.sentCount,
+    required this.eventCount,
+    required this.sentBytes,
+  });
 
   final String computerName;
   final int sentCount;
   final int eventCount;
+  final int sentBytes;
 }

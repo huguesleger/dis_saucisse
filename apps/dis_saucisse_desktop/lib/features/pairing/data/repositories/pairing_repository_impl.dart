@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:dis_saucisse_desktop/features/pairing/data/data_sources/computer_advertiser_data_source.dart';
 import 'package:dis_saucisse_desktop/features/pairing/data/data_sources/local_network_data_source.dart';
 import 'package:dis_saucisse_desktop/features/pairing/data/data_sources/pairing_storage_data_source.dart';
 import 'package:dis_saucisse_desktop/features/pairing/data/data_sources/reception_server_data_source.dart';
@@ -15,15 +16,18 @@ class PairingRepositoryImpl implements PairingRepository {
     required PairingStorageDataSource storage,
     required LocalNetworkDataSource network,
     required ReceptionServerDataSource server,
+    required ComputerAdvertiserDataSource advertiser,
     DateTime Function()? clock,
   }) : _storage = storage,
        _network = network,
        _server = server,
+       _advertiser = advertiser,
        _clock = clock ?? DateTime.now;
 
   final PairingStorageDataSource _storage;
   final LocalNetworkDataSource _network;
   final ReceptionServerDataSource _server;
+  final ComputerAdvertiserDataSource _advertiser;
   final DateTime Function() _clock;
 
   @override
@@ -37,11 +41,19 @@ class PairingRepositoryImpl implements PairingRepository {
         identity: PairResponse(computerId: identity.id, computerName: identity.name),
       ),
     );
+    await $(
+      _advertiser
+          .advertise(id: identity.id, name: identity.name, port: TransferApi.defaultPort)
+          .orElse((AppFailure _) => TaskEither<AppFailure, Unit>.right(unit)),
+    );
     return pairingPayloadFrom(identity, host: host, port: TransferApi.defaultPort);
   });
 
   @override
-  TaskEither<AppFailure, Unit> stopReception() => _server.stop();
+  TaskEither<AppFailure, Unit> stopReception() => _advertiser
+      .stop()
+      .orElse((AppFailure _) => TaskEither<AppFailure, Unit>.right(unit))
+      .flatMap((_) => _server.stop());
 
   @override
   Stream<PairedPhone> get pairedPhones =>

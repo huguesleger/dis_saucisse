@@ -9,4 +9,6 @@ abstract interface class PairingRepository {
   TaskEither<AppFailure, PairedComputer> pairWith(PairingPayload invitation);
 
   TaskEither<AppFailure, Option<String>> readQrCodeFromImage(String imagePath);
+
+  TaskEither<AppFailure, PairedComputer> locateComputer(PairedComputer computer);
 }

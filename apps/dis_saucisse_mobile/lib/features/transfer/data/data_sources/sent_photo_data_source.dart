@@ -22,12 +22,20 @@ class SentPhotoDataSource {
         _failure,
       );
 
-  TaskEither<AppFailure, Unit> markSent(String computerId, List<String> photoIds, DateTime sentAt) =>
+  TaskEither<AppFailure, Map<String, int>> loadSentPhotoBytes() => TaskEither<AppFailure, Map<String, int>>.tryCatch(
+    () async => <String, int>{
+      for (final PhotoTransferRow row in await _database.select(_database.photoTransfers).get())
+        row.photoId: row.byteCount,
+    },
+    _failure,
+  );
+
+  TaskEither<AppFailure, Unit> markSent(String computerId, Map<String, int> byteCountByPhoto, DateTime sentAt) =>
       TaskEither<AppFailure, Unit>.tryCatch(() async {
         await _database.batch(
           (Batch batch) => batch.insertAllOnConflictUpdate(_database.photoTransfers, <PhotoTransferRow>[
-            for (final String photoId in photoIds)
-              PhotoTransferRow(photoId: photoId, computerId: computerId, sentAt: sentAt),
+            for (final MapEntry<String, int> photo in byteCountByPhoto.entries)
+              PhotoTransferRow(photoId: photo.key, computerId: computerId, sentAt: sentAt, byteCount: photo.value),
           ]),
         );
         return unit;

@@ -8,6 +8,7 @@ import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/photo_fi
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/sent_photo_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/transfer_api_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/mappers/photo_upload_mapper.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
 import 'package:fpdart/fpdart.dart';
@@ -55,11 +56,11 @@ class TransferRepositoryImpl implements TransferRepository {
 
   @override
   TaskEither<AppFailure, Unit> markAlreadyReceived(PairedComputer computer, List<PhotoId> photos) =>
-      _sentPhotos.markSent(computer.id.value, photos.map((PhotoId id) => id.value).toList(), _clock());
+      _sentPhotos.markSent(computer.id.value, <String, int>{for (final PhotoId id in photos) id.value: 0}, _clock());
 
   @override
-  TaskEither<AppFailure, String> sendPhoto(PairedComputer computer, TransferItem item) =>
-      TaskEither<AppFailure, String>.Do(($) async {
+  TaskEither<AppFailure, SentPhoto> sendPhoto(PairedComputer computer, TransferItem item) =>
+      TaskEither<AppFailure, SentPhoto>.Do(($) async {
         final PairRequest phone = await $(_pairing.phoneIdentity());
         final PhotoFile file = await $(
           _files.loadPhotoFile(item.photo.id.value, convertHeicToJpeg: computer.platform == ComputerPlatform.windows),
@@ -78,8 +79,10 @@ class TransferRepositoryImpl implements TransferRepository {
             file.bytes,
           ),
         );
-        await $(_sentPhotos.markSent(computer.id.value, <String>[item.photo.id.value], _clock()));
-        return stored.folder;
+        await $(
+          _sentPhotos.markSent(computer.id.value, <String, int>{item.photo.id.value: file.bytes.length}, _clock()),
+        );
+        return (folder: stored.folder, byteCount: file.bytes.length);
       });
 
   @override

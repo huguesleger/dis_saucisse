@@ -12,6 +12,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event_library_load.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_event_library.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
 import 'package:dis_saucisse_mobile/features/transfer/presentation/bloc/transfer_cubit.dart';
@@ -32,7 +33,7 @@ void main() {
   late _MockPairingRepository pairingRepository;
   late _MockTransferRepository transferRepository;
   late _MockLoadEventLibrary loadEventLibrary;
-  late Completer<Either<AppFailure, String>> pendingFirstSend;
+  late Completer<Either<AppFailure, SentPhoto>> pendingFirstSend;
   const PairedComputer computer = PairedComputer(
     id: ComputerId('mac'),
     name: 'Mac',
@@ -73,7 +74,9 @@ void main() {
     when(() => loadEventLibrary()).thenReturn(TaskEither.right(EventLibraryLoaded(library)));
     when(() => transferRepository.loadSentPhotoIds(any())).thenReturn(TaskEither.right(<PhotoId>{}));
     when(() => transferRepository.markAlreadyReceived(any(), any())).thenReturn(TaskEither.right(unit));
-    when(() => transferRepository.sendPhoto(any(), any())).thenReturn(TaskEither.right('2026/2026-11 Novembre'));
+    when(
+      () => transferRepository.sendPhoto(any(), any()),
+    ).thenReturn(TaskEither.right((folder: '2026/2026-11 Novembre', byteCount: 1000)));
     when(() => transferRepository.finishTransfer(any(), any())).thenReturn(TaskEither.right(unit));
   });
 
@@ -98,7 +101,8 @@ void main() {
       isA<TransferSending>().having((TransferSending s) => s.progress.sent, 'sent', 2),
       isA<TransferFinished>()
           .having((TransferFinished s) => s.sentCount, 'sent', 2)
-          .having((TransferFinished s) => s.eventCount, 'events', 2),
+          .having((TransferFinished s) => s.eventCount, 'events', 2)
+          .having((TransferFinished s) => s.sentBytes, 'bytes', 2000),
     ],
     verify: (_) {
       verify(() => transferRepository.markAlreadyReceived(computer, <PhotoId>[const PhotoId('cake-1')])).called(1);
@@ -127,9 +131,14 @@ void main() {
 
   blocTest<TransferCubit, TransferState>(
     'explains that the computer cannot be reached',
-    setUp: () => when(
-      () => transferRepository.startTransfer(any(), any()),
-    ).thenReturn(TaskEither.left(const ComputerUnreachableFailure())),
+    setUp: () {
+      when(
+        () => transferRepository.startTransfer(any(), any()),
+      ).thenReturn(TaskEither.left(const ComputerUnreachableFailure()));
+      when(
+        () => pairingRepository.locateComputer(any()),
+      ).thenReturn(TaskEither.left(const ComputerUnreachableFailure()));
+    },
     build: buildCubit,
     act: (TransferCubit cubit) => cubit.start(),
     expect: () => <Matcher>[
@@ -139,17 +148,46 @@ void main() {
   );
 
   blocTest<TransferCubit, TransferState>(
+    'finds the computer again on the network when its address changed',
+    setUp: () {
+      const PairedComputer moved = PairedComputer(
+        id: ComputerId('mac'),
+        name: 'Mac',
+        platform: ComputerPlatform.macos,
+        host: '192.168.1.42',
+        port: 47820,
+        token: PairingToken('secret'),
+      );
+      when(() => transferRepository.startTransfer(computer, any())).thenReturn(
+        TaskEither.left(const ComputerUnreachableFailure()),
+      );
+      when(() => pairingRepository.locateComputer(computer)).thenReturn(TaskEither.right(moved));
+      when(() => transferRepository.startTransfer(moved, any())).thenReturn(
+        TaskEither.right(<PhotoId>{const PhotoId('walk')}),
+      );
+    },
+    build: buildCubit,
+    act: (TransferCubit cubit) => cubit.start(),
+    expect: () => <Matcher>[
+      isA<TransferPreparing>(),
+      isA<TransferSending>().having((TransferSending s) => s.progress.computer.host, 'host', '192.168.1.42'),
+      isA<TransferSending>(),
+      isA<TransferFinished>(),
+    ],
+  );
+
+  blocTest<TransferCubit, TransferState>(
     'stops after the current photo when paused, and goes on when resumed',
     setUp: () {
-      final Completer<Either<AppFailure, String>> firstSend = Completer<Either<AppFailure, String>>();
+      final Completer<Either<AppFailure, SentPhoto>> firstSend = Completer<Either<AppFailure, SentPhoto>>();
       int sendCount = 0;
       when(
         () => transferRepository.startTransfer(any(), any()),
       ).thenReturn(TaskEither.right(<PhotoId>{const PhotoId('cake-1'), const PhotoId('cake-2')}));
       when(() => transferRepository.sendPhoto(any(), any())).thenAnswer(
         (_) => sendCount++ == 0
-            ? TaskEither<AppFailure, String>(() => firstSend.future)
-            : TaskEither<AppFailure, String>.right('2026/2026-11 Novembre'),
+            ? TaskEither<AppFailure, SentPhoto>(() => firstSend.future)
+            : TaskEither<AppFailure, SentPhoto>.right((folder: '2026/2026-11 Novembre', byteCount: 1000)),
       );
       pendingFirstSend = firstSend;
     },
@@ -158,7 +196,7 @@ void main() {
       final Future<void> started = cubit.start();
       await Future<void>.delayed(const Duration(milliseconds: 10));
       cubit.pause();
-      pendingFirstSend.complete(right('2026/2026-11 Novembre'));
+      pendingFirstSend.complete(right((folder: '2026/2026-11 Novembre', byteCount: 1000)));
       await started;
       await cubit.resume();
     },
