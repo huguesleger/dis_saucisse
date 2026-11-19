@@ -1,5 +1,4 @@
 import 'package:core_ui/core_ui.dart';
-import 'package:core_ui/gallery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -14,6 +13,6 @@ class App extends StatelessWidget {
     locale: const Locale('fr'),
     supportedLocales: const <Locale>[Locale('fr')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
-    home: const DsGalleryScreen(),
+    home: const Scaffold(body: Center(child: DsLogoPill())),
   );
 }

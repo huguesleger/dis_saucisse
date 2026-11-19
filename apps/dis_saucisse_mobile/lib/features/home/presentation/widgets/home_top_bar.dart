@@ -1,11 +1,8 @@
-import 'package:core_ui/src/foundation/ds_spacing.dart';
-import 'package:core_ui/src/widgets/brand/ds_logo_pill.dart';
-import 'package:core_ui/src/widgets/buttons/ds_round_icon_button.dart';
-import 'package:core_ui/src/widgets/buttons/ds_round_icon_button_variant.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
-class DsGalleryTopBar extends StatelessWidget {
-  const DsGalleryTopBar({super.key});
+class HomeTopBar extends StatelessWidget {
+  const HomeTopBar({super.key});
 
   @override
   Widget build(BuildContext context) => Row(
@@ -16,7 +13,7 @@ class DsGalleryTopBar extends StatelessWidget {
       const SizedBox(width: DsSpacing.xs),
       DsRoundIconButton(
         icon: Icons.desktop_windows_outlined,
-        tooltip: 'Envoyer au PC',
+        tooltip: 'Envoyer vers le PC',
         variant: DsRoundIconButtonVariant.dark,
         onPressed: () {},
       ),
