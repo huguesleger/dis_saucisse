@@ -4,10 +4,13 @@ import 'package:flutter/widgets.dart';
 
 /// Rounded progress bar of a transfer.
 class DsProgressBar extends StatelessWidget {
-  const DsProgressBar({super.key, required this.value, this.height = 12});
+  const DsProgressBar({super.key, required this.value, this.height = 12, this.trackColor});
 
   final double value;
   final double height;
+
+  /// Track color; a translucent white by default, for gradient backgrounds.
+  final Color? trackColor;
 
   @override
   Widget build(BuildContext context) => Semantics(
@@ -19,7 +22,7 @@ class DsProgressBar extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            ColoredBox(color: DsColors.background.withValues(alpha: 0.7)),
+            ColoredBox(color: trackColor ?? DsColors.background.withValues(alpha: 0.7)),
             FractionallySizedBox(
               alignment: Alignment.centerLeft,
               widthFactor: value.clamp(0, 1),

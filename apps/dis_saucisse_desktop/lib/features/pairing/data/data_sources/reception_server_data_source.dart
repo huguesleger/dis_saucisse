@@ -98,7 +98,7 @@ class ReceptionServerDataSource {
       PhotoUpload.fromHeaders(photoId, request.headers).match(
         () async => Response.badRequest(body: 'Photo incomplète'),
         (PhotoUpload upload) =>
-            TaskEither<Object, String>.tryCatch(
+            TaskEither<Object, StoredPhotoFile>.tryCatch(
                   () => _storage.store(upload, request.read()),
                   (Object error, StackTrace stackTrace) {
                     log('Photo not stored', error: error, stackTrace: stackTrace, name: 'reception');
@@ -112,16 +112,18 @@ class ReceptionServerDataSource {
                         ? Response(422, body: 'Photo abîmée pendant l’envoi')
                         : Response.internalServerError(body: 'Photo non enregistrée');
                   },
-                  (String folder) {
+                  (StoredPhotoFile stored) {
                     _receptionEvents.add(
                       PhotoReceived(
-                        folder: folder,
+                        folder: stored.folder,
+                        filePath: stored.filePath,
                         eventKey: eventKeyOf(upload),
+                        eventLabel: eventLabelOf(upload),
                         byteCount: request.contentLength ?? 0,
                         decision: upload.decision,
                       ),
                     );
-                    return _json(PhotoStoredResponse(folder: folder).toJson());
+                    return _json(PhotoStoredResponse(folder: stored.folder).toJson());
                   },
                 )
                 .run(),

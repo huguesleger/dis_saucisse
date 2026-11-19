@@ -37,10 +37,11 @@ void main() {
       ),
     );
 
-    final String folder = await storage.store(upload('a'), Stream<List<int>>.value(bytes));
+    final StoredPhotoFile first = await storage.store(upload('a'), Stream<List<int>>.value(bytes));
     await storage.store(upload('b'), Stream<List<int>>.value(bytes));
 
-    expect(folder, '2026-11 Novembre');
+    expect(first.folder, '2026-11 Novembre');
+    expect(first.filePath, '${root.path}/2026-11 Novembre/2026-11-08 14.30.05.jpg');
     expect(
       Directory(
         '${root.path}/2026-11 Novembre',

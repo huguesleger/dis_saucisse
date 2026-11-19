@@ -1,5 +1,8 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
+import 'package:dis_saucisse_desktop/features/reception/domain/entities/received_event.dart';
+import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_done_summary.dart';
+import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_event_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,66 +12,73 @@ class ReceptionDoneView extends StatelessWidget {
   final ReceptionDone done;
 
   @override
-  Widget build(BuildContext context) {
-    final List<String> events = done.folders
-        .map((String folder) => folder.split('/'))
-        .where((List<String> segments) => segments.length >= 3)
-        .map((List<String> segments) => segments[2])
-        .toSet()
-        .toList();
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 760),
-        child: DsCard(
-          color: DsColors.mustardLight,
-          padding: const EdgeInsets.all(DsSpacing.xxl),
-          child: Row(
-            spacing: DsSpacing.xxl,
-            children: <Widget>[
-              const DsMascot(width: 200),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: DsSpacing.m,
-                  children: <Widget>[
-                    Text('Saucisse !', style: DsTextStyles.display),
-                    Text(
-                      'Les ${done.received} photos de ${done.phoneName} sont bien rangées'
-                      '${events.isEmpty ? '' : ' dans ${events.length} ${events.length == 1 ? 'événement' : 'événements'}'}'
-                      ', toutes vérifiées.',
-                      style: DsTextStyles.body,
-                    ),
-                    Wrap(
-                      spacing: DsSpacing.xs,
-                      runSpacing: DsSpacing.xs,
-                      children: <Widget>[
-                        for (final String event in events) DsStatusBadge(label: event, tone: DsStatusTone.neutral),
-                      ],
-                    ),
-                    Row(
-                      spacing: DsSpacing.s,
-                      children: <Widget>[
-                        DsButton(
-                          label: 'Ouvrir le dossier',
-                          variant: DsButtonVariant.dark,
-                          expanded: false,
-                          onPressed: context.read<ReceptionCubit>().openStorageFolder,
-                        ),
-                        DsButton(
-                          label: 'Fermer',
-                          variant: DsButtonVariant.light,
-                          expanded: false,
-                          onPressed: context.read<ReceptionCubit>().closeSummary,
-                        ),
-                      ],
-                    ),
-                  ],
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(DsSpacing.xxl),
+    child: Column(
+      children: <Widget>[
+        const Spacer(),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 820),
+          child: DsCard(
+            color: DsColors.mustardLight,
+            padding: const EdgeInsets.symmetric(horizontal: DsSpacing.xxl, vertical: DsSpacing.xxxl),
+            child: Row(
+              spacing: DsSpacing.xxl,
+              children: <Widget>[
+                const Expanded(flex: 4, child: DsMascot(width: 260)),
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Saucisse !', style: DsTextStyles.number.copyWith(fontSize: 52)),
+                      const SizedBox(height: DsSpacing.s),
+                      ReceptionDoneSummary(
+                        received: done.received,
+                        rejected: done.rejected,
+                        eventCount: done.events.length,
+                      ),
+                      const SizedBox(height: DsSpacing.m),
+                      Wrap(
+                        spacing: DsSpacing.xs,
+                        runSpacing: DsSpacing.xs,
+                        children: <Widget>[
+                          for (final ReceivedEvent event in done.events) ReceptionEventChip(event: event),
+                        ],
+                      ),
+                      const SizedBox(height: DsSpacing.l),
+                      Wrap(
+                        spacing: DsSpacing.s,
+                        runSpacing: DsSpacing.s,
+                        children: <Widget>[
+                          DsButton(
+                            label: 'Ouvrir le dossier',
+                            variant: DsButtonVariant.dark,
+                            expanded: false,
+                            onPressed: context.read<ReceptionCubit>().openStorageFolder,
+                          ),
+                          DsButton(
+                            label: 'Fermer',
+                            variant: DsButtonVariant.light,
+                            expanded: false,
+                            onPressed: context.read<ReceptionCubit>().closeSummary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+        const Spacer(),
+        Text(
+          'Le téléphone propose maintenant de libérer de la place. Le PC n’a plus rien à faire.',
+          style: DsTextStyles.caption,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
 }

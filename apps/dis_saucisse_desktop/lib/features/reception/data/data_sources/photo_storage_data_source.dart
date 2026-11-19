@@ -11,6 +11,8 @@ class ChecksumMismatchException implements Exception {
   const ChecksumMismatchException();
 }
 
+typedef StoredPhotoFile = ({String folder, String filePath});
+
 class PhotoStorageDataSource {
   PhotoStorageDataSource(this._target);
 
@@ -24,7 +26,7 @@ class PhotoStorageDataSource {
   Future<Set<String>> receivedPhotoIds(PhoneId phone) async =>
       ((await _readIndex(await currentRoot()))[phone.value] ?? <String>[]).toSet();
 
-  Future<String> store(PhotoUpload upload, Stream<List<int>> body) async {
+  Future<StoredPhotoFile> store(PhotoUpload upload, Stream<List<int>> body) async {
     final StorageTarget target = await _target();
     final List<String> folderSegments = photoFolderSegments(upload, target.layout);
     final Directory folder = await Directory(
@@ -51,9 +53,9 @@ class PhotoStorageDataSource {
       storedFileName(upload, target.layout),
       (String candidate) => File(_join(<String>[folder.path, candidate])).existsSync(),
     );
-    await partial.rename(_join(<String>[folder.path, fileName]));
+    final File stored = await partial.rename(_join(<String>[folder.path, fileName]));
     await _markReceived(target.root, upload.phoneId, upload.photoId);
-    return folderSegments.join('/');
+    return (folder: folderSegments.join('/'), filePath: stored.path);
   }
 
   File _index(Directory root) => File(_join(<String>[root.path, '.dis-saucisse', 'received.json']));

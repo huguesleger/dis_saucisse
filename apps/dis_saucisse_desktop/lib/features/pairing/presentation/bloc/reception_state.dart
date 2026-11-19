@@ -49,8 +49,14 @@ final class ReceptionInProgress extends ReceptionActivity {
     required this.rejected,
     required this.byteCount,
     required this.folders,
-    required this.eventKeys,
+    required this.events,
+    required this.startedAt,
+    required this.lastReceivedAt,
+    required this.folderPhotoPaths,
+    required this.folderPhotoCount,
   });
+
+  static const int shownFolderPhotos = 12;
 
   final String phoneName;
   final int expected;
@@ -58,15 +64,27 @@ final class ReceptionInProgress extends ReceptionActivity {
   final int rejected;
   final int byteCount;
   final List<String> folders;
-  final Set<String> eventKeys;
+  final Map<String, ReceivedEvent> events;
+  final DateTime startedAt;
+  final DateTime lastReceivedAt;
+  final List<String> folderPhotoPaths;
+  final int folderPhotoCount;
 
   Option<String> get currentFolder => Option<String>.fromNullable(folders.lastOrNull);
 }
 
 final class ReceptionDone extends ReceptionActivity {
-  const ReceptionDone({required this.phoneName, required this.received, required this.folders});
+  const ReceptionDone({
+    required this.phoneName,
+    required this.received,
+    required this.rejected,
+    required this.folders,
+    required this.events,
+  });
 
   final String phoneName;
   final int received;
+  final int rejected;
   final List<String> folders;
+  final List<ReceivedEvent> events;
 }

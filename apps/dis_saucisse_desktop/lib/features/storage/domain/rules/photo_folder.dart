@@ -67,3 +67,8 @@ String availableFileName(String fileName, bool Function(String candidate) exists
 
 String eventKeyOf(PhotoUpload upload) =>
     '${upload.eventDate.toIso8601String()} ${upload.eventName.match(() => '', (String name) => name)}';
+
+String eventLabelOf(PhotoUpload upload) => upload.eventName.match(
+  () => '${upload.eventDate.day} ${_monthNames[upload.eventDate.month - 1].toLowerCase()} ${upload.eventDate.year}',
+  (String name) => name,
+);

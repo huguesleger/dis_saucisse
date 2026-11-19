@@ -6,6 +6,7 @@ import 'package:dis_saucisse_desktop/features/history/domain/history_repository.
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
+import 'package:dis_saucisse_desktop/features/reception/domain/entities/received_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/reception_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -74,7 +75,9 @@ void main() {
         ..add(
           const PhotoReceived(
             folder: '2026/2026-11 Novembre/2026-11-08',
+            filePath: '/photos/IMG_1.jpg',
             eventKey: '2026-11-08T14:00:00.000 ',
+            eventLabel: '8 novembre 2026',
             byteCount: 1000,
             decision: PhotoDecisionKind.kept,
           ),
@@ -95,7 +98,15 @@ void main() {
         'rejected',
         1,
       ),
-      isA<ReceptionReady>().having((ReceptionReady s) => s.activity, 'activity', isA<ReceptionDone>()),
+      isA<ReceptionReady>().having(
+        (ReceptionReady s) => s.activity,
+        'activity',
+        isA<ReceptionDone>().having((ReceptionDone d) => d.rejected, 'rejected', 1).having(
+          (ReceptionDone d) => d.events,
+          'events',
+          <ReceivedEvent>[(label: '8 novembre 2026', count: 1)],
+        ),
+      ),
     ],
     verify: (_) {
       final TransferRecord record =

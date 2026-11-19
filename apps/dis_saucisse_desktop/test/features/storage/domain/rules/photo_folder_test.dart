@@ -69,4 +69,9 @@ void main() {
       isNot(eventKeyOf(_upload(eventDate: DateTime(2026, 3, 1, 18)))),
     );
   });
+
+  test('names an event after its title, or its date when it has none', () {
+    expect(eventLabelOf(_upload(eventName: some('Anniversaire de mamie'))), 'Anniversaire de mamie');
+    expect(eventLabelOf(_upload()), '1 mars 2026');
+  });
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' show max;
 
 import 'package:core/core.dart';
 import 'package:dis_saucisse_desktop/config/setup_get_it.dart';
@@ -7,6 +8,7 @@ import 'package:dis_saucisse_desktop/features/history/domain/history_repository.
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_failure.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
+import 'package:dis_saucisse_desktop/features/reception/domain/entities/received_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/reception_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -81,10 +83,20 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
         rejected: 0,
         byteCount: 0,
         folders: const <String>[],
-        eventKeys: const <String>{},
+        events: const <String, ReceivedEvent>{},
+        startedAt: _clock(),
+        lastReceivedAt: _clock(),
+        folderPhotoPaths: const <String>[],
+        folderPhotoCount: 0,
       ),
       (
-        PhotoReceived(:final String folder, :final String eventKey, :final int byteCount),
+        PhotoReceived(
+          :final String folder,
+          :final String filePath,
+          :final String eventKey,
+          :final String eventLabel,
+          :final int byteCount,
+        ),
         final ReceptionInProgress progress,
       ) =>
         ReceptionInProgress(
@@ -94,7 +106,21 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
           rejected: progress.rejected,
           byteCount: progress.byteCount + byteCount,
           folders: <String>[...progress.folders.where((String known) => known != folder), folder],
-          eventKeys: <String>{...progress.eventKeys, eventKey},
+          events: <String, ReceivedEvent>{
+            ...progress.events,
+            eventKey: (label: eventLabel, count: (progress.events[eventKey]?.count ?? 0) + 1),
+          },
+          startedAt: progress.startedAt,
+          lastReceivedAt: _clock(),
+          folderPhotoPaths: progress.currentFolder == some(folder)
+              ? <String>[
+                  ...progress.folderPhotoPaths.skip(
+                    max(0, progress.folderPhotoPaths.length - ReceptionInProgress.shownFolderPhotos + 1),
+                  ),
+                  filePath,
+                ]
+              : <String>[filePath],
+          folderPhotoCount: progress.currentFolder == some(folder) ? progress.folderPhotoCount + 1 : 1,
         ),
       (PhotoRejected(), final ReceptionInProgress progress) => ReceptionInProgress(
         phoneName: progress.phoneName,
@@ -103,12 +129,18 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
         rejected: progress.rejected + 1,
         byteCount: progress.byteCount,
         folders: progress.folders,
-        eventKeys: progress.eventKeys,
+        events: progress.events,
+        startedAt: progress.startedAt,
+        lastReceivedAt: progress.lastReceivedAt,
+        folderPhotoPaths: progress.folderPhotoPaths,
+        folderPhotoCount: progress.folderPhotoCount,
       ),
       (TransferFinished(), final ReceptionInProgress progress) => ReceptionDone(
         phoneName: progress.phoneName,
         received: progress.received,
+        rejected: progress.rejected,
         folders: progress.folders,
+        events: progress.events.values.toList(),
       ),
       (PhotoReceived() || PhotoRejected() || TransferFinished(), ReceptionIdle() || ReceptionDone()) => activity,
     },
@@ -145,5 +177,5 @@ TransferRecord transferRecordOf(ReceptionInProgress progress, DateTime receivedA
   photoCount: progress.received,
   rejectedCount: progress.rejected,
   byteCount: progress.byteCount,
-  eventCount: progress.eventKeys.length,
+  eventCount: progress.events.length,
 );

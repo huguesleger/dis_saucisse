@@ -12,6 +12,7 @@ class DesktopBackgroundRunner extends StatefulWidget {
   static Future<void> prepare() async {
     await windowManager.ensureInitialized();
     await windowManager.setPreventClose(true);
+    await windowManager.setMinimumSize(const Size(980, 640));
   }
 
   @override
