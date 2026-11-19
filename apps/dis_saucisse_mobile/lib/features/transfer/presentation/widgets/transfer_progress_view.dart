@@ -7,10 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransferProgressView extends StatelessWidget {
-  const TransferProgressView({super.key, required this.progress, required this.paused});
+  const TransferProgressView({
+    super.key,
+    required this.progress,
+    required this.paused,
+    this.waitingForComputer = false,
+  });
 
   final TransferProgress progress;
   final bool paused;
+  final bool waitingForComputer;
 
   @override
   Widget build(BuildContext context) => DsMeshBackground(
@@ -37,6 +43,7 @@ class TransferProgressView extends StatelessWidget {
             child: TransferDetails(
               progress: progress,
               paused: paused,
+              waitingForComputer: waitingForComputer,
               onPause: context.read<TransferCubit>().pause,
               onResume: context.read<TransferCubit>().resume,
             ),

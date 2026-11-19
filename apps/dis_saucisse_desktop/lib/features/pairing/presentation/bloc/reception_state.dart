@@ -54,6 +54,7 @@ final class ReceptionInProgress extends ReceptionActivity {
     required this.lastReceivedAt,
     required this.folderPhotoPaths,
     required this.folderPhotoCount,
+    this.paused = false,
   });
 
   static const int shownFolderPhotos = 12;
@@ -69,6 +70,22 @@ final class ReceptionInProgress extends ReceptionActivity {
   final DateTime lastReceivedAt;
   final List<String> folderPhotoPaths;
   final int folderPhotoCount;
+  final bool paused;
+
+  ReceptionInProgress withPaused(bool value) => ReceptionInProgress(
+    phoneName: phoneName,
+    expected: expected,
+    received: received,
+    rejected: rejected,
+    byteCount: byteCount,
+    folders: folders,
+    events: events,
+    startedAt: startedAt,
+    lastReceivedAt: lastReceivedAt,
+    folderPhotoPaths: folderPhotoPaths,
+    folderPhotoCount: folderPhotoCount,
+    paused: value,
+  );
 
   Option<String> get currentFolder => Option<String>.fromNullable(folders.lastOrNull);
 }

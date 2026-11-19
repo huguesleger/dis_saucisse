@@ -19,6 +19,9 @@ class ReceptionServerDataSource {
   final PhotoStorageDataSource _storage;
   final StreamController<PairRequest> _pairRequests = StreamController<PairRequest>.broadcast();
   final StreamController<ReceptionEvent> _receptionEvents = StreamController<ReceptionEvent>.broadcast();
+  bool _paused = false;
+
+  set paused(bool value) => _paused = value;
   Option<HttpServer> _server = none();
 
   Stream<PairRequest> get pairRequests => _pairRequests.stream;
@@ -94,7 +97,15 @@ class ReceptionServerDataSource {
         },
       );
 
-  Future<Response> _receivePhoto(String photoId, Request request) =>
+  Future<Response> _receivePhoto(String photoId, Request request) async {
+    if (_paused) {
+      await request.read().drain<void>();
+      return Response(TransferApi.pausedStatus, body: 'Réception en pause');
+    }
+    return _storePhoto(photoId, request);
+  }
+
+  Future<Response> _storePhoto(String photoId, Request request) =>
       PhotoUpload.fromHeaders(photoId, request.headers).match(
         () async => Response.badRequest(body: 'Photo incomplète'),
         (PhotoUpload upload) =>

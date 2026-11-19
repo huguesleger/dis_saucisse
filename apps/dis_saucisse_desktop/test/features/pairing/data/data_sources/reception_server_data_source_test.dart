@@ -144,6 +144,21 @@ void main() {
       expect(jsonDecode(missing), <String, Object>{'missingPhotoIds': <String>[]});
     });
 
+    test('asks the phone to wait while the reception is paused', () async {
+      server.paused = true;
+
+      final (int status, _) = await send(
+        'PUT',
+        TransferApi.photoPath('asset/1'),
+        tokenValue: token.value,
+        headers: upload().toHeaders(),
+        bytes: photoBytes,
+      );
+
+      expect(status, TransferApi.pausedStatus);
+      expect(root.listSync().whereType<Directory>().where((Directory d) => !d.path.endsWith('.dis-saucisse')), isEmpty);
+    });
+
     test('puts discarded photos in the Écartées folder', () async {
       final (_, String body) = await send(
         'PUT',

@@ -31,6 +31,12 @@ final class TransferSending extends TransferState {
   final TransferProgress progress;
 }
 
+final class TransferWaitingForComputer extends TransferState {
+  const TransferWaitingForComputer(this.progress);
+
+  final TransferProgress progress;
+}
+
 final class TransferPaused extends TransferState {
   const TransferPaused(this.progress);
 

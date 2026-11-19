@@ -7,12 +7,14 @@ class TransferDetails extends StatelessWidget {
     super.key,
     required this.progress,
     required this.paused,
+    required this.waitingForComputer,
     required this.onPause,
     required this.onResume,
   });
 
   final TransferProgress progress;
   final bool paused;
+  final bool waitingForComputer;
   final VoidCallback onPause;
   final VoidCallback onResume;
 
@@ -27,12 +29,16 @@ class TransferDetails extends StatelessWidget {
             icon: Icons.desktop_windows_outlined,
             iconBackground: DsColors.mustardLight,
             title: progress.computer.name,
-            subtitle: paused ? 'En pause' : 'Connecté en Wi-Fi',
+            subtitle: paused
+                ? 'En pause'
+                : (waitingForComputer
+                      ? 'Le PC a mis la réception en pause, ça reprendra tout seul'
+                      : 'Connecté en Wi-Fi'),
             trailing: Container(
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: paused ? DsColors.textSoft : DsColors.success,
+                color: paused || waitingForComputer ? DsColors.textSoft : DsColors.success,
                 shape: BoxShape.circle,
               ),
             ),

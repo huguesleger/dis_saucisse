@@ -11,6 +11,7 @@ import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_progress.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/rules/photos_to_send.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_failure.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
@@ -23,6 +24,7 @@ class TransferCubit extends SafeCubit<TransferState> {
     TransferRepository? transferRepository,
     LoadEventLibrary? loadEventLibrary,
     DateTime Function()? clock,
+    this.computerRetryDelay = const Duration(seconds: 5),
   }) : _pairingRepository = pairingRepository ?? getIt.get<PairingRepository>(),
        _transferRepository = transferRepository ?? getIt.get<TransferRepository>(),
        _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
@@ -33,6 +35,7 @@ class TransferCubit extends SafeCubit<TransferState> {
   final TransferRepository _transferRepository;
   final LoadEventLibrary _loadEventLibrary;
   final DateTime Function() _clock;
+  final Duration computerRetryDelay;
 
   DateTime get now => _clock();
 
@@ -52,7 +55,8 @@ class TransferCubit extends SafeCubit<TransferState> {
   }
 
   void pause() => switch (state) {
-    TransferSending(:final TransferProgress progress) => emit(TransferPaused(progress)),
+    TransferSending(:final TransferProgress progress) ||
+    TransferWaitingForComputer(:final TransferProgress progress) => emit(TransferPaused(progress)),
     TransferPreparing() ||
     TransferNeedsPairing() ||
     TransferNothingToSend() ||
@@ -68,6 +72,7 @@ class TransferCubit extends SafeCubit<TransferState> {
     TransferNothingToSend() ||
     TransferFailed() ||
     TransferSending() ||
+    TransferWaitingForComputer() ||
     TransferFinished() => Future<void>.value(),
   };
 
@@ -128,6 +133,7 @@ class TransferCubit extends SafeCubit<TransferState> {
           TransferNothingToSend() ||
           TransferFailed() ||
           TransferPaused() ||
+          TransferWaitingForComputer() ||
           TransferFinished() => Future<void>.value(),
         };
 
@@ -135,10 +141,27 @@ class TransferCubit extends SafeCubit<TransferState> {
     final TransferItem item = progress.remaining.first;
     return _transferRepository
         .sendPhoto(progress.computer, item)
-        .match(_failed, (SentPhoto sent) => _withProgress(progress.afterSending(item, sent)))
-        .flatMap(_emitThenContinue)
+        .match(
+          (AppFailure failure) => switch (failure) {
+            ComputerPausedFailure() => TransferWaitingForComputer(progress),
+            _ => _failed(failure),
+          },
+          (SentPhoto sent) => _withProgress(progress.afterSending(item, sent)),
+        )
+        .flatMap(
+          (TransferState next) => switch (next) {
+            TransferWaitingForComputer() => _waitForComputer(next),
+            _ => _emitThenContinue(next),
+          },
+        )
         .run();
   }
+
+  Task<void> _waitForComputer(TransferWaitingForComputer waiting) => Task<void>(() async {
+    emit(waiting);
+    await Future<void>.delayed(computerRetryDelay);
+    if (!isClosed && state == waiting) await _emitThenContinue(TransferSending(waiting.progress)).run();
+  });
 
   Future<void> _finish(TransferProgress progress) => _transferRepository
       .finishTransfer(progress.computer, progress.sent)
@@ -151,6 +174,7 @@ class TransferCubit extends SafeCubit<TransferState> {
 
   TransferState _withProgress(TransferProgress progress) => switch (state) {
     TransferPaused() => TransferPaused(progress),
+    TransferWaitingForComputer() ||
     TransferPreparing() ||
     TransferNeedsPairing() ||
     TransferNothingToSend() ||

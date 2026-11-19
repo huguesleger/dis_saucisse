@@ -37,18 +37,23 @@ class TransferApiDataSource {
     PairingToken token,
     PhotoUpload upload,
     Uint8List bytes,
-  ) => _send(
-    () => _client.put(
-      _uri(host, port, TransferApi.photoPath(upload.photoId)),
-      headers: <String, String>{
-        ..._headers(token),
-        ...upload.toHeaders(),
-        'content-type': 'application/octet-stream',
-      },
-      body: bytes,
-    ),
-    _uploadTimeout,
-  ).flatMap((http.Response response) => _decode(response, PhotoStoredResponse.fromJson));
+  ) =>
+      _send(
+        () => _client.put(
+          _uri(host, port, TransferApi.photoPath(upload.photoId)),
+          headers: <String, String>{
+            ..._headers(token),
+            ...upload.toHeaders(),
+            'content-type': 'application/octet-stream',
+          },
+          body: bytes,
+        ),
+        _uploadTimeout,
+      ).flatMap(
+        (http.Response response) => response.statusCode == TransferApi.pausedStatus
+            ? TaskEither<AppFailure, PhotoStoredResponse>.left(const ComputerPausedFailure())
+            : _decode(response, PhotoStoredResponse.fromJson),
+      );
 
   TaskEither<AppFailure, Unit> finish(String host, int port, PairingToken token, TransferFinishRequest request) =>
       _send(

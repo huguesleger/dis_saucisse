@@ -14,6 +14,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_failure.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
 import 'package:dis_saucisse_mobile/features/transfer/presentation/bloc/transfer_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -108,6 +109,37 @@ void main() {
       verify(() => transferRepository.markAlreadyReceived(computer, <PhotoId>[const PhotoId('cake-1')])).called(1);
       verify(() => transferRepository.finishTransfer(computer, 2)).called(1);
     },
+  );
+
+  blocTest<TransferCubit, TransferState>(
+    'waits while the computer has paused the reception, then goes on',
+    setUp: () {
+      when(
+        () => transferRepository.startTransfer(any(), any()),
+      ).thenReturn(TaskEither.right(<PhotoId>{const PhotoId('walk')}));
+      int attempts = 0;
+      when(() => transferRepository.sendPhoto(any(), any())).thenAnswer(
+        (_) => attempts++ == 0
+            ? TaskEither.left(const ComputerPausedFailure())
+            : TaskEither.right((folder: '2026/2026-11 Novembre', byteCount: 1000)),
+      );
+    },
+    build: () => TransferCubit(
+      pairingRepository: pairingRepository,
+      transferRepository: transferRepository,
+      loadEventLibrary: loadEventLibrary,
+      clock: () => DateTime(2026, 11, 19, 21),
+      computerRetryDelay: Duration.zero,
+    ),
+    act: (TransferCubit cubit) => cubit.start(),
+    expect: () => <Matcher>[
+      isA<TransferPreparing>(),
+      isA<TransferSending>(),
+      isA<TransferWaitingForComputer>().having((TransferWaitingForComputer s) => s.progress.sent, 'sent', 0),
+      isA<TransferSending>().having((TransferSending s) => s.progress.sent, 'sent', 0),
+      isA<TransferSending>().having((TransferSending s) => s.progress.sent, 'sent', 1),
+      isA<TransferFinished>(),
+    ],
   );
 
   blocTest<TransferCubit, TransferState>(

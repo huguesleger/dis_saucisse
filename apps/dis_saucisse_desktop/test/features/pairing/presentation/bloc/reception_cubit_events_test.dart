@@ -119,4 +119,27 @@ void main() {
       expect(record.eventCount, 1);
     },
   );
+
+  blocTest<ReceptionCubit, ReceptionState>(
+    'pauses the reception and keeps the pause while photos keep coming',
+    setUp: () => when(() => receptionRepository.setPaused(true)).thenReturn(TaskEither.right(unit)),
+    build: () => ReceptionCubit(
+      pairingRepository: pairingRepository,
+      receptionRepository: receptionRepository,
+      historyRepository: historyRepository,
+    ),
+    seed: () => const ReceptionReady(invitation: invitation, phones: <PairedPhone>[], activity: ReceptionIdle()),
+    act: (ReceptionCubit cubit) async {
+      events.add(const TransferStarted(phoneName: 'iPhone', photoCount: 2));
+      await Future<void>.delayed(Duration.zero);
+      await cubit.pauseReception();
+      events.add(const PhotoRejected());
+      await Future<void>.delayed(Duration.zero);
+    },
+    skip: 1,
+    expect: () => <Matcher>[
+      isA<ReceptionReady>().having((ReceptionReady s) => (s.activity as ReceptionInProgress).paused, 'paused', true),
+      isA<ReceptionReady>().having((ReceptionReady s) => (s.activity as ReceptionInProgress).paused, 'paused', true),
+    ],
+  );
 }

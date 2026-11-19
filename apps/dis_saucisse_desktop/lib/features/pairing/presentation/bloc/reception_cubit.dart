@@ -59,6 +59,23 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
 
   Future<void> openStorageFolder() => _receptionRepository.openStorageFolder().run();
 
+  Future<void> pauseReception() => _setPaused(true);
+
+  Future<void> resumeReception() => _setPaused(false);
+
+  Future<void> _setPaused(bool paused) => _receptionRepository
+      .setPaused(paused)
+      .match(
+        (AppFailure _) => null,
+        (Unit _) => _updateActivity(
+          (ReceptionActivity activity) => switch (activity) {
+            final ReceptionInProgress progress => progress.withPaused(paused),
+            ReceptionIdle() || ReceptionDone() => activity,
+          },
+        ),
+      )
+      .run();
+
   void closeSummary() => _updateActivity((ReceptionActivity _) => const ReceptionIdle());
 
   void _onReceptionEvent(ReceptionEvent event) {
@@ -76,19 +93,24 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
 
   void _applyReceptionEvent(ReceptionEvent event) => _updateActivity(
     (ReceptionActivity activity) => switch ((event, activity)) {
-      (TransferStarted(:final String phoneName, :final int photoCount), _) => ReceptionInProgress(
-        phoneName: phoneName,
-        expected: photoCount,
-        received: 0,
-        rejected: 0,
-        byteCount: 0,
-        folders: const <String>[],
-        events: const <String, ReceivedEvent>{},
-        startedAt: _clock(),
-        lastReceivedAt: _clock(),
-        folderPhotoPaths: const <String>[],
-        folderPhotoCount: 0,
-      ),
+      (TransferStarted(:final String phoneName, :final int photoCount), final ReceptionActivity previous) =>
+        ReceptionInProgress(
+          phoneName: phoneName,
+          expected: photoCount,
+          received: 0,
+          rejected: 0,
+          byteCount: 0,
+          folders: const <String>[],
+          events: const <String, ReceivedEvent>{},
+          startedAt: _clock(),
+          lastReceivedAt: _clock(),
+          folderPhotoPaths: const <String>[],
+          folderPhotoCount: 0,
+          paused: switch (previous) {
+            ReceptionInProgress(:final bool paused) => paused,
+            ReceptionIdle() || ReceptionDone() => false,
+          },
+        ),
       (
         PhotoReceived(
           :final String folder,
@@ -121,6 +143,7 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
                 ]
               : <String>[filePath],
           folderPhotoCount: progress.currentFolder == some(folder) ? progress.folderPhotoCount + 1 : 1,
+          paused: progress.paused,
         ),
       (PhotoRejected(), final ReceptionInProgress progress) => ReceptionInProgress(
         phoneName: progress.phoneName,
@@ -134,6 +157,7 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
         lastReceivedAt: progress.lastReceivedAt,
         folderPhotoPaths: progress.folderPhotoPaths,
         folderPhotoCount: progress.folderPhotoCount,
+        paused: progress.paused,
       ),
       (TransferFinished(), final ReceptionInProgress progress) => ReceptionDone(
         phoneName: progress.phoneName,

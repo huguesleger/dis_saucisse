@@ -55,4 +55,16 @@ void main() {
 
     expect(result.getLeft().toNullable(), isA<TransferRejectedFailure>());
   });
+
+  test('tells when the computer paused the reception', () async {
+    final TransferApiDataSource api = TransferApiDataSource(
+      client: MockClient((http.Request request) async => http.Response('Réception en pause', TransferApi.pausedStatus)),
+    );
+
+    final Either<AppFailure, PhotoStoredResponse> result = await api
+        .upload('192.168.1.11', 47820, token, upload, Uint8List(0))
+        .run();
+
+    expect(result.getLeft().toNullable(), isA<ComputerPausedFailure>());
+  });
 }

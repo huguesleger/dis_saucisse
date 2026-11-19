@@ -21,6 +21,9 @@ abstract final class TransferApi {
   /// `POST` a `TransferFinishRequest` once every photo is uploaded.
   static const String transferFinishPath = '/v1/transfers/finish';
 
+  /// Status answered to an upload while the computer has paused the reception: the phone waits and retries.
+  static const int pausedStatus = 423;
+
   /// Prefix of `PUT /v1/photos/{photoId}`: the body is the photo file, the headers a `PhotoUpload`.
   static const String photosPath = '/v1/photos/';
 

@@ -11,3 +11,7 @@ class TransferRejectedFailure extends AppFailure {
 class SentPhotoStorageFailure extends AppFailure {
   const SentPhotoStorageFailure();
 }
+
+class ComputerPausedFailure extends AppFailure {
+  const ComputerPausedFailure();
+}

@@ -6,4 +6,6 @@ abstract interface class ReceptionRepository {
   Stream<ReceptionEvent> get events;
 
   TaskEither<AppFailure, Unit> openStorageFolder();
+
+  TaskEither<AppFailure, Unit> setPaused(bool paused);
 }

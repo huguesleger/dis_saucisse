@@ -17,6 +17,18 @@ class ReceptionRepositoryImpl implements ReceptionRepository {
   Stream<ReceptionEvent> get events => _server.receptionEvents;
 
   @override
+  TaskEither<AppFailure, Unit> setPaused(bool paused) => TaskEither<AppFailure, Unit>.tryCatch(
+    () async {
+      _server.paused = paused;
+      return unit;
+    },
+    (Object error, StackTrace stackTrace) {
+      log('Cannot change the pause', error: error, stackTrace: stackTrace, name: 'reception');
+      return const PhotoStorageFailure();
+    },
+  );
+
+  @override
   TaskEither<AppFailure, Unit> openStorageFolder() => TaskEither<AppFailure, Unit>.tryCatch(
     () async {
       await launchUrl(Uri.directory(await _server.storagePath()));
