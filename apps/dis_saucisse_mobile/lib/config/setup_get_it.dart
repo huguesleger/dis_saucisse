@@ -25,6 +25,7 @@ import 'package:dis_saucisse_mobile/features/photo_library/data/repositories/pho
 import 'package:dis_saucisse_mobile/features/photo_library/data/repositories/sorting_start_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/sorting_start_repository.dart';
+import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/heic_converter_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/photo_file_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/sent_photo_data_source.dart';
 import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/transfer_api_data_source.dart';
@@ -67,7 +68,8 @@ void configureDependencies() => getIt
     ),
   )
   ..registerLazySingleton<TransferApiDataSource>(TransferApiDataSource.new)
-  ..registerLazySingleton<PhotoFileDataSource>(PhotoFileDataSource.new)
+  ..registerLazySingleton<HeicConverterDataSource>(HeicConverterDataSource.new)
+  ..registerLazySingleton<PhotoFileDataSource>(() => PhotoFileDataSource(getIt.get()))
   ..registerLazySingleton<SentPhotoDataSource>(() => SentPhotoDataSource(getIt.get()))
   ..registerLazySingleton<TransferRepository>(
     () => TransferRepositoryImpl(api: getIt.get(), files: getIt.get(), sentPhotos: getIt.get(), pairing: getIt.get()),

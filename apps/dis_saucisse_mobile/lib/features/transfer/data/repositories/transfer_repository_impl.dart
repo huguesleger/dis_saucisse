@@ -10,6 +10,7 @@ import 'package:dis_saucisse_mobile/features/transfer/data/data_sources/transfer
 import 'package:dis_saucisse_mobile/features/transfer/data/mappers/photo_upload_mapper.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/sent_photo.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_item.dart';
+import 'package:dis_saucisse_mobile/features/transfer/domain/rules/photo_format.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/transfer_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:transfer_protocol/transfer_protocol.dart';
@@ -63,7 +64,7 @@ class TransferRepositoryImpl implements TransferRepository {
       TaskEither<AppFailure, SentPhoto>.Do(($) async {
         final PairRequest phone = await $(_pairing.phoneIdentity());
         final PhotoFile file = await $(
-          _files.loadPhotoFile(item.photo.id.value, convertHeicToJpeg: computer.platform == ComputerPlatform.windows),
+          _files.loadPhotoFile(item.photo.id.value, convertHeicToJpeg: convertsHeicFor(computer.platform)),
         );
         final PhotoStoredResponse stored = await $(
           _api.upload(
