@@ -2,7 +2,7 @@ import 'package:core_ui/src/foundation/ds_gradients.dart';
 import 'package:core_ui/src/foundation/ds_radius.dart';
 import 'package:flutter/widgets.dart';
 
-/// Rounded photo. Shows a placeholder gradient while [image] is null.
+/// Rounded photo. Shows a placeholder gradient while [image] is null or fails to load.
 class DsPhoto extends StatelessWidget {
   const DsPhoto({
     super.key,
@@ -28,7 +28,7 @@ class DsPhoto extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: borderRadius,
         gradient: DsGradients.photoPlaceholders[placeholderIndex % DsGradients.photoPlaceholders.length],
-        image: photo == null ? null : DecorationImage(image: photo, fit: BoxFit.cover),
+        image: photo == null ? null : DecorationImage(image: photo, fit: BoxFit.cover, onError: (_, _) {}),
       ),
     );
   }

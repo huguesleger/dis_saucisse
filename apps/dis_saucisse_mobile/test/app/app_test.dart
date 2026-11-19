@@ -1,6 +1,8 @@
 import 'package:dis_saucisse_mobile/app/app.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_screen.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/domain/event_name_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/library_photo.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_access.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
@@ -16,14 +18,19 @@ class _MockPhotoLibraryRepository extends Mock implements PhotoLibraryRepository
 
 class _MockSortingStartRepository extends Mock implements SortingStartRepository {}
 
+class _MockEventNameRepository extends Mock implements EventNameRepository {}
+
 void main() {
   late _MockPhotoLibraryRepository photoLibraryRepository;
   late _MockSortingStartRepository sortingStartRepository;
+  late _MockEventNameRepository eventNameRepository;
 
   setUp(() {
     photoLibraryRepository = _MockPhotoLibraryRepository();
     sortingStartRepository = _MockSortingStartRepository();
+    eventNameRepository = _MockEventNameRepository();
     getIt
+      ..registerSingleton<EventNameRepository>(eventNameRepository)
       ..registerSingleton<PhotoLibraryRepository>(photoLibraryRepository)
       ..registerSingleton<SortingStartRepository>(sortingStartRepository);
   });
@@ -50,10 +57,15 @@ void main() {
       ]),
     );
 
+    when(() => eventNameRepository.loadNames()).thenReturn(
+      TaskEither.right(<EventId, String>{const EventId('1'): 'Anniversaire de mamie'}),
+    );
+
     await tester.pumpWidget(const App());
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.text('2 photos\nà trier'), findsOneWidget);
+    expect(find.text('Anniversaire de mamie'), findsOneWidget);
   });
 }

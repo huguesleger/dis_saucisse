@@ -1,22 +1,37 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/formatting/french_dates.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_event_card.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/month_events.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_labels.dart';
 import 'package:flutter/widgets.dart';
 
 class HomeEventsSection extends StatelessWidget {
-  const HomeEventsSection({super.key});
+  const HomeEventsSection({super.key, required this.eventsByMonth, required this.onEventTap});
+
+  final List<MonthEvents> eventsByMonth;
+  final ValueChanged<PhotoEvent> onEventTap;
 
   @override
-  Widget build(BuildContext context) => Column(
-    spacing: DsSpacing.s,
-    children: <Widget>[
-      const DsSectionHeader(title: 'Novembre 2026', trailing: '3 événements'),
-      DsEventPhotoCard(
-        title: 'Anniversaire de mamie',
-        subtitle: 'Sam. 8 nov. · 112 photos',
-        badge: '9 rafales à trier',
-        thumbnails: const <ImageProvider?>[null, null, null],
-        extraCount: 4,
-        onTap: () {},
-      ),
-    ],
-  );
+  Widget build(BuildContext context) => eventsByMonth.isEmpty
+      ? Text('Aucune photo à trier pour le moment.', style: DsTextStyles.body.copyWith(color: DsColors.textSoft))
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: DsSpacing.xl,
+          children: <Widget>[
+            for (final MonthEvents group in eventsByMonth)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: DsSpacing.s,
+                children: <Widget>[
+                  DsSectionHeader(
+                    title: '${capitalizedFrenchMonthName(group.month.month)} ${group.month.year}',
+                    trailing: monthEventCountLabel(group.events.length),
+                  ),
+                  for (final PhotoEvent event in group.events)
+                    HomeEventCard(event: event, onTap: () => onEventTap(event)),
+                ],
+              ),
+          ],
+        );
 }

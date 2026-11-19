@@ -37,12 +37,12 @@ abstract final class DsGradients {
     ),
   ];
 
-  /// Darkening scrim at the bottom of a photo, behind white text.
+  /// Darkening scrim at the top and bottom of a photo, behind white text and glass labels.
   static const LinearGradient photoScrim = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: <Color>[Color(0x00000000), Color(0x00000000), Color(0x993A1520)],
-    stops: <double>[0, 0.4, 1],
+    colors: <Color>[Color(0x553A1520), Color(0x00000000), Color(0x00000000), Color(0x993A1520)],
+    stops: <double>[0, 0.3, 0.45, 1],
   );
 
   /// Mesh colors of the screen header, from left to right.

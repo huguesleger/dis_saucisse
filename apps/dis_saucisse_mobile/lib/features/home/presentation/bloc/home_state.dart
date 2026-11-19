@@ -22,9 +22,10 @@ final class HomeFailed extends HomeState {
 }
 
 final class HomeLoaded extends HomeState {
-  const HomeLoaded({required this.photos, required this.selectedMonth});
+  const HomeLoaded({required this.photos, required this.events, required this.selectedMonth});
 
   final List<LibraryPhoto> photos;
+  final List<PhotoEvent> events;
   final Option<PhotoMonth> selectedMonth;
 
   List<PhotoMonth> get months => photoMonthsNewestFirst(photos);
@@ -32,6 +33,16 @@ final class HomeLoaded extends HomeState {
   int get visiblePhotoCount =>
       selectedMonth.match(() => photos.length, (PhotoMonth month) => countPhotosIn(photos, month));
 
-  HomeLoaded copyWith({Option<PhotoMonth>? selectedMonth}) =>
-      HomeLoaded(photos: photos, selectedMonth: selectedMonth ?? this.selectedMonth);
+  List<MonthEvents> get visibleEventsByMonth => eventsByMonthNewestFirst(
+    selectedMonth.match(
+      () => events,
+      (PhotoMonth month) => events.where((PhotoEvent event) => event.month == month).toList(),
+    ),
+  );
+
+  HomeLoaded copyWith({List<PhotoEvent>? events, Option<PhotoMonth>? selectedMonth}) => HomeLoaded(
+    photos: photos,
+    events: events ?? this.events,
+    selectedMonth: selectedMonth ?? this.selectedMonth,
+  );
 }
