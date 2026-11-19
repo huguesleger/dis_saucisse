@@ -1,7 +1,6 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_bottom_actions.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_events_section.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_faces_section.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_greeting.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_month_filters.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_quality_tiles.dart';
@@ -29,11 +28,6 @@ class HomeScreen extends StatelessWidget {
                 Padding(padding: _gutter, child: HomeGreeting(photosToSortCount: 248)),
                 SizedBox(height: DsSpacing.m),
                 HomeMonthFilters(labels: <String>['Tout', 'Novembre', 'Octobre', 'Septembre'], selectedIndex: 0),
-                SizedBox(height: DsSpacing.xl),
-                Padding(
-                  padding: _gutter,
-                  child: HomeFacesSection(names: <String>['Petit loup', 'Maman', 'Papa', 'Mamie', 'Tonton']),
-                ),
                 SizedBox(height: DsSpacing.xl),
                 Padding(padding: _gutter, child: HomeQualityTiles(duplicateCount: 31, blurryCount: 12)),
                 SizedBox(height: DsSpacing.xl),
