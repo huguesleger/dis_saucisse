@@ -1,5 +1,6 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/home_event_menu.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_bottom_actions.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_events_section.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_greeting.dart';
@@ -7,11 +8,8 @@ import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_mont
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_quality_tiles.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_top_bar.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
-import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_labels.dart';
-import 'package:dis_saucisse_mobile/features/photo_events/presentation/widgets/event_name_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart';
 
 class HomeLoadedView extends StatelessWidget {
   const HomeLoadedView({super.key, required this.state});
@@ -19,21 +17,6 @@ class HomeLoadedView extends StatelessWidget {
   final HomeLoaded state;
 
   static const EdgeInsets _gutter = EdgeInsets.symmetric(horizontal: DsSpacing.l);
-
-  Future<void> _renameEvent(BuildContext context, PhotoEvent event) async {
-    final HomeCubit cubit = context.read<HomeCubit>();
-    final String? name = await showModalBottomSheet<String>(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) => EventNameSheet(
-        initialName: event.name.match(() => '', identity),
-        placeholder: eventTitle(event),
-      ),
-    );
-    if (name != null) {
-      await cubit.renameEvent(event.id, Option<String>.fromPredicate(name.trim(), (String n) => n.isNotEmpty));
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -62,7 +45,8 @@ class HomeLoadedView extends StatelessWidget {
               padding: _gutter,
               child: HomeEventsSection(
                 eventsByMonth: state.visibleEventsByMonth,
-                onEventTap: (PhotoEvent event) => _renameEvent(context, event),
+                onEventTap: (PhotoEvent event) =>
+                    openEventMenu(context, cubit: context.read<HomeCubit>(), event: event),
               ),
             ),
           ],

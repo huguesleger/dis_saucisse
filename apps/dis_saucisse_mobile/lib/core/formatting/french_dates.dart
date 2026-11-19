@@ -45,3 +45,5 @@ String frenchShortWeekdayAndDay(DateTime date) =>
     '${_capitalized(_weekdayNames[date.weekday - 1].substring(0, 3))}. ${date.day} ${_shortMonthNames[date.month - 1]}';
 
 String frenchShortDay(DateTime date) => '${date.day} ${_shortMonthNames[date.month - 1]}';
+
+String frenchTime(DateTime date) => '${date.hour} h ${date.minute.toString().padLeft(2, '0')}';

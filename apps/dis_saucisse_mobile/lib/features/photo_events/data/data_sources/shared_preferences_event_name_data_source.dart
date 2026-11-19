@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:core/core.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/event_name_data_source.dart';
-import 'package:dis_saucisse_mobile/features/photo_events/domain/event_name_failure.dart';
+import 'package:dis_saucisse_mobile/features/photo_events/domain/photo_events_failure.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

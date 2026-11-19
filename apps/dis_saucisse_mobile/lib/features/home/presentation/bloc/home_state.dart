@@ -22,11 +22,19 @@ final class HomeFailed extends HomeState {
 }
 
 final class HomeLoaded extends HomeState {
-  const HomeLoaded({required this.photos, required this.events, required this.selectedMonth});
+  const HomeLoaded({
+    required this.photos,
+    required this.eventNames,
+    required this.eventBoundaries,
+    required this.selectedMonth,
+  });
 
   final List<LibraryPhoto> photos;
-  final List<PhotoEvent> events;
+  final Map<EventId, String> eventNames;
+  final EventBoundaries eventBoundaries;
   final Option<PhotoMonth> selectedMonth;
+
+  List<PhotoEvent> get events => groupIntoEvents(photos, eventNames, eventBoundaries);
 
   List<PhotoMonth> get months => photoMonthsNewestFirst(photos);
 
@@ -40,9 +48,14 @@ final class HomeLoaded extends HomeState {
     ),
   );
 
-  HomeLoaded copyWith({List<PhotoEvent>? events, Option<PhotoMonth>? selectedMonth}) => HomeLoaded(
+  HomeLoaded copyWith({
+    Map<EventId, String>? eventNames,
+    EventBoundaries? eventBoundaries,
+    Option<PhotoMonth>? selectedMonth,
+  }) => HomeLoaded(
     photos: photos,
-    events: events ?? this.events,
+    eventNames: eventNames ?? this.eventNames,
+    eventBoundaries: eventBoundaries ?? this.eventBoundaries,
     selectedMonth: selectedMonth ?? this.selectedMonth,
   );
 }
