@@ -6,6 +6,10 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Dis Saucisse ! lit tes photos pour t'aider à les trier. Elles restent chez toi et ne passent jamais par internet.</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
 	<key>CFBundleDisplayName</key>
 	<string>Dis Saucisse !</string>
 	<key>CFBundleExecutable</key>

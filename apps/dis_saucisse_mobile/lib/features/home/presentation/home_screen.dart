@@ -1,42 +1,40 @@
 import 'package:core_ui/core_ui.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_bottom_actions.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_events_section.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_greeting.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_month_filters.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_quality_tiles.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_top_bar.dart';
+import 'package:dis_saucisse_mobile/core/router/routes.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_loaded_view.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_loading_view.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_message_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  static const EdgeInsets _gutter = EdgeInsets.symmetric(horizontal: DsSpacing.l);
 
   @override
   Widget build(BuildContext context) => Scaffold(
     body: DsMeshBackground(
       meshHeight: 340,
-      child: Stack(
-        children: <Widget>[
-          SafeArea(
-            bottom: false,
-            child: ListView(
-              padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 200),
-              children: const <Widget>[
-                Padding(padding: _gutter, child: HomeTopBar()),
-                SizedBox(height: DsSpacing.xl),
-                Padding(padding: _gutter, child: HomeGreeting(photosToSortCount: 248)),
-                SizedBox(height: DsSpacing.m),
-                HomeMonthFilters(labels: <String>['Tout', 'Novembre', 'Octobre', 'Septembre'], selectedIndex: 0),
-                SizedBox(height: DsSpacing.xl),
-                Padding(padding: _gutter, child: HomeQualityTiles(duplicateCount: 31, blurryCount: 12)),
-                SizedBox(height: DsSpacing.xl),
-                Padding(padding: _gutter, child: HomeEventsSection()),
-              ],
-            ),
+      child: BlocConsumer<HomeCubit, HomeState>(
+        listenWhen: (HomeState previous, HomeState current) => current is HomeNeedsSortingStart,
+        listener: (BuildContext context, HomeState state) => const SortingStartPageRoute().go(context),
+        builder: (BuildContext context, HomeState state) => switch (state) {
+          HomeLoading() || HomeNeedsSortingStart() => const HomeLoadingView(),
+          HomeAccessDenied() => HomeMessageView(
+            title: "Je n'ai pas accès à tes photos",
+            message: 'Autorise Dis Saucisse ! à lire tes photos dans les réglages, puis reviens ici.',
+            primaryLabel: 'Ouvrir les réglages',
+            onPrimary: context.read<HomeCubit>().openAccessSettings,
+            secondaryLabel: "C'est fait, réessayer",
+            onSecondary: context.read<HomeCubit>().load,
           ),
-          const Positioned(left: 0, right: 0, bottom: 0, child: HomeBottomActions()),
-        ],
+          HomeFailed() => HomeMessageView(
+            title: 'Oups !',
+            message: "Je n'ai pas réussi à lire tes photos.",
+            primaryLabel: 'Réessayer',
+            onPrimary: context.read<HomeCubit>().load,
+          ),
+          final HomeLoaded loaded => HomeLoadedView(state: loaded),
+        },
       ),
     ),
   );

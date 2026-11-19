@@ -12,7 +12,11 @@ class HomeGreeting extends StatelessWidget {
     children: <Widget>[
       Text('Coucou ! Prête pour le tri ?', style: DsTextStyles.caption.copyWith(fontSize: 13)),
       const SizedBox(height: DsSpacing.xxs),
-      Text('$photosToSortCount photos\nà trier', style: DsTextStyles.display),
+      Text(switch (photosToSortCount) {
+        0 => 'Aucune photo\nà trier',
+        1 => '1 photo\nà trier',
+        _ => '$photosToSortCount photos\nà trier',
+      }, style: DsTextStyles.display),
     ],
   );
 }
