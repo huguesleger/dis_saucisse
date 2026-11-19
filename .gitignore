@@ -1,0 +1,16 @@
+.DS_Store
+.idea/
+*.iml
+.vscode/*
+!.vscode/settings.json
+
+.dart_tool/
+.packages
+build/
+coverage/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+.fvm/
+
+recap_v1.md

@@ -1,0 +1,14 @@
+name: transfer_protocol
+description: Phone to computer transfer contract of Dis Saucisse (pairing payload, HTTP API, checksums).
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  fpdart: ^1.2.0
+
+dev_dependencies:
+  test: ^1.25.6
