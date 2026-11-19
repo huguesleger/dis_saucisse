@@ -2,13 +2,15 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
 class HomeBottomActions extends StatelessWidget {
-  const HomeBottomActions({super.key});
+  const HomeBottomActions({super.key, required this.onStartSorting});
 
   static const List<DsNavDestination> _destinations = <DsNavDestination>[
     DsNavDestination(icon: Icons.photo_outlined, label: 'Photos à trier'),
     DsNavDestination(icon: Icons.favorite_border_rounded, label: 'Souvenirs'),
     DsNavDestination(icon: Icons.tune_rounded, label: 'Réglages'),
   ];
+
+  final VoidCallback? onStartSorting;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -28,7 +30,7 @@ class HomeBottomActions extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            DsButton(label: 'Lancer le tri', onPressed: () {}),
+            DsButton(label: 'Lancer le tri', onPressed: onStartSorting),
             const SizedBox(height: DsSpacing.m),
             DsFloatingNavBar(destinations: _destinations, selectedIndex: 0, onDestinationSelected: (_) {}),
           ],

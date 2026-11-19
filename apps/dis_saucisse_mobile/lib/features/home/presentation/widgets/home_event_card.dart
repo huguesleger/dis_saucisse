@@ -8,10 +8,18 @@ import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/libra
 import 'package:flutter/widgets.dart';
 
 class HomeEventCard extends StatelessWidget {
-  const HomeEventCard({super.key, required this.event, required this.onTap});
+  const HomeEventCard({
+    super.key,
+    required this.event,
+    required this.burstsToSortCount,
+    required this.onTap,
+    required this.onMore,
+  });
 
   final PhotoEvent event;
+  final int burstsToSortCount;
   final VoidCallback onTap;
+  final VoidCallback onMore;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +27,7 @@ class HomeEventCard extends StatelessWidget {
     return DsEventPhotoCard(
       title: eventTitle(event),
       subtitle: eventSubtitle(event),
-      badge: burstsToSortLabel(event),
+      badge: burstsToSortLabel(burstsToSortCount),
       cover: PhotoThumbnailImage(photos.first.id, size: 720),
       thumbnails: photos
           .skip(1)
@@ -28,6 +36,7 @@ class HomeEventCard extends StatelessWidget {
           .toList(),
       extraCount: min(max(0, photos.length - 4), 99),
       onTap: onTap,
+      onMore: onMore,
     );
   }
 }

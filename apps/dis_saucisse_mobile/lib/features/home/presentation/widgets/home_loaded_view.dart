@@ -1,6 +1,7 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_event_menu.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/home_navigation.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_bottom_actions.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_events_section.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_greeting.dart';
@@ -10,6 +11,7 @@ import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_top_
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 
 class HomeLoadedView extends StatelessWidget {
   const HomeLoadedView({super.key, required this.state});
@@ -45,14 +47,26 @@ class HomeLoadedView extends StatelessWidget {
               padding: _gutter,
               child: HomeEventsSection(
                 eventsByMonth: state.visibleEventsByMonth,
+                decisions: state.library.decisions,
                 onEventTap: (PhotoEvent event) =>
+                    openBurstSort(context, cubit: context.read<HomeCubit>(), eventId: some(event.id)),
+                onEventMore: (PhotoEvent event) =>
                     openEventMenu(context, cubit: context.read<HomeCubit>(), event: event),
               ),
             ),
           ],
         ),
       ),
-      const Positioned(left: 0, right: 0, bottom: 0, child: HomeBottomActions()),
+      Positioned(
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: HomeBottomActions(
+          onStartSorting: state.photosLeftToSort.isEmpty
+              ? null
+              : () => openBurstSort(context, cubit: context.read<HomeCubit>(), eventId: none()),
+        ),
+      ),
     ],
   );
 }

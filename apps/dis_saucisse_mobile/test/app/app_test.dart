@@ -1,5 +1,7 @@
 import 'package:dis_saucisse_mobile/app/app.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/domain/entities/photo_decision.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/home_screen.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_boundaries.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_id.dart';
@@ -24,18 +26,23 @@ class _MockEventNameRepository extends Mock implements EventNameRepository {}
 
 class _MockEventBoundaryRepository extends Mock implements EventBoundaryRepository {}
 
+class _MockPhotoDecisionRepository extends Mock implements PhotoDecisionRepository {}
+
 void main() {
   late _MockPhotoLibraryRepository photoLibraryRepository;
   late _MockSortingStartRepository sortingStartRepository;
   late _MockEventNameRepository eventNameRepository;
   late _MockEventBoundaryRepository eventBoundaryRepository;
+  late _MockPhotoDecisionRepository photoDecisionRepository;
 
   setUp(() {
     photoLibraryRepository = _MockPhotoLibraryRepository();
     sortingStartRepository = _MockSortingStartRepository();
     eventNameRepository = _MockEventNameRepository();
     eventBoundaryRepository = _MockEventBoundaryRepository();
+    photoDecisionRepository = _MockPhotoDecisionRepository();
     getIt
+      ..registerSingleton<PhotoDecisionRepository>(photoDecisionRepository)
       ..registerSingleton<EventBoundaryRepository>(eventBoundaryRepository)
       ..registerSingleton<EventNameRepository>(eventNameRepository)
       ..registerSingleton<PhotoLibraryRepository>(photoLibraryRepository)
@@ -64,6 +71,9 @@ void main() {
       ]),
     );
 
+    when(
+      () => photoDecisionRepository.loadDecisions(),
+    ).thenReturn(TaskEither.right(<PhotoId, PhotoDecision>{}));
     when(() => eventBoundaryRepository.loadBoundaries()).thenReturn(TaskEither.right(const EventBoundaries.none()));
     when(() => eventNameRepository.loadNames()).thenReturn(
       TaskEither.right(<EventId, String>{const EventId('1'): 'Anniversaire de mamie'}),

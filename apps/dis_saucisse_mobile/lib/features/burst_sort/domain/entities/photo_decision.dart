@@ -1,0 +1,1 @@
+enum PhotoDecision { kept, discarded }

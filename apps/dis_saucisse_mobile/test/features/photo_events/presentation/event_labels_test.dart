@@ -38,7 +38,8 @@ void main() {
   });
 
   test('counts the bursts to sort', () {
-    expect(burstsToSortLabel(saturday), '2 rafales à trier');
+    expect(burstsToSortLabel(2), '2 rafales à trier');
+    expect(burstsToSortLabel(1), '1 rafale à trier');
   });
 
   test('describes an event spanning several days', () {

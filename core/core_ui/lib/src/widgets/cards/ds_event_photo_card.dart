@@ -5,6 +5,7 @@ import 'package:core_ui/src/foundation/ds_shadows.dart';
 import 'package:core_ui/src/foundation/ds_spacing.dart';
 import 'package:core_ui/src/foundation/ds_text_styles.dart';
 import 'package:core_ui/src/widgets/buttons/ds_round_icon_button.dart';
+import 'package:core_ui/src/widgets/buttons/ds_round_icon_button_variant.dart';
 import 'package:core_ui/src/widgets/chips/ds_glass_pill.dart';
 import 'package:core_ui/src/widgets/media/ds_avatar_stack.dart';
 import 'package:core_ui/src/widgets/media/ds_photo.dart';
@@ -17,6 +18,7 @@ class DsEventPhotoCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.onMore,
     this.badge,
     this.cover,
     this.placeholderIndex = 3,
@@ -28,6 +30,7 @@ class DsEventPhotoCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final VoidCallback? onMore;
   final String? badge;
   final ImageProvider? cover;
   final int placeholderIndex;
@@ -62,6 +65,16 @@ class DsEventPhotoCard extends StatelessWidget {
                       children: <Widget>[
                         if (badgeLabel != null) DsGlassPill(label: badgeLabel),
                         const Spacer(),
+                        if (onMore != null) ...<Widget>[
+                          DsRoundIconButton(
+                            icon: Icons.more_horiz_rounded,
+                            tooltip: 'Plus d’options',
+                            variant: DsRoundIconButtonVariant.glass,
+                            onPressed: onMore,
+                            size: 36,
+                          ),
+                          const SizedBox(width: DsSpacing.xs),
+                        ],
                         DsRoundIconButton(icon: Icons.north_east_rounded, tooltip: title, onPressed: onTap, size: 36),
                       ],
                     ),

@@ -12,6 +12,8 @@ dependencies:
     path: ../../core/core
   core_ui:
     path: ../../core/core_ui
+  drift: ^2.34.4
+  drift_flutter: ^0.3.1
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -28,6 +30,7 @@ dependencies:
 dev_dependencies:
   bloc_test: ^10.0.0
   build_runner: ^2.15.1
+  drift_dev: ^2.34.0
   flutter_test:
     sdk: flutter
   go_router_builder: ^4.5.0

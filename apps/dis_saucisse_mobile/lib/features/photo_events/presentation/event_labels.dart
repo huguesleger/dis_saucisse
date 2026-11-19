@@ -18,9 +18,6 @@ String eventDates(PhotoEvent event) => _sameDay(event.startedAt, event.endedAt)
 String eventSubtitle(PhotoEvent event) =>
     '${eventDates(event)} · ${event.photoCount} ${event.photoCount == 1 ? 'photo' : 'photos'}';
 
-String burstsToSortLabel(PhotoEvent event) => switch (event.bursts.length) {
-  1 => '1 rafale à trier',
-  final int count => '$count rafales à trier',
-};
+String burstsToSortLabel(int count) => count == 1 ? '1 rafale à trier' : '$count rafales à trier';
 
 String monthEventCountLabel(int count) => count == 1 ? '1 événement' : '$count événements';

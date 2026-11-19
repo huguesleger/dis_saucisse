@@ -22,40 +22,32 @@ final class HomeFailed extends HomeState {
 }
 
 final class HomeLoaded extends HomeState {
-  const HomeLoaded({
-    required this.photos,
-    required this.eventNames,
-    required this.eventBoundaries,
-    required this.selectedMonth,
-  });
+  const HomeLoaded({required this.library, required this.selectedMonth});
 
-  final List<LibraryPhoto> photos;
-  final Map<EventId, String> eventNames;
-  final EventBoundaries eventBoundaries;
+  final EventLibrary library;
   final Option<PhotoMonth> selectedMonth;
 
-  List<PhotoEvent> get events => groupIntoEvents(photos, eventNames, eventBoundaries);
+  List<PhotoEvent> get events => library.events;
 
-  List<PhotoMonth> get months => photoMonthsNewestFirst(photos);
+  List<LibraryPhoto> get photosLeftToSort => undecidedPhotos(library.photos, library.decisions);
 
-  int get visiblePhotoCount =>
-      selectedMonth.match(() => photos.length, (PhotoMonth month) => countPhotosIn(photos, month));
+  List<PhotoMonth> get months => photoMonthsNewestFirst(photosLeftToSort);
 
-  List<MonthEvents> get visibleEventsByMonth => eventsByMonthNewestFirst(
-    selectedMonth.match(
-      () => events,
-      (PhotoMonth month) => events.where((PhotoEvent event) => event.month == month).toList(),
-    ),
+  int get visiblePhotoCount => selectedMonth.match(
+    () => photosLeftToSort.length,
+    (PhotoMonth month) => countPhotosIn(photosLeftToSort, month),
   );
 
-  HomeLoaded copyWith({
-    Map<EventId, String>? eventNames,
-    EventBoundaries? eventBoundaries,
-    Option<PhotoMonth>? selectedMonth,
-  }) => HomeLoaded(
-    photos: photos,
-    eventNames: eventNames ?? this.eventNames,
-    eventBoundaries: eventBoundaries ?? this.eventBoundaries,
-    selectedMonth: selectedMonth ?? this.selectedMonth,
-  );
+  List<MonthEvents> get visibleEventsByMonth {
+    final List<PhotoEvent> toSort = eventsToSort(events, library.decisions);
+    return eventsByMonthNewestFirst(
+      selectedMonth.match(
+        () => toSort,
+        (PhotoMonth month) => toSort.where((PhotoEvent event) => event.month == month).toList(),
+      ),
+    );
+  }
+
+  HomeLoaded copyWith({EventLibrary? library, Option<PhotoMonth>? selectedMonth}) =>
+      HomeLoaded(library: library ?? this.library, selectedMonth: selectedMonth ?? this.selectedMonth);
 }

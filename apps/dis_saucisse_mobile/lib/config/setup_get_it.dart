@@ -1,3 +1,8 @@
+import 'package:dis_saucisse_mobile/core/database/app_database.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/drift_photo_decision_data_source.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/photo_decision_data_source.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/data/repositories/photo_decision_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/event_boundary_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/event_name_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/data/data_sources/shared_preferences_event_boundary_data_source.dart';
@@ -31,4 +36,7 @@ void configureDependencies() => getIt
   ..registerLazySingleton<EventBoundaryDataSource>(
     () => SharedPreferencesEventBoundaryDataSource(SharedPreferencesAsync()),
   )
-  ..registerLazySingleton<EventBoundaryRepository>(() => EventBoundaryRepositoryImpl(getIt.get()));
+  ..registerLazySingleton<EventBoundaryRepository>(() => EventBoundaryRepositoryImpl(getIt.get()))
+  ..registerLazySingleton<AppDatabase>(AppDatabase.new)
+  ..registerLazySingleton<PhotoDecisionDataSource>(() => DriftPhotoDecisionDataSource(getIt.get()))
+  ..registerLazySingleton<PhotoDecisionRepository>(() => PhotoDecisionRepositoryImpl(getIt.get()));
