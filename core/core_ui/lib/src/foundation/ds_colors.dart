@@ -55,4 +55,13 @@ abstract final class DsColors {
 
   /// Positive status background.
   static const Color successSoft = Color(0xFFE1F3E7);
+
+  /// Soft lavender background of an icon square (settings rows).
+  static const Color lavenderSoft = Color(0xFFEAE3F7);
+
+  /// Soft sky blue background of an icon square (settings rows).
+  static const Color skySoft = Color(0xFFE2ECF8);
+
+  /// Soft pink background of an icon square (settings rows).
+  static const Color blushSoft = Color(0xFFFBE3E7);
 }

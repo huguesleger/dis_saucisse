@@ -5,13 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('shows each folder once, nested under its parent', () {
     expect(storagePreview(StorageLayout.defaults), <PreviewFolder>[
-      (depth: 0, name: '2026'),
-      (depth: 1, name: '2026-11 Novembre'),
-      (depth: 2, name: '2026-11-08 Anniversaire de mamie'),
-      (depth: 3, name: 'Écartées'),
-      (depth: 2, name: '2026-11-16 Balade en forêt'),
-      (depth: 1, name: '2026-10 Octobre'),
-      (depth: 2, name: '2026-10-02 Goûter chez les voisins'),
+      (depth: 0, name: '2026', isContext: false),
+      (depth: 1, name: '2026-11 Novembre', isContext: false),
+      (depth: 2, name: '2026-11-08 Anniversaire de mamie', isContext: false),
+      (depth: 3, name: 'Écartées', isContext: false),
+      (depth: 2, name: '2026-11-16 Balade en forêt', isContext: false),
+      (depth: 2, name: '2026-11-19 Goûter chez les voisins', isContext: false),
+      (depth: 1, name: '2026-10 Octobre', isContext: true),
+      (depth: 2, name: '2026-10-04 Cueillette de pommes', isContext: true),
     ]);
   });
 

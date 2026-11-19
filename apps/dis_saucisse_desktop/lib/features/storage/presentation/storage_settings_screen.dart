@@ -1,10 +1,7 @@
 import 'package:core_ui/core_ui.dart';
-import 'package:dis_saucisse_desktop/features/storage/domain/entities/month_folder_format.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/bloc/storage_settings_cubit.dart';
-import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_folder_card.dart';
-import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_month_format_chips.dart';
-import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_options_group.dart';
+import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_options_card.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_preview_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,34 +14,36 @@ class StorageSettingsScreen extends StatelessWidget {
     builder: (BuildContext context, StorageSettingsState state) => switch (state) {
       StorageSettingsLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
       StorageSettingsFailed() => Center(child: Text('Réglages illisibles pour le moment.', style: DsTextStyles.body)),
-      final StorageSettingsLoaded loaded => ListView(
-        padding: const EdgeInsets.all(DsSpacing.xxl),
-        children: <Widget>[
-          Text('Où et comment ranger les photos reçues', style: DsTextStyles.caption.copyWith(fontSize: 13)),
-          Text('Dossier de rangement', style: DsTextStyles.display),
-          const SizedBox(height: DsSpacing.xl),
-          StorageFolderCard(
-            folderPath: loaded.folderPath,
-            onBrowse: context.read<StorageSettingsCubit>().chooseFolder,
-          ),
-          const SizedBox(height: DsSpacing.xl),
-          StorageOptionsGroup(layout: loaded.layout, onChanged: context.read<StorageSettingsCubit>().updateLayout),
-          if (loaded.layout.byMonth) ...<Widget>[
+      final StorageSettingsLoaded loaded => Padding(
+        padding: const EdgeInsets.fromLTRB(DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xl),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text('Choisis où et comment les photos sont classées', style: DsTextStyles.caption.copyWith(fontSize: 13)),
+            Text('Dossier de rangement', style: DsTextStyles.display),
             const SizedBox(height: DsSpacing.l),
-            StorageMonthFormatChips(
-              selected: loaded.layout.monthFormat,
-              onSelected: (MonthFolderFormat format) =>
-                  context.read<StorageSettingsCubit>().updateLayout(loaded.layout.copyWith(monthFormat: format)),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: DsSpacing.l,
+                children: <Widget>[
+                  Expanded(
+                    child: StorageOptionsCard(
+                      folderPath: loaded.folderPath,
+                      layout: loaded.layout,
+                      onBrowse: context.read<StorageSettingsCubit>().chooseFolder,
+                      onLayoutChanged: context.read<StorageSettingsCubit>().updateLayout,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 250,
+                    child: StoragePreviewCard(folderPath: loaded.folderPath, folders: storagePreview(loaded.layout)),
+                  ),
+                ],
+              ),
             ),
           ],
-          const SizedBox(height: DsSpacing.xl),
-          StoragePreviewCard(folders: storagePreview(loaded.layout)),
-          const SizedBox(height: DsSpacing.m),
-          Text(
-            'Les dossiers déjà existants sont réutilisés, rien n’est jamais écrasé.',
-            style: DsTextStyles.caption,
-          ),
-        ],
+        ),
       ),
     },
   );

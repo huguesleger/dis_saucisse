@@ -1,44 +1,60 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/features/storage/domain/rules/photo_folder.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
+import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_preview_folder.dart';
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 
 class StoragePreviewCard extends StatelessWidget {
-  const StoragePreviewCard({super.key, required this.folders});
+  const StoragePreviewCard({super.key, required this.folderPath, required this.folders});
 
+  final Option<String> folderPath;
   final List<PreviewFolder> folders;
 
   @override
   Widget build(BuildContext context) => DsCard(
+    padding: const EdgeInsets.all(DsSpacing.l),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text('Aperçu', style: DsTextStyles.bodyBold),
-        const SizedBox(height: DsSpacing.s),
         Row(
+          spacing: DsSpacing.xs,
           children: <Widget>[
-            const Icon(Icons.folder_rounded, size: 18, color: DsColors.mustard),
-            const SizedBox(width: DsSpacing.xs),
-            Text('Dis Saucisse', style: DsTextStyles.body),
+            Text('Aperçu', style: DsTextStyles.titleM.copyWith(fontWeight: FontWeight.w600)),
+            Expanded(child: Text('avec les photos de novembre', style: DsTextStyles.caption)),
           ],
         ),
-        for (final PreviewFolder folder in folders)
-          Padding(
-            padding: EdgeInsets.only(left: DsSpacing.l * (folder.depth + 1), top: DsSpacing.xxs),
-            child: Row(
+        const SizedBox(height: DsSpacing.s),
+        Expanded(
+          child: DecoratedBox(
+            decoration: const BoxDecoration(color: DsColors.pageBackground, borderRadius: DsRadius.largeAll),
+            child: ListView(
+              padding: const EdgeInsets.all(DsSpacing.s),
               children: <Widget>[
-                const Icon(Icons.folder_outlined, size: 18, color: DsColors.textSoft),
-                const SizedBox(width: DsSpacing.xs),
-                Flexible(
-                  child: Text(folder.name, style: DsTextStyles.body, maxLines: 1, overflow: TextOverflow.ellipsis),
+                StoragePreviewFolder(
+                  name: folderPath.match(() => 'Dis Saucisse', (String path) => path.split(RegExp(r'[\\/]')).last),
+                  depth: 0,
+                  emphasized: true,
+                  muted: false,
                 ),
+                for (final PreviewFolder folder in folders)
+                  StoragePreviewFolder(
+                    name: folder.name,
+                    depth: folder.depth + 1,
+                    emphasized: folder.depth < 2 && !folder.isContext,
+                    muted: folder.isContext || folder.name == discardedFolderName,
+                  ),
+                if (folders.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(left: DsSpacing.l, top: DsSpacing.xxs),
+                    child: Text('Toutes les photos au même endroit', style: DsTextStyles.caption),
+                  ),
               ],
             ),
           ),
-        if (folders.isEmpty)
-          Padding(
-            padding: const EdgeInsets.only(left: DsSpacing.l, top: DsSpacing.xxs),
-            child: Text('Toutes les photos à la racine', style: DsTextStyles.caption),
-          ),
+        ),
+        const SizedBox(height: DsSpacing.s),
+        Text('Les dossiers déjà existants sont réutilisés, rien n’est jamais écrasé.', style: DsTextStyles.caption),
       ],
     ),
   );
