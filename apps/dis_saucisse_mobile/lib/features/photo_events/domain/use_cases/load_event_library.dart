@@ -11,6 +11,8 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/library_photo.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_access.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_origin.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/ignored_origins_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/rules/photos_to_sort.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/sorting_start_repository.dart';
@@ -23,17 +25,20 @@ class LoadEventLibrary {
     EventNameRepository? eventNameRepository,
     EventBoundaryRepository? eventBoundaryRepository,
     PhotoDecisionRepository? photoDecisionRepository,
+    IgnoredOriginsRepository? ignoredOriginsRepository,
   }) : _photoLibraryRepository = photoLibraryRepository ?? getIt.get<PhotoLibraryRepository>(),
        _sortingStartRepository = sortingStartRepository ?? getIt.get<SortingStartRepository>(),
        _eventNameRepository = eventNameRepository ?? getIt.get<EventNameRepository>(),
        _eventBoundaryRepository = eventBoundaryRepository ?? getIt.get<EventBoundaryRepository>(),
-       _photoDecisionRepository = photoDecisionRepository ?? getIt.get<PhotoDecisionRepository>();
+       _photoDecisionRepository = photoDecisionRepository ?? getIt.get<PhotoDecisionRepository>(),
+       _ignoredOriginsRepository = ignoredOriginsRepository ?? getIt.get<IgnoredOriginsRepository>();
 
   final PhotoLibraryRepository _photoLibraryRepository;
   final SortingStartRepository _sortingStartRepository;
   final EventNameRepository _eventNameRepository;
   final EventBoundaryRepository _eventBoundaryRepository;
   final PhotoDecisionRepository _photoDecisionRepository;
+  final IgnoredOriginsRepository _ignoredOriginsRepository;
 
   TaskEither<AppFailure, EventLibraryLoad> call() => _sortingStartRepository.loadStartDate().flatMap(
     (Option<DateTime> start) => start.match(
@@ -52,7 +57,11 @@ class LoadEventLibrary {
 
   TaskEither<AppFailure, EventLibraryLoad> _loadLibrary(DateTime start) =>
       TaskEither<AppFailure, EventLibraryLoad>.Do(($) async {
-        final List<LibraryPhoto> photos = photosToSort(await $(_photoLibraryRepository.loadPhotosTakenSince(start)));
+        final Set<PhotoOrigin> ignored = await $(_ignoredOriginsRepository.loadIgnoredOrigins());
+        final List<LibraryPhoto> photos = photosToSort(
+          await $(_photoLibraryRepository.loadPhotosTakenSince(start)),
+          ignored: ignored,
+        );
         final Map<EventId, String> names = await $(_eventNameRepository.loadNames());
         final EventBoundaries boundaries = await $(_eventBoundaryRepository.loadBoundaries());
         final Map<PhotoId, PhotoDecision> decisions = await $(_photoDecisionRepository.loadDecisions());

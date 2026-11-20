@@ -121,6 +121,21 @@ void main() {
   );
 
   blocTest<HomeCubit, HomeState>(
+    'refreshes without a loading screen and keeps the selected month',
+    setUp: () => when(() => loadEventLibrary()).thenReturn(TaskEither.right(EventLibraryLoaded(_library()))),
+    build: buildCubit,
+    seed: () => _loaded().copyWith(selectedMonth: some(const PhotoMonth(year: 2026, month: 10))),
+    act: (HomeCubit cubit) => cubit.refresh(),
+    expect: () => <Matcher>[
+      isA<HomeLoaded>().having(
+        (HomeLoaded state) => state.selectedMonth,
+        'selectedMonth',
+        some(const PhotoMonth(year: 2026, month: 10)),
+      ),
+    ],
+  );
+
+  blocTest<HomeCubit, HomeState>(
     'counts and shows only the selected month',
     build: buildCubit,
     seed: _loaded,

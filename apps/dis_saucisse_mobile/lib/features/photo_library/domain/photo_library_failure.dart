@@ -7,3 +7,7 @@ class PhotoLibraryUnavailableFailure extends AppFailure {
 class SortingStartStorageFailure extends AppFailure {
   const SortingStartStorageFailure();
 }
+
+class IgnoredOriginsStorageFailure extends AppFailure {
+  const IgnoredOriginsStorageFailure();
+}

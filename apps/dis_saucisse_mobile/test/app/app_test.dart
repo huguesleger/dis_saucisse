@@ -11,7 +11,9 @@ import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/libra
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_access.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_origin.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/ignored_origins_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_repository.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/rules/photos_to_sort.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/sorting_start_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_screen.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/photo_quality.dart';
@@ -31,6 +33,8 @@ class _MockEventBoundaryRepository extends Mock implements EventBoundaryReposito
 class _MockPhotoDecisionRepository extends Mock implements PhotoDecisionRepository {}
 
 class _MockPhotoQualityRepository extends Mock implements PhotoQualityRepository {}
+
+class _MockIgnoredOriginsRepository extends Mock implements IgnoredOriginsRepository {}
 
 void main() {
   late _MockPhotoLibraryRepository photoLibraryRepository;
@@ -52,7 +56,10 @@ void main() {
           PhotoId(id): PhotoQuality(photoId: PhotoId(id), sharpness: 500, fingerprint: id.hashCode),
       }),
     );
+    final _MockIgnoredOriginsRepository ignoredOriginsRepository = _MockIgnoredOriginsRepository();
+    when(() => ignoredOriginsRepository.loadIgnoredOrigins()).thenReturn(TaskEither.right(defaultIgnoredOrigins));
     getIt
+      ..registerSingleton<IgnoredOriginsRepository>(ignoredOriginsRepository)
       ..registerSingleton<PhotoDecisionRepository>(photoDecisionRepository)
       ..registerSingleton<EventBoundaryRepository>(eventBoundaryRepository)
       ..registerSingleton<EventNameRepository>(eventNameRepository)

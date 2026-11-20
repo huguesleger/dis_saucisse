@@ -17,7 +17,8 @@ class HomeScreen extends StatelessWidget {
       meshHeight: 340,
       child: BlocConsumer<HomeCubit, HomeState>(
         listenWhen: (HomeState previous, HomeState current) =>
-            current is HomeNeedsSortingStart || (current is HomeLoaded && previous is! HomeLoaded),
+            current is HomeNeedsSortingStart ||
+            (current is HomeLoaded && (previous is! HomeLoaded || previous.library.photos != current.library.photos)),
         listener: (BuildContext context, HomeState state) => switch (state) {
           HomeNeedsSortingStart() => const SortingStartPageRoute().go(context),
           final HomeLoaded loaded => context.read<PhotoQualityCubit>().analyze(loaded.photosLeftToSort),

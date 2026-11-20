@@ -40,18 +40,26 @@ class HomeCubit extends SafeCubit<HomeState> {
 
   Future<void> load() {
     emit(const HomeLoading());
-    return _loadEventLibrary()
-        .match(
-          (AppFailure _) => const HomeFailed(),
-          (EventLibraryLoad load) => switch (load) {
-            EventLibraryNeedsSortingStart() => const HomeNeedsSortingStart(),
-            EventLibraryAccessDenied() => const HomeAccessDenied(),
-            EventLibraryLoaded(:final EventLibrary library) => HomeLoaded(library: library, selectedMonth: none()),
-          },
-        )
-        .map(emit)
-        .run();
+    return refresh();
   }
+
+  Future<void> refresh() => _loadEventLibrary()
+      .match(
+        (AppFailure _) => const HomeFailed(),
+        (EventLibraryLoad load) => switch (load) {
+          EventLibraryNeedsSortingStart() => const HomeNeedsSortingStart(),
+          EventLibraryAccessDenied() => const HomeAccessDenied(),
+          EventLibraryLoaded(:final EventLibrary library) => HomeLoaded(
+            library: library,
+            selectedMonth: switch (state) {
+              HomeLoaded(:final Option<PhotoMonth> selectedMonth) => selectedMonth,
+              HomeLoading() || HomeNeedsSortingStart() || HomeAccessDenied() || HomeFailed() => none(),
+            },
+          ),
+        },
+      )
+      .map(emit)
+      .run();
 
   void selectMonth(Option<PhotoMonth> month) => switch (state) {
     final HomeLoaded loaded => emit(loaded.copyWith(selectedMonth: month)),

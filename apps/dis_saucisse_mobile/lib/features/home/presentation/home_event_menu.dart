@@ -18,6 +18,7 @@ Future<void> openEventMenu(BuildContext context, {required HomeCubit cubit, requ
   final Option<PhotoEvent> next = eventAfter(events, event.id);
   final EventAction? action = await showModalBottomSheet<EventAction>(
     context: context,
+    useRootNavigator: true,
     builder: (BuildContext context) =>
         EventActionsSheet(event: event, previous: eventBefore(events, event.id), next: next),
   );
@@ -34,6 +35,7 @@ Future<void> openEventMenu(BuildContext context, {required HomeCubit cubit, requ
 Future<void> _renameEvent(BuildContext context, HomeCubit cubit, PhotoEvent event) async {
   final String? name = await showModalBottomSheet<String>(
     context: context,
+    useRootNavigator: true,
     isScrollControlled: true,
     builder: (BuildContext context) =>
         EventNameSheet(initialName: event.name.match(() => '', identity), placeholder: eventTitle(event)),
@@ -46,6 +48,7 @@ Future<void> _renameEvent(BuildContext context, HomeCubit cubit, PhotoEvent even
 Future<void> _splitEvent(BuildContext context, HomeCubit cubit, PhotoEvent event) async {
   final PhotoBurst? burst = await showModalBottomSheet<PhotoBurst>(
     context: context,
+    useRootNavigator: true,
     isScrollControlled: true,
     builder: (BuildContext context) => EventSplitSheet(event: event),
   );

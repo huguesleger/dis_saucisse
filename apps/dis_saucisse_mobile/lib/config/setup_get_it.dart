@@ -3,6 +3,9 @@ import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/drift_
 import 'package:dis_saucisse_mobile/features/burst_sort/data/data_sources/photo_decision_data_source.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/data/repositories/photo_decision_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
+import 'package:dis_saucisse_mobile/features/memories/data/data_sources/sent_photo_history_data_source.dart';
+import 'package:dis_saucisse_mobile/features/memories/data/repositories/memories_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/memories/domain/memories_repository.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/computer_discovery_data_source.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_api_data_source.dart';
 import 'package:dis_saucisse_mobile/features/pairing/data/data_sources/pairing_storage_data_source.dart';
@@ -17,6 +20,9 @@ import 'package:dis_saucisse_mobile/features/photo_events/data/repositories/even
 import 'package:dis_saucisse_mobile/features/photo_events/data/repositories/event_name_repository_impl.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/event_boundary_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/event_name_repository.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/ignored_origins_data_source.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/data/repositories/ignored_origins_repository_impl.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/ignored_origins_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/photo_library_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/photo_manager_data_source.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/shared_preferences_sorting_start_data_source.dart';
@@ -50,6 +56,8 @@ void configureDependencies() => getIt
   )
   ..registerLazySingleton<PhotoLibraryRepository>(() => PhotoLibraryRepositoryImpl(getIt.get()))
   ..registerLazySingleton<SortingStartRepository>(() => SortingStartRepositoryImpl(getIt.get()))
+  ..registerLazySingleton<IgnoredOriginsDataSource>(() => IgnoredOriginsDataSource(SharedPreferencesAsync()))
+  ..registerLazySingleton<IgnoredOriginsRepository>(() => IgnoredOriginsRepositoryImpl(getIt.get()))
   ..registerLazySingleton<EventNameDataSource>(() => SharedPreferencesEventNameDataSource(SharedPreferencesAsync()))
   ..registerLazySingleton<EventNameRepository>(() => EventNameRepositoryImpl(getIt.get()))
   ..registerLazySingleton<EventBoundaryDataSource>(
@@ -82,6 +90,8 @@ void configureDependencies() => getIt
   ..registerLazySingleton<FreeSpaceRepository>(
     () => FreeSpaceRepositoryImpl(sentPhotos: getIt.get(), deletion: getIt.get()),
   )
+  ..registerLazySingleton<SentPhotoHistoryDataSource>(() => SentPhotoHistoryDataSource(getIt.get()))
+  ..registerLazySingleton<MemoriesRepository>(() => MemoriesRepositoryImpl(getIt.get()))
   ..registerLazySingleton<PhotoQualityDataSource>(() => PhotoQualityDataSource(getIt.get()))
   ..registerLazySingleton<PhotoAnalysisDataSource>(PhotoAnalysisDataSource.new)
   ..registerLazySingleton<PhotoQualityRepository>(

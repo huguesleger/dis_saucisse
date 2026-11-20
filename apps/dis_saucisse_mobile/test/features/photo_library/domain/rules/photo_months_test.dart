@@ -38,4 +38,17 @@ void main() {
 
     expect(photosToSort(mixed).map((LibraryPhoto photo) => photo.id), const <PhotoId>[PhotoId('1')]);
   });
+
+  test('keeps the screenshots once the user stops ignoring them', () {
+    final List<LibraryPhoto> mixed = <LibraryPhoto>[
+      _photo('1', DateTime(2026, 11, 8)),
+      _photo('2', DateTime(2026, 11, 8), PhotoOrigin.screenshot),
+      _photo('3', DateTime(2026, 11, 8), PhotoOrigin.messagingApp),
+    ];
+
+    expect(
+      photosToSort(mixed, ignored: <PhotoOrigin>{PhotoOrigin.messagingApp}).map((LibraryPhoto photo) => photo.id),
+      const <PhotoId>[PhotoId('1'), PhotoId('2')],
+    );
+  });
 }

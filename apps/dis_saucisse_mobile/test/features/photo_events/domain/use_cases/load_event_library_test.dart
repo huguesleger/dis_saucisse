@@ -11,7 +11,9 @@ import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/libra
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_access.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_origin.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/ignored_origins_repository.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_repository.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/rules/photos_to_sort.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/sorting_start_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -29,12 +31,15 @@ class _MockEventBoundaryRepository extends Mock implements EventBoundaryReposito
 
 class _MockPhotoDecisionRepository extends Mock implements PhotoDecisionRepository {}
 
+class _MockIgnoredOriginsRepository extends Mock implements IgnoredOriginsRepository {}
+
 void main() {
   late _MockPhotoLibraryRepository photoLibraryRepository;
   late _MockSortingStartRepository sortingStartRepository;
   late _MockEventNameRepository eventNameRepository;
   late _MockEventBoundaryRepository eventBoundaryRepository;
   late _MockPhotoDecisionRepository photoDecisionRepository;
+  late _MockIgnoredOriginsRepository ignoredOriginsRepository;
   final DateTime start = DateTime(2026, 8, 19);
 
   setUp(() {
@@ -43,6 +48,8 @@ void main() {
     eventNameRepository = _MockEventNameRepository();
     eventBoundaryRepository = _MockEventBoundaryRepository();
     photoDecisionRepository = _MockPhotoDecisionRepository();
+    ignoredOriginsRepository = _MockIgnoredOriginsRepository();
+    when(() => ignoredOriginsRepository.loadIgnoredOrigins()).thenReturn(TaskEither.right(defaultIgnoredOrigins));
   });
 
   LoadEventLibrary buildUseCase() => LoadEventLibrary(
@@ -51,6 +58,7 @@ void main() {
     eventNameRepository: eventNameRepository,
     eventBoundaryRepository: eventBoundaryRepository,
     photoDecisionRepository: photoDecisionRepository,
+    ignoredOriginsRepository: ignoredOriginsRepository,
   );
 
   test('asks for a sorting start when none is saved', () async {

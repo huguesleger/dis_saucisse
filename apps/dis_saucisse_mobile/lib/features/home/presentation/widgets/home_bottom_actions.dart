@@ -1,14 +1,9 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/presentation/widgets/main_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeBottomActions extends StatelessWidget {
   const HomeBottomActions({super.key, required this.onStartSorting});
-
-  static const List<DsNavDestination> _destinations = <DsNavDestination>[
-    DsNavDestination(icon: Icons.photo_outlined, label: 'Photos à trier'),
-    DsNavDestination(icon: Icons.favorite_border_rounded, label: 'Souvenirs'),
-    DsNavDestination(icon: Icons.tune_rounded, label: 'Réglages'),
-  ];
 
   final VoidCallback? onStartSorting;
 
@@ -26,15 +21,8 @@ class HomeBottomActions extends StatelessWidget {
       top: false,
       minimum: const EdgeInsets.only(bottom: DsSpacing.s),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.xxl, DsSpacing.l, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            DsButton(label: 'Lancer le tri', onPressed: onStartSorting),
-            const SizedBox(height: DsSpacing.m),
-            DsFloatingNavBar(destinations: _destinations, selectedIndex: 0, onDestinationSelected: (_) {}),
-          ],
-        ),
+        padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.xxl, DsSpacing.l, MainNavBar.height + DsSpacing.m),
+        child: DsButton(label: 'Lancer le tri', onPressed: onStartSorting),
       ),
     ),
   );
