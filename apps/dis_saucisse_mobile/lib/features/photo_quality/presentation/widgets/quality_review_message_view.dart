@@ -13,22 +13,31 @@ class QualityReviewMessageView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(DsSpacing.l),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: DsSpacing.m,
           children: <Widget>[
-            const Center(child: DsMascot(width: 160)),
-            Text(title, style: DsTextStyles.titleXl, textAlign: TextAlign.center),
-            Text(
-              message,
-              style: DsTextStyles.body.copyWith(color: DsColors.textSoft),
-              textAlign: TextAlign.center,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: DsRoundIconButton(
+                icon: Icons.arrow_back_rounded,
+                tooltip: 'Retour',
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
             ),
-            const SizedBox(height: DsSpacing.s),
-            DsButton(
-              label: 'Retour à l’accueil',
-              variant: DsButtonVariant.dark,
-              onPressed: () => Navigator.of(context).maybePop(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: DsSpacing.m,
+                children: <Widget>[
+                  const Center(child: DsMascot(width: 160)),
+                  Text(title, style: DsTextStyles.titleXl, textAlign: TextAlign.center),
+                  Text(
+                    message,
+                    style: DsTextStyles.body.copyWith(color: DsColors.textSoft),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

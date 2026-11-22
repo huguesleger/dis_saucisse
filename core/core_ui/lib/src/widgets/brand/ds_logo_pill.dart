@@ -3,7 +3,6 @@ import 'package:core_ui/src/foundation/ds_radius.dart';
 import 'package:core_ui/src/foundation/ds_shadows.dart';
 import 'package:core_ui/src/foundation/ds_spacing.dart';
 import 'package:core_ui/src/foundation/ds_text_styles.dart';
-import 'package:core_ui/src/widgets/brand/ds_mascot.dart';
 import 'package:flutter/widgets.dart';
 
 /// "Dis Saucisse !" logo in a white pill, shown at the top of the home screen and in the desktop sidebar.
@@ -24,13 +23,7 @@ class DsLogoPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(color: DsColors.mustardLight, shape: BoxShape.circle),
-            alignment: Alignment.center,
-            child: const DsMascot(width: 34),
-          ),
+          Image.asset('assets/images/face.png', package: 'core_ui', width: 36, height: 36, semanticLabel: 'Saucisse'),
           const SizedBox(width: DsSpacing.xs),
           Flexible(
             child: Text('Dis Saucisse !', style: DsTextStyles.label, maxLines: 1, overflow: TextOverflow.ellipsis),
