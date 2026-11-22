@@ -18,7 +18,7 @@ class MemoriesCubit extends SafeCubit<MemoriesState> {
   MemoriesCubit({MemoriesRepository? memoriesRepository, LoadEventLibrary? loadEventLibrary, Duration? minimalLoading})
     : _memoriesRepository = memoriesRepository ?? getIt.get<MemoriesRepository>(),
       _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
-      _minimalLoading = minimalLoading ?? DsLoader.minDuration,
+      _minimalLoading = minimalLoading ?? DsSkeletonizer.minDuration,
       super(const MemoriesLoading());
 
   final MemoriesRepository _memoriesRepository;

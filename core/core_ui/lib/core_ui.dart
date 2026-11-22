@@ -22,6 +22,7 @@ export 'src/widgets/feedback/ds_message_action.dart';
 export 'src/widgets/feedback/ds_message_placement.dart';
 export 'src/widgets/feedback/ds_message_view.dart';
 export 'src/widgets/feedback/ds_progress_bar.dart';
+export 'src/widgets/feedback/ds_skeletonizer.dart';
 export 'src/widgets/feedback/ds_status_badge.dart';
 export 'src/widgets/feedback/ds_status_tone.dart';
 export 'src/widgets/layout/ds_card.dart';

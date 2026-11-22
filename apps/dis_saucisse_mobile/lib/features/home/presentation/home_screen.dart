@@ -2,8 +2,8 @@ import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/core/router/routes.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
+import 'package:dis_saucisse_mobile/features/home/presentation/home_bone_mock.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_loaded_view.dart';
-import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_loading_view.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/photo_quality_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           HomeLoading() || HomeAccessDenied() || HomeFailed() => null,
         },
         builder: (BuildContext context, HomeState state) => switch (state) {
-          HomeLoading() || HomeNeedsSortingStart() => const HomeLoadingView(),
+          HomeLoading() || HomeNeedsSortingStart() => DsSkeletonizer(child: HomeLoadedView(state: homeBoneMock)),
           HomeAccessDenied() => DsMessageView(
             title: "Je n'ai pas accès à tes photos",
             message: 'Autorise Dis Saucisse ! à lire tes photos dans les réglages, puis reviens ici.',

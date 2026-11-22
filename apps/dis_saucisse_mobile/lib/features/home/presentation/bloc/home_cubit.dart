@@ -33,7 +33,7 @@ class HomeCubit extends SafeCubit<HomeState> {
        _photoLibraryRepository = photoLibraryRepository ?? getIt.get<PhotoLibraryRepository>(),
        _eventNameRepository = eventNameRepository ?? getIt.get<EventNameRepository>(),
        _eventBoundaryRepository = eventBoundaryRepository ?? getIt.get<EventBoundaryRepository>(),
-       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
+       _minimalLoading = minimalLoading ?? DsSkeletonizer.minDuration,
        super(const HomeLoading());
 
   final LoadEventLibrary _loadEventLibrary;
