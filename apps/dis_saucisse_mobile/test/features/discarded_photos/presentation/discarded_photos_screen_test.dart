@@ -81,12 +81,14 @@ void main() {
     when(() => cubit.restore(any())).thenAnswer((_) async {});
 
     await tester.tap(find.byType(DiscardedPhotoTile).first);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
     expect(find.byType(DiscardedPhotoViewer), findsOneWidget);
     expect(find.bySemanticsLabel('Photo 1 sur 2'), findsOneWidget);
 
     await tester.tap(find.text('Remettre à trier'));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
 
     expect(find.byType(DiscardedPhotoViewer), findsNothing);
     verify(() => cubit.restore(<PhotoId>{const PhotoId('cake-1')})).called(1);
@@ -96,7 +98,8 @@ void main() {
     await pumpScreen(tester, ready());
 
     await tester.tap(find.byType(DiscardedPhotoTile).last);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
 
     expect(find.text('Remettre à trier'), findsNothing);
     expect(find.widgetWithText(DiscardedPhotoBadge, 'Sur ton PC'), findsOneWidget);

@@ -34,6 +34,7 @@ export 'src/widgets/layout/ds_icon_square.dart';
 export 'src/widgets/layout/ds_mesh_background.dart';
 export 'src/widgets/layout/ds_section_header.dart';
 export 'src/widgets/media/ds_avatar_stack.dart';
+export 'src/widgets/media/ds_image.dart';
 export 'src/widgets/media/ds_photo.dart';
 export 'src/widgets/navigation/ds_connection_card.dart';
 export 'src/widgets/navigation/ds_floating_nav_bar.dart';

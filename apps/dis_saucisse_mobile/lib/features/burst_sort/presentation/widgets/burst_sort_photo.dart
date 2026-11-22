@@ -22,18 +22,10 @@ class BurstSortPhoto extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
     onVerticalDragEnd: _onSwipe,
     child: ColoredBox(
-      color: DsColors.text,
+      color: DsColors.pageBackground,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
-        child: Image(
-          key: ValueKey<PhotoId>(photoId),
-          image: PhotoThumbnailImage(photoId, size: 1600),
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-          gaplessPlayback: true,
-          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => const DsPhoto(),
-        ),
+        child: DsImage(key: ValueKey<PhotoId>(photoId), image: PhotoThumbnailImage(photoId, size: 1600)),
       ),
     ),
   );

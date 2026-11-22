@@ -19,7 +19,6 @@ class BurstSortTopBar extends StatelessWidget {
           DsRoundIconButton(
             icon: Icons.arrow_back_rounded,
             tooltip: t.burstSort.backHome,
-            variant: DsRoundIconButtonVariant.glass,
             onPressed: onBack,
           ),
           const Spacer(),
