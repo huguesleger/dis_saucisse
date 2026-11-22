@@ -1,0 +1,66 @@
+name: Desktop Windows
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'desktop-v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      RELEASE_DIR: apps/dis_saucisse_desktop/build/windows/x64/runner/Release
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.4'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: |
+          Push-Location core/core_ui
+          dart run build_runner build
+          Pop-Location
+          Push-Location apps/dis_saucisse_desktop
+          dart run slang
+          dart run build_runner build
+          Pop-Location
+
+      - name: Build the Windows app
+        working-directory: apps/dis_saucisse_desktop
+        run: flutter build windows --release
+
+      - name: Bundle the Visual C++ runtime
+        run: |
+          foreach ($dll in 'msvcp140.dll', 'vcruntime140.dll', 'vcruntime140_1.dll') {
+            Copy-Item "$env:WINDIR\System32\$dll" $env:RELEASE_DIR
+          }
+
+      - name: Read the app version
+        id: version
+        run: |
+          $match = Select-String -Path apps/dis_saucisse_desktop/pubspec.yaml -Pattern '^version:\s*([0-9.]+)'
+          "value=$($match.Matches[0].Groups[1].Value)" >> $env:GITHUB_OUTPUT
+
+      - name: Build the installer
+        run: |
+          choco install innosetup --no-progress -y
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          & $iscc "/DAppVersion=${{ steps.version.outputs.value }}" "/DSourceDir=$((Resolve-Path $env:RELEASE_DIR).Path)" "/O$PWD\dist" apps\dis_saucisse_desktop\windows\installer\dis_saucisse.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DisSaucisse-Windows-Setup
+          path: dist/*.exe
+          if-no-files-found: error

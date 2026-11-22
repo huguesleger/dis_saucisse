@@ -41,6 +41,10 @@ Configurée dans `apps/dis_saucisse_desktop/pubspec.yaml` pour macOS et Windows.
 
 - Icône : `fvm dart run flutter_launcher_icons` dans `apps/dis_saucisse_desktop`.
 
+## Version Windows (app desktop)
+
+Flutter ne compile une app Windows que sur Windows : c'est GitHub Actions qui la fabrique (`.github/workflows/desktop-windows.yml`, lancé à la main depuis l'onglet Actions ou par un tag `desktop-v*`). Il produit `DisSaucisse-Setup-<version>.exe`, un installateur Inno Setup (`apps/dis_saucisse_desktop/windows/installer/dis_saucisse.iss`) qui crée les raccourcis, propose le lancement au démarrage de Windows et autorise l'app sur les réseaux privés dans le pare-feu. La version vient de `version:` dans `apps/dis_saucisse_desktop/pubspec.yaml`.
+
 ## Git
 
 Ne jamais commit, ni proposer de commit : l'utilisateur commit lui-même.
