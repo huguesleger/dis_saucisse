@@ -36,6 +36,7 @@ dependencies:
 dev_dependencies:
   bloc_test: ^10.0.0
   build_runner: ^2.15.1
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
   go_router_builder: ^4.5.0
@@ -45,3 +46,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/tray/
+
+flutter_launcher_icons:
+  macos:
+    generate: true
+    image_path: res/icon/app_icon.png
+  windows:
+    generate: true
+    image_path: res/icon/app_icon.png
+    icon_size: 256

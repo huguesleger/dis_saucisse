@@ -35,6 +35,12 @@ Configurés dans `apps/dis_saucisse_mobile/pubspec.yaml`, images sources dans `a
 - Icône : `fvm dart run flutter_launcher_icons`. Ce générateur remplace à tort `ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES` par `= AppIcon` dans `ios/Runner.xcodeproj/project.pbxproj` : remettre `YES` après chaque génération.
 - Le fond jaune est `#FFD23F` (`DsColors.mustardLight`).
 
+## Icône (app desktop)
+
+Configurée dans `apps/dis_saucisse_desktop/pubspec.yaml` pour macOS et Windows. L'image source `apps/dis_saucisse_desktop/res/icon/app_icon.png` suit la grille macOS (carré arrondi de 824 px avec ombre, dans une image de 1024 px aux bords transparents) : macOS n'arrondit pas les icônes lui-même.
+
+- Icône : `fvm dart run flutter_launcher_icons` dans `apps/dis_saucisse_desktop`.
+
 ## Git
 
 Ne jamais commit, ni proposer de commit : l'utilisateur commit lui-même.
