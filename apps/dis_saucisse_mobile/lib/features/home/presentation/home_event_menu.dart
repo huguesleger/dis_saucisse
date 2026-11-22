@@ -1,3 +1,4 @@
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_burst.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
@@ -16,9 +17,8 @@ Future<void> openEventMenu(BuildContext context, {required HomeCubit cubit, requ
     HomeLoading() || HomeNeedsSortingStart() || HomeAccessDenied() || HomeFailed() => <PhotoEvent>[],
   };
   final Option<PhotoEvent> next = eventAfter(events, event.id);
-  final EventAction? action = await showModalBottomSheet<EventAction>(
-    context: context,
-    useRootNavigator: true,
+  final EventAction? action = await DsBottomSheet.show<EventAction>(
+    context,
     builder: (BuildContext context) =>
         EventActionsSheet(event: event, previous: eventBefore(events, event.id), next: next),
   );
@@ -33,10 +33,8 @@ Future<void> openEventMenu(BuildContext context, {required HomeCubit cubit, requ
 }
 
 Future<void> _renameEvent(BuildContext context, HomeCubit cubit, PhotoEvent event) async {
-  final String? name = await showModalBottomSheet<String>(
-    context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
+  final String? name = await DsBottomSheet.show<String>(
+    context,
     builder: (BuildContext context) =>
         EventNameSheet(initialName: event.name.match(() => '', identity), placeholder: eventTitle(event)),
   );
@@ -46,10 +44,8 @@ Future<void> _renameEvent(BuildContext context, HomeCubit cubit, PhotoEvent even
 }
 
 Future<void> _splitEvent(BuildContext context, HomeCubit cubit, PhotoEvent event) async {
-  final PhotoBurst? burst = await showModalBottomSheet<PhotoBurst>(
-    context: context,
-    useRootNavigator: true,
-    isScrollControlled: true,
+  final PhotoBurst? burst = await DsBottomSheet.show<PhotoBurst>(
+    context,
     builder: (BuildContext context) => EventSplitSheet(event: event),
   );
   if (burst != null) await cubit.splitEventBefore(burst);

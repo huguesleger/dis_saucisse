@@ -17,15 +17,14 @@ class _SettingsStartDateSheetState extends State<SettingsStartDateSheet> {
   late SortingStartChoice _choice = CustomSortingStart(widget.current);
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.l, DsSpacing.l, DsSpacing.m),
+  Widget build(BuildContext context) => DsBottomSheet(
+    title: 'Trier les photos depuis…',
+    child: SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: DsSpacing.m,
         children: <Widget>[
-          Text('Trier les photos depuis…', style: DsTextStyles.titleL),
           SortingStartOptions(
             choice: _choice,
             today: widget.today,

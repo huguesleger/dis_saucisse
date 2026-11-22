@@ -23,19 +23,13 @@ class _EventNameSheetState extends State<EventNameSheet> {
   void _submit() => Navigator.of(context).pop(_controller.text);
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.fromLTRB(
-      DsSpacing.l,
-      0,
-      DsSpacing.l,
-      MediaQuery.viewInsetsOf(context).bottom + DsSpacing.l,
-    ),
+  Widget build(BuildContext context) => DsBottomSheet(
+    title: "Nomme l'événement",
     child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: DsSpacing.m,
       children: <Widget>[
-        Text("Nomme l'événement", style: DsTextStyles.titleL),
         TextField(
           controller: _controller,
           autofocus: true,

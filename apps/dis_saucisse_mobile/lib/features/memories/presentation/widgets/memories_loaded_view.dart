@@ -20,38 +20,42 @@ class MemoriesLoadedView extends StatelessWidget {
     final List<MemoryMonth> months = state.visibleMonths;
     return SafeArea(
       bottom: false,
-      child: ListView(
-        padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 140),
-        children: <Widget>[
-          Padding(
-            padding: _gutter,
-            child: MemoriesHeader(photoCount: state.photoCount),
-          ),
-          const SizedBox(height: DsSpacing.m),
-          MemoriesYearFilters(
-            years: state.years,
-            selectedYear: state.selectedYear,
-            onSelected: context.read<MemoriesCubit>().selectYear,
-          ),
-          const SizedBox(height: DsSpacing.xl),
-          Padding(
-            padding: _gutter,
-            child: MemoriesRecapCard(memory: months.first),
-          ),
-          const SizedBox(height: DsSpacing.xl),
-          Padding(
-            padding: _gutter,
-            child: DsSectionHeader(
-              title: 'Mois rangés',
-              trailing: months.length == 1 ? '1 mois' : '${months.length} mois',
-            ),
-          ),
-          for (final MemoryMonth memory in months)
+      child: DsRefresh(
+        onRefresh: context.read<MemoriesCubit>().load,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 140),
+          children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.s, DsSpacing.l, 0),
-              child: MemoryMonthCard(memory: memory),
+              padding: _gutter,
+              child: MemoriesHeader(photoCount: state.photoCount),
             ),
-        ],
+            const SizedBox(height: DsSpacing.m),
+            MemoriesYearFilters(
+              years: state.years,
+              selectedYear: state.selectedYear,
+              onSelected: context.read<MemoriesCubit>().selectYear,
+            ),
+            const SizedBox(height: DsSpacing.xl),
+            Padding(
+              padding: _gutter,
+              child: MemoriesRecapCard(memory: months.first),
+            ),
+            const SizedBox(height: DsSpacing.xl),
+            Padding(
+              padding: _gutter,
+              child: DsSectionHeader(
+                title: 'Mois rangés',
+                trailing: months.length == 1 ? '1 mois' : '${months.length} mois',
+              ),
+            ),
+            for (final MemoryMonth memory in months)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.s, DsSpacing.l, 0),
+                child: MemoryMonthCard(memory: memory),
+              ),
+          ],
+        ),
       ),
     );
   }

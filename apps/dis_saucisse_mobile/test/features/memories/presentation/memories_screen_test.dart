@@ -7,10 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:mocktail/mocktail.dart';
 
 class _MockMemoriesCubit extends MockCubit<MemoriesState> implements MemoriesCubit {}
 
 void main() {
+  Future<void> pumpScreen(WidgetTester tester, MemoriesCubit memories) => tester.pumpWidget(
+    MaterialApp(
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const <Locale>[Locale('fr')],
+      locale: const Locale('fr'),
+      home: BlocProvider<MemoriesCubit>.value(value: memories, child: const MemoriesScreen()),
+    ),
+  );
+
   testWidgets('shows the skeleton of the memories while loading', (WidgetTester tester) async {
     await tester.binding.setSurfaceSize(const Size(480, 1000));
     final _MockMemoriesCubit memories = _MockMemoriesCubit();
@@ -29,5 +40,22 @@ void main() {
       find.descendant(of: find.byType(DsSkeletonizer), matching: find.byType(MemoriesLoadedView)),
       findsOneWidget,
     );
+  });
+
+  testWidgets('reloads the memories when the empty state is pulled down', (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(480, 1000));
+    final _MockMemoriesCubit memories = _MockMemoriesCubit();
+    whenListen(
+      memories,
+      const Stream<MemoriesState>.empty(),
+      initialState: MemoriesLoaded(months: const [], selectedYear: none()),
+    );
+    when(memories.load).thenAnswer((_) async {});
+
+    await pumpScreen(tester, memories);
+    await tester.fling(find.text('Pas encore de souvenirs'), const Offset(0, 400), 1000);
+    await tester.pumpAndSettle();
+
+    verify(memories.load).called(1);
   });
 }

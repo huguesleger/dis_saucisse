@@ -29,57 +29,61 @@ class HomeLoadedView extends StatelessWidget {
     children: <Widget>[
       SafeArea(
         bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 200),
-          children: <Widget>[
-            Padding(
-              padding: _gutter,
-              child: HomeTopBar(onComputerTap: () => const TransferPageRoute().push<void>(context)),
-            ),
-            const SizedBox(height: DsSpacing.xl),
-            Padding(
-              padding: _gutter,
-              child: HomeGreeting(photosToSortCount: state.visiblePhotoCount),
-            ),
-            const SizedBox(height: DsSpacing.m),
-            HomeMonthFilters(
-              months: state.months,
-              selectedMonth: state.selectedMonth,
-              onSelected: context.read<HomeCubit>().selectMonth,
-            ),
-            const SizedBox(height: DsSpacing.xl),
-            Padding(
-              padding: _gutter,
-              child: BlocBuilder<PhotoQualityCubit, PhotoQualityState>(
-                builder: (BuildContext context, PhotoQualityState quality) => HomeQualityTiles(
-                  duplicateCount: photosToReviewCount(
-                    QualityIssue.duplicates,
-                    state.photosLeftToSort,
-                    quality.qualities,
+        child: DsRefresh(
+          onRefresh: context.read<HomeCubit>().refresh,
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(top: DsSpacing.m, bottom: 200),
+            children: <Widget>[
+              Padding(
+                padding: _gutter,
+                child: HomeTopBar(onComputerTap: () => const TransferPageRoute().push<void>(context)),
+              ),
+              const SizedBox(height: DsSpacing.xl),
+              Padding(
+                padding: _gutter,
+                child: HomeGreeting(photosToSortCount: state.visiblePhotoCount),
+              ),
+              const SizedBox(height: DsSpacing.m),
+              HomeMonthFilters(
+                months: state.months,
+                selectedMonth: state.selectedMonth,
+                onSelected: context.read<HomeCubit>().selectMonth,
+              ),
+              const SizedBox(height: DsSpacing.xl),
+              Padding(
+                padding: _gutter,
+                child: BlocBuilder<PhotoQualityCubit, PhotoQualityState>(
+                  builder: (BuildContext context, PhotoQualityState quality) => HomeQualityTiles(
+                    duplicateCount: photosToReviewCount(
+                      QualityIssue.duplicates,
+                      state.photosLeftToSort,
+                      quality.qualities,
+                    ),
+                    blurryCount: photosToReviewCount(QualityIssue.blurry, state.photosLeftToSort, quality.qualities),
+                    photosLeftToAnalyze: switch (quality) {
+                      PhotoQualityAnalyzing(:final int remaining) => remaining,
+                      PhotoQualityReady() => 0,
+                    },
+                    onOpen: (QualityIssue issue) =>
+                        openQualityReview(context, cubit: context.read<HomeCubit>(), issue: issue),
                   ),
-                  blurryCount: photosToReviewCount(QualityIssue.blurry, state.photosLeftToSort, quality.qualities),
-                  photosLeftToAnalyze: switch (quality) {
-                    PhotoQualityAnalyzing(:final int remaining) => remaining,
-                    PhotoQualityReady() => 0,
-                  },
-                  onOpen: (QualityIssue issue) =>
-                      openQualityReview(context, cubit: context.read<HomeCubit>(), issue: issue),
                 ),
               ),
-            ),
-            const SizedBox(height: DsSpacing.xl),
-            Padding(
-              padding: _gutter,
-              child: HomeEventsSection(
-                eventsByMonth: state.visibleEventsByMonth,
-                decisions: state.library.decisions,
-                onEventTap: (PhotoEvent event) =>
-                    openBurstSort(context, cubit: context.read<HomeCubit>(), eventId: some(event.id)),
-                onEventMore: (PhotoEvent event) =>
-                    openEventMenu(context, cubit: context.read<HomeCubit>(), event: event),
+              const SizedBox(height: DsSpacing.xl),
+              Padding(
+                padding: _gutter,
+                child: HomeEventsSection(
+                  eventsByMonth: state.visibleEventsByMonth,
+                  decisions: state.library.decisions,
+                  onEventTap: (PhotoEvent event) =>
+                      openBurstSort(context, cubit: context.read<HomeCubit>(), eventId: some(event.id)),
+                  onEventMore: (PhotoEvent event) =>
+                      openEventMenu(context, cubit: context.read<HomeCubit>(), event: event),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       Positioned(

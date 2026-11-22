@@ -21,10 +21,15 @@ class MemoriesScreen extends StatelessWidget {
             onRetry: context.read<MemoriesCubit>().load,
             placement: DsMessagePlacement.tab,
           ),
-          MemoriesLoaded(months: <Object>[]) => const DsMessageView(
-            title: 'Pas encore de souvenirs',
-            message: 'Envoie tes premières photos sur le PC : elles apparaîtront ici, rangées par mois.',
-            placement: DsMessagePlacement.tab,
+          MemoriesLoaded(months: <Object>[]) => DsRefresh(
+            onRefresh: context.read<MemoriesCubit>().load,
+            child: const DsRefreshFillView(
+              child: DsMessageView(
+                title: 'Pas encore de souvenirs',
+                message: 'Envoie tes premières photos sur le PC : elles apparaîtront ici, rangées par mois.',
+                placement: DsMessagePlacement.tab,
+              ),
+            ),
           ),
           final MemoriesLoaded loaded => MemoriesLoadedView(state: loaded),
         },
