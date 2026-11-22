@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/memories/domain/entities/memory_month.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/bloc/memories_cubit.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/widgets/memories_header.dart';
@@ -45,8 +46,10 @@ class MemoriesLoadedView extends StatelessWidget {
             Padding(
               padding: _gutter,
               child: DsSectionHeader(
-                title: 'Mois rangés',
-                trailing: months.length == 1 ? '1 mois' : '${months.length} mois',
+                title: t.memories.months.title,
+                trailing: months.length == 1
+                    ? t.memories.months.countSingle
+                    : t.memories.months.countSeveral(count: months.length),
               ),
             ),
             for (final MemoryMonth memory in months)

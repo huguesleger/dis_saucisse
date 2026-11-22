@@ -7,6 +7,7 @@ import 'package:dis_saucisse_mobile/features/home/presentation/widgets/home_load
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/photo_quality_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -27,14 +28,17 @@ class HomeScreen extends StatelessWidget {
         builder: (BuildContext context, HomeState state) => switch (state) {
           HomeLoading() || HomeNeedsSortingStart() => DsSkeletonizer(child: HomeLoadedView(state: homeBoneMock)),
           HomeAccessDenied() => DsMessageView(
-            title: "Je n'ai pas accès à tes photos",
-            message: 'Autorise Dis Saucisse ! à lire tes photos dans les réglages, puis reviens ici.',
+            title: t.home.accessDenied.title,
+            message: t.home.accessDenied.message,
             placement: DsMessagePlacement.tab,
             primaryAction: DsMessageAction(
-              label: 'Ouvrir les réglages',
+              label: t.home.accessDenied.openSettings,
               onPressed: context.read<HomeCubit>().openAccessSettings,
             ),
-            secondaryAction: DsMessageAction(label: "C'est fait, réessayer", onPressed: context.read<HomeCubit>().load),
+            secondaryAction: DsMessageAction(
+              label: t.home.accessDenied.retry,
+              onPressed: context.read<HomeCubit>().load,
+            ),
           ),
           HomeFailed(:final failure) => FailureView(
             failure: failure,

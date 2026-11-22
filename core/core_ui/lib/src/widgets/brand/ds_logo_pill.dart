@@ -3,6 +3,7 @@ import 'package:core_ui/src/foundation/ds_radius.dart';
 import 'package:core_ui/src/foundation/ds_shadows.dart';
 import 'package:core_ui/src/foundation/ds_spacing.dart';
 import 'package:core_ui/src/foundation/ds_text_styles.dart';
+import 'package:core_ui/src/gen/assets.gen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -26,9 +27,7 @@ class DsLogoPill extends StatelessWidget {
         children: <Widget>[
           Skeleton.replace(
             replacement: const Bone.circle(size: 36),
-            child: Image.asset(
-              'assets/images/face.png',
-              package: 'core_ui',
+            child: Assets.images.face.image(
               width: 36,
               height: 36,
               semanticLabel: 'Saucisse',

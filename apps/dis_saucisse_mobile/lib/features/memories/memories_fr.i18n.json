@@ -1,0 +1,38 @@
+{
+  "photoCount": {
+    "single": "1 photo",
+    "several": "{count} photos"
+  },
+  "eventCount": {
+    "zero": "aucun événement",
+    "single": "1 événement",
+    "several": "{count} événements"
+  },
+  "sentOn": "Envoyé le {date}",
+  "empty": {
+    "title": "Pas encore de souvenirs",
+    "message": "Envoie tes premières photos sur le PC : elles apparaîtront ici, rangées par mois."
+  },
+  "header": {
+    "caption": "Tout ce qui est rangé sur le PC",
+    "photosSafe": "{photos}\nà l’abri"
+  },
+  "allYears": "Tout",
+  "monthCard": {
+    "onComputer": "Sur le PC"
+  },
+  "recap": {
+    "caption": "RÉCAP DU MOIS",
+    "title": "Ton mois de {month}",
+    "photoSingle": "photo",
+    "photoSeveral": "photos",
+    "eventSingle": "événement",
+    "eventSeveral": "événements",
+    "stored": "rangés"
+  },
+  "months": {
+    "title": "Mois rangés",
+    "countSingle": "1 mois",
+    "countSeveral": "{count} mois"
+  }
+}

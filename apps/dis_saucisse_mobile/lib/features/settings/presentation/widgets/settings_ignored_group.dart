@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_origin.dart';
 import 'package:dis_saucisse_mobile/features/settings/presentation/widgets/settings_switch.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,12 @@ class SettingsIgnoredGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DsSettingsGroup(
-    title: "Ce que l'app ignore",
+    title: t.settings.ignored.title,
     children: <Widget>[
       DsSettingsTile(
         icon: Icons.screenshot_outlined,
         iconBackground: DsColors.lavenderSoft,
-        title: "Captures d'écran",
+        title: t.settings.ignored.screenshots,
         trailing: SettingsSwitch(
           value: ignoredOrigins.contains(PhotoOrigin.screenshot),
           onChanged: (bool ignored) => onIgnoredChanged(PhotoOrigin.screenshot, ignored: ignored),
@@ -25,19 +26,19 @@ class SettingsIgnoredGroup extends StatelessWidget {
       DsSettingsTile(
         icon: Icons.chat_bubble_outline_rounded,
         iconBackground: DsColors.successSoft,
-        title: 'Images WhatsApp',
-        subtitle: 'Et des autres messageries',
+        title: t.settings.ignored.whatsapp,
+        subtitle: t.settings.ignored.whatsappSubtitle,
         trailing: SettingsSwitch(
           value: ignoredOrigins.contains(PhotoOrigin.messagingApp),
           onChanged: (bool ignored) => onIgnoredChanged(PhotoOrigin.messagingApp, ignored: ignored),
         ),
       ),
-      const DsSettingsTile(
+      DsSettingsTile(
         icon: Icons.videocam_outlined,
         iconBackground: DsColors.blushSoft,
-        title: 'Vidéos',
-        subtitle: 'Toujours ignorées pour le moment',
-        trailing: SettingsSwitch(value: true),
+        title: t.settings.ignored.videos,
+        subtitle: t.settings.ignored.videosSubtitle,
+        trailing: const SettingsSwitch(value: true),
       ),
     ],
   );

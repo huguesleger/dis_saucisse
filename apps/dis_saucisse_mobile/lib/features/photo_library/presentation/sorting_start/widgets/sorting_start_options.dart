@@ -1,5 +1,6 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/core/formatting/french_dates.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/sorting_start_preset.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_choice.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SortingStartOptions extends StatelessWidget {
       initialDate: choice.startDate(today),
       firstDate: DateTime(2000),
       lastDate: today,
-      helpText: 'Trier les photos depuis le',
+      helpText: t.sorting.options.datePickerHelp,
     );
     if (picked != null) onChoose(CustomSortingStart(picked));
   }
@@ -34,10 +35,10 @@ class SortingStartOptions extends StatelessWidget {
           for (final SortingStartPreset preset in SortingStartPreset.values)
             DsFilterChip(
               label: switch (preset) {
-                SortingStartPreset.oneMonth => '1 mois',
-                SortingStartPreset.threeMonths => '3 mois',
-                SortingStartPreset.sixMonths => '6 mois',
-                SortingStartPreset.oneYear => '1 an',
+                SortingStartPreset.oneMonth => t.sorting.options.oneMonth,
+                SortingStartPreset.threeMonths => t.sorting.options.threeMonths,
+                SortingStartPreset.sixMonths => t.sorting.options.sixMonths,
+                SortingStartPreset.oneYear => t.sorting.options.oneYear,
               },
               selected: switch (choice) {
                 PresetSortingStart(preset: final SortingStartPreset selected) => selected == preset,
@@ -46,7 +47,7 @@ class SortingStartOptions extends StatelessWidget {
               onSelected: () => onChoose(PresetSortingStart(preset)),
             ),
           DsFilterChip(
-            label: 'Autre date',
+            label: t.sorting.options.otherDate,
             selected: switch (choice) {
               PresetSortingStart() => false,
               CustomSortingStart() => true,
@@ -55,7 +56,7 @@ class SortingStartOptions extends StatelessWidget {
           ),
         ],
       ),
-      Text('À partir du ${frenchLongDate(choice.startDate(today))}', style: DsTextStyles.bodyBold),
+      Text(t.sorting.options.startingFrom(date: frenchLongDate(choice.startDate(today))), style: DsTextStyles.bodyBold),
     ],
   );
 }

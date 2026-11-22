@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/bloc/sorting_start_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,11 +18,11 @@ class SortingStartStatusNotice extends StatelessWidget {
         spacing: DsSpacing.s,
         children: <Widget>[
           Text(
-            "Sans accès à tes photos, je ne peux rien trier. Tu peux l'autoriser dans les réglages.",
+            t.sorting.status.accessDenied,
             style: DsTextStyles.body,
           ),
           DsButton(
-            label: 'Ouvrir les réglages',
+            label: t.sorting.status.openSettings,
             variant: DsButtonVariant.secondary,
             onPressed: context.read<SortingStartCubit>().openAccessSettings,
           ),
@@ -30,7 +31,7 @@ class SortingStartStatusNotice extends StatelessWidget {
     ),
     SortingStartFailed() => DsCard(
       color: DsColors.surface,
-      child: Text("Oups, je n'ai pas réussi à lire tes photos. Réessaie.", style: DsTextStyles.body),
+      child: Text(t.sorting.status.failed, style: DsTextStyles.body),
     ),
     SortingStartEditing() || SortingStartRequestingAccess() || SortingStartCompleted() => const SizedBox.shrink(),
   };

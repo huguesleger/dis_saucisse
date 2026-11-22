@@ -3,6 +3,7 @@ import 'package:dis_saucisse_mobile/features/pairing/presentation/bloc/pair_comp
 import 'package:dis_saucisse_mobile/features/pairing/presentation/widgets/pair_scanner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class PairComputerScreen extends StatelessWidget {
   const PairComputerScreen({super.key});
@@ -20,33 +21,32 @@ class PairComputerScreen extends StatelessWidget {
             children: <Widget>[
               const DsLoader(),
               Text(
-                'Association avec $computerName…',
+                t.pairing.pairingWith(computerName: computerName),
                 style: DsTextStyles.titleM.copyWith(color: DsColors.background),
               ),
             ],
           ),
         ),
         PairComputerPaired(:final computer) => DsMessageView(
-          title: 'C’est fait !',
-          message: 'Ton téléphone est associé à ${computer.name}. Tu pourras y envoyer tes photos triées.',
+          title: t.pairing.paired.title,
+          message: t.pairing.paired.message(computerName: computer.name),
           primaryAction: DsMessageAction(
-            label: 'Retour à l’accueil',
+            label: t.pairing.paired.backHome,
             onPressed: () => Navigator.of(context).maybePop(),
           ),
         ),
         PairComputerFailed(:final problem) => DsMessageView(
           title: switch (problem) {
-            PairingProblem.invalidCode => 'Ce n’est pas le bon QR code',
-            PairingProblem.unreachable => 'PC introuvable',
-            PairingProblem.refused => 'Association refusée',
+            PairingProblem.invalidCode => t.pairing.invalidCode.title,
+            PairingProblem.unreachable => t.pairing.unreachable.title,
+            PairingProblem.refused => t.pairing.refused.title,
           },
           message: switch (problem) {
-            PairingProblem.invalidCode => 'Scanne le QR code affiché dans l’app Dis Saucisse ! sur ton PC.',
-            PairingProblem.unreachable =>
-              'Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi.',
-            PairingProblem.refused => 'Le QR code a peut-être changé. Scanne celui affiché en ce moment sur le PC.',
+            PairingProblem.invalidCode => t.pairing.invalidCode.message,
+            PairingProblem.unreachable => t.pairing.unreachable.message,
+            PairingProblem.refused => t.pairing.refused.message,
           },
-          primaryAction: DsMessageAction(label: 'Réessayer', onPressed: context.read<PairComputerCubit>().retry),
+          primaryAction: DsMessageAction(label: t.pairing.retry, onPressed: context.read<PairComputerCubit>().retry),
         ),
       },
     ),

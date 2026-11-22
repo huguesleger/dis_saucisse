@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/memories_labels.dart';
 import 'package:flutter/widgets.dart';
 
@@ -13,9 +14,9 @@ class MemoriesHeader extends StatelessWidget {
     children: <Widget>[
       const DsLogoPill(),
       const SizedBox(height: DsSpacing.xl),
-      Text('Tout ce qui est rangé sur le PC', style: DsTextStyles.caption.copyWith(fontSize: 13)),
+      Text(t.memories.header.caption, style: DsTextStyles.caption.copyWith(fontSize: 13)),
       const SizedBox(height: DsSpacing.xxs),
-      Text('${photoCountLabel(photoCount)}\nà l’abri', style: DsTextStyles.display),
+      Text(t.memories.header.photosSafe(photos: photoCountLabel(photoCount)), style: DsTextStyles.display),
     ],
   );
 }

@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/formatting/french_dates.dart';
 import 'package:dis_saucisse_mobile/features/memories/domain/entities/memory_month.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/widgets/memories_recap_stat.dart';
@@ -33,10 +34,13 @@ class MemoriesRecapCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('RÉCAP DU MOIS', style: DsTextStyles.caption.copyWith(color: DsColors.text, letterSpacing: 1)),
+                    Text(
+                      t.memories.recap.caption,
+                      style: DsTextStyles.caption.copyWith(color: DsColors.text, letterSpacing: 1),
+                    ),
                     const SizedBox(height: DsSpacing.xxs),
                     Text(
-                      'Ton mois de ${frenchMonthName(memory.month.month)}',
+                      t.memories.recap.title(month: frenchMonthName(memory.month.month)),
                       style: DsTextStyles.titleL,
                     ),
                   ],
@@ -52,17 +56,17 @@ class MemoriesRecapCard extends StatelessWidget {
               Expanded(
                 child: MemoriesRecapStat(
                   value: '${memory.photoCount}',
-                  label: memory.photoCount == 1 ? 'photo' : 'photos',
+                  label: memory.photoCount == 1 ? t.memories.recap.photoSingle : t.memories.recap.photoSeveral,
                 ),
               ),
               Expanded(
                 child: MemoriesRecapStat(
                   value: '${memory.eventCount}',
-                  label: memory.eventCount > 1 ? 'événements' : 'événement',
+                  label: memory.eventCount > 1 ? t.memories.recap.eventSeveral : t.memories.recap.eventSingle,
                 ),
               ),
               Expanded(
-                child: MemoriesRecapStat(value: byteSizeLabel(memory.byteCount), label: 'rangés'),
+                child: MemoriesRecapStat(value: byteSizeLabel(memory.byteCount), label: t.memories.recap.stored),
               ),
             ],
           ),

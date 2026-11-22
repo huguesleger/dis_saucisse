@@ -1,0 +1,38 @@
+{
+  "header": {
+    "subtitle": "L'app, à ta façon",
+    "title": "Réglages"
+  },
+  "computer": {
+    "noComputer": "Aucun ordinateur",
+    "pairHint": "Associe ton PC pour y envoyer tes photos",
+    "paired": "{platform} · associé",
+    "change": "Changer",
+    "pair": "Associer",
+    "folderHint": "Le dossier de rangement et son format se choisissent dans l’app du PC.",
+    "macos": "Mac",
+    "windows": "PC Windows"
+  },
+  "sorting": {
+    "title": "Tri",
+    "startDate": "Photos à trier depuis le",
+    "notChosen": "Pas encore choisi"
+  },
+  "startDateSheet": {
+    "title": "Trier les photos depuis…",
+    "confirm": "Valider"
+  },
+  "ignored": {
+    "title": "Ce que l'app ignore",
+    "screenshots": "Captures d'écran",
+    "whatsapp": "Images WhatsApp",
+    "whatsappSubtitle": "Et des autres messageries",
+    "videos": "Vidéos",
+    "videosSubtitle": "Toujours ignorées pour le moment"
+  },
+  "afterSending": {
+    "title": "Après l'envoi",
+    "freeSpace": "Libérer de la place",
+    "freeSpaceSubtitle": "Les photos déjà sur le PC passent par la corbeille, récupérables 30 jours"
+  }
+}

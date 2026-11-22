@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_action.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_labels.dart';
@@ -19,7 +20,7 @@ class EventActionsSheet extends StatelessWidget {
       children: <Widget>[
         DsSettingsTile(
           icon: Icons.edit_outlined,
-          title: 'Renommer',
+          title: t.events.actions.rename,
           onTap: () => Navigator.of(context).pop(EventAction.rename),
         ),
         ...previous.match(
@@ -27,7 +28,7 @@ class EventActionsSheet extends StatelessWidget {
           (PhotoEvent before) => <Widget>[
             DsSettingsTile(
               icon: Icons.vertical_align_top_rounded,
-              title: "Fusionner avec l'événement d'avant",
+              title: t.events.actions.mergeWithPrevious,
               subtitle: eventTitle(before),
               onTap: () => Navigator.of(context).pop(EventAction.mergeWithPrevious),
             ),
@@ -38,7 +39,7 @@ class EventActionsSheet extends StatelessWidget {
           (PhotoEvent after) => <Widget>[
             DsSettingsTile(
               icon: Icons.vertical_align_bottom_rounded,
-              title: "Fusionner avec l'événement d'après",
+              title: t.events.actions.mergeWithNext,
               subtitle: eventTitle(after),
               onTap: () => Navigator.of(context).pop(EventAction.mergeWithNext),
             ),
@@ -47,8 +48,8 @@ class EventActionsSheet extends StatelessWidget {
         if (event.bursts.length > 1)
           DsSettingsTile(
             icon: Icons.call_split_rounded,
-            title: 'Séparer en deux',
-            subtitle: 'Choisis la rafale qui commence le nouvel événement',
+            title: t.events.actions.split,
+            subtitle: t.events.actions.splitHint,
             onTap: () => Navigator.of(context).pop(EventAction.split),
           ),
       ],

@@ -1,0 +1,35 @@
+{
+  "retry": "Réessayer",
+  "accessDenied": {
+    "title": "Je n’ai pas accès à tes photos",
+    "message": "Autorise Dis Saucisse ! à lire tes photos dans les réglages du téléphone, puis reviens ici."
+  },
+  "libraryUnavailable": {
+    "title": "Tes photos ne répondent pas",
+    "message": "Je n’arrive pas à lire la photothèque du téléphone. Réessaie dans un instant."
+  },
+  "analysis": {
+    "title": "Analyse impossible",
+    "message": "Je n’ai pas réussi à examiner tes photos. Réessaie dans un instant."
+  },
+  "deletion": {
+    "title": "Rien n’a été supprimé",
+    "message": "La suppression a été annulée ou n’a pas abouti. Tes photos sont toujours là."
+  },
+  "history": {
+    "title": "Souvenirs introuvables",
+    "message": "Je n’arrive pas à retrouver la liste des photos déjà envoyées sur ton PC."
+  },
+  "computerUnreachable": {
+    "title": "PC introuvable",
+    "message": "Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi."
+  },
+  "storage": {
+    "title": "Je perds le fil",
+    "message": "Je n’arrive pas à relire ce que j’ai noté sur le téléphone. Réessaie, et relance l’app si ça continue."
+  },
+  "unknown": {
+    "title": "Oups !",
+    "message": "Quelque chose s’est mal passé. Réessaie dans un instant."
+  }
+}

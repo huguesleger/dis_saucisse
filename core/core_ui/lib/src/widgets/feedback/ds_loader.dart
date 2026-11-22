@@ -1,5 +1,5 @@
+import 'package:core_ui/src/gen/assets.gen.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottie/lottie.dart';
 
 /// Endless loader: three little sausages hopping one after the other.
 ///
@@ -13,15 +13,13 @@ class DsLoader extends StatelessWidget {
   /// One full hop of the three sausages: the shortest time a loader should stay on screen.
   static const Duration minDuration = Duration(milliseconds: 1100);
 
-  static const String _asset = 'assets/animations/ds_loader.json';
-
   @override
   Widget build(BuildContext context) => Semantics(
     label: 'Chargement',
     child: SizedBox(
       width: width,
       height: width / 2,
-      child: Lottie.asset(_asset, package: 'core_ui', fit: BoxFit.contain),
+      child: Assets.animations.dsLoader.lottie(fit: BoxFit.contain),
     ),
   );
 }

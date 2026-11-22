@@ -1,0 +1,35 @@
+{
+  "pairingWith": "Association avec {computerName}…",
+  "paired": {
+    "title": "C’est fait !",
+    "message": "Ton téléphone est associé à {computerName}. Tu pourras y envoyer tes photos triées.",
+    "backHome": "Retour à l’accueil"
+  },
+  "invalidCode": {
+    "title": "Ce n’est pas le bon QR code",
+    "message": "Scanne le QR code affiché dans l’app Dis Saucisse ! sur ton PC."
+  },
+  "unreachable": {
+    "title": "PC introuvable",
+    "message": "Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi."
+  },
+  "refused": {
+    "title": "Association refusée",
+    "message": "Le QR code a peut-être changé. Scanne celui affiché en ce moment sur le PC."
+  },
+  "retry": "Réessayer",
+  "topBar": {
+    "close": "Fermer",
+    "pill": "Associer le PC",
+    "scan": "Scanne le QR code\naffiché sur ton PC"
+  },
+  "help": {
+    "title": "C’est rapide !",
+    "subtitle": "Une seule fois, ensuite tout est automatique",
+    "step1": "Ouvre Dis Saucisse ! sur le PC",
+    "step2": "Vérifie que les deux sont sur le même Wi-Fi",
+    "step3": "Vise le QR code, c’est tout",
+    "importImage": "Importer une image du QR code",
+    "privacy": "Les photos restent chez vous, sans passer par internet"
+  }
+}

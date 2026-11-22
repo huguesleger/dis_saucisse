@@ -1,0 +1,35 @@
+{
+  "dateRangeTitle": "Du {startDay} au {endDate}",
+  "subtitle": {
+    "single": "{dates} · {count} photo",
+    "several": "{dates} · {count} photos"
+  },
+  "burstsToSort": {
+    "single": "1 rafale à trier",
+    "several": "{count} rafales à trier"
+  },
+  "monthEventCount": {
+    "single": "1 événement",
+    "several": "{count} événements"
+  },
+  "actions": {
+    "rename": "Renommer",
+    "mergeWithPrevious": "Fusionner avec l'événement d'avant",
+    "mergeWithNext": "Fusionner avec l'événement d'après",
+    "split": "Séparer en deux",
+    "splitHint": "Choisis la rafale qui commence le nouvel événement"
+  },
+  "nameSheet": {
+    "title": "Nomme l'événement",
+    "save": "Enregistrer"
+  },
+  "splitSheet": {
+    "title": "Où commence le nouvel événement ?",
+    "subtitle": "Tout ce qui suit la rafale choisie part dans le nouvel événement."
+  },
+  "splitOption": {
+    "startedAt": "{day} à {time}",
+    "photoSingle": "1 photo",
+    "photoSeveral": "{count} photos"
+  }
+}

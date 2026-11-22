@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/formatting/french_dates.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_burst.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/photo_thumbnail_image.dart';
@@ -25,11 +26,16 @@ class EventSplitOption extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '${frenchShortWeekdayAndDay(burst.startedAt)} à ${frenchTime(burst.startedAt)}',
+                  t.events.splitOption.startedAt(
+                    day: frenchShortWeekdayAndDay(burst.startedAt),
+                    time: frenchTime(burst.startedAt),
+                  ),
                   style: DsTextStyles.bodyBold,
                 ),
                 Text(
-                  burst.photos.length == 1 ? '1 photo' : '${burst.photos.length} photos',
+                  burst.photos.length == 1
+                      ? t.events.splitOption.photoSingle
+                      : t.events.splitOption.photoSeveral(count: burst.photos.length),
                   style: DsTextStyles.caption,
                 ),
               ],

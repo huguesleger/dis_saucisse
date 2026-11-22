@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class SortingStartPrivacyNote extends StatelessWidget {
@@ -12,7 +13,7 @@ class SortingStartPrivacyNote extends StatelessWidget {
         const DsIconSquare(icon: Icons.lock_outline_rounded, background: DsColors.successSoft),
         Expanded(
           child: Text(
-            'Tes photos restent chez toi : elles ne partent que vers ton ordinateur, par ton Wi-Fi.',
+            t.sorting.privacyNote,
             style: DsTextStyles.caption.copyWith(color: DsColors.text, fontSize: 13),
           ),
         ),

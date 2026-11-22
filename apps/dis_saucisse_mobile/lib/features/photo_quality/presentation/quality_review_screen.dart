@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/quality_review_cubit.dart';
@@ -23,13 +24,14 @@ class QualityReviewScreen extends StatelessWidget {
           showBackButton: true,
         ),
         QualityReviewDone(:final int discardedCount) => DsMessageView(
-          title: '${photoCountLabel(discardedCount)} écartée${discardedCount > 1 ? 's' : ''}',
-          message:
-              '${discardedCount > 1 ? 'Elles iront' : 'Elle ira'} dans « Écartées » sur l’ordinateur. Rien n’est supprimé du téléphone.',
+          title: discardedCount > 1
+              ? t.quality.done.titleSeveral(count: discardedCount)
+              : t.quality.done.titleSingle(count: discardedCount),
+          message: discardedCount > 1 ? t.quality.done.messageSeveral : t.quality.done.messageSingle,
           showBackButton: true,
         ),
         QualityReviewReady(groups: final groups) when groups.isEmpty => DsMessageView(
-          title: 'Tout est propre !',
+          title: t.quality.empty.title,
           message: qualityReviewEmpty(issue),
           showBackButton: true,
         ),

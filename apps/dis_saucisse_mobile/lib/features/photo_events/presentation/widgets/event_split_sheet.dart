@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_burst.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_event.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/presentation/widgets/event_split_option.dart';
@@ -11,8 +12,8 @@ class EventSplitSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DsBottomSheet(
-    title: 'Où commence le nouvel événement\u00a0?',
-    subtitle: 'Tout ce qui suit la rafale choisie part dans le nouvel événement.',
+    title: t.events.splitSheet.title,
+    subtitle: t.events.splitSheet.subtitle,
     child: ListView(
       shrinkWrap: true,
       padding: EdgeInsets.zero,

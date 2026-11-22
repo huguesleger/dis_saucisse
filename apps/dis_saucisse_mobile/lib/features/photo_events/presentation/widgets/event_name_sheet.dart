@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class EventNameSheet extends StatefulWidget {
@@ -24,7 +25,7 @@ class _EventNameSheetState extends State<EventNameSheet> {
 
   @override
   Widget build(BuildContext context) => DsBottomSheet(
-    title: "Nomme l'événement",
+    title: t.events.nameSheet.title,
     child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,7 +39,7 @@ class _EventNameSheetState extends State<EventNameSheet> {
           onSubmitted: (_) => _submit(),
           decoration: InputDecoration(hintText: widget.placeholder),
         ),
-        DsButton(label: 'Enregistrer', onPressed: _submit),
+        DsButton(label: t.events.nameSheet.save, onPressed: _submit),
       ],
     ),
   );

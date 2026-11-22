@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_group.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/quality_review_cubit.dart';
@@ -26,7 +27,7 @@ class QualityReviewReadyView extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: DsRoundIconButton(
                     icon: Icons.arrow_back_rounded,
-                    tooltip: 'Retour',
+                    tooltip: t.quality.review.back,
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                 ),
@@ -53,12 +54,12 @@ class QualityReviewReadyView extends StatelessWidget {
               spacing: DsSpacing.xs,
               children: <Widget>[
                 DsButton(
-                  label: 'Écarter ${photoCountLabel(state.selected.length)}',
+                  label: t.quality.review.discard(photos: photoCountLabel(state.selected.length)),
                   variant: DsButtonVariant.dark,
                   onPressed: state.selected.isEmpty ? null : context.read<QualityReviewCubit>().discardSelected,
                 ),
                 Text(
-                  'Rien n’est supprimé : elles iront dans « Écartées » sur l’ordinateur.',
+                  t.quality.review.nothingDeleted,
                   style: DsTextStyles.caption,
                   textAlign: TextAlign.center,
                 ),

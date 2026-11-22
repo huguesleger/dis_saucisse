@@ -2,6 +2,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_progress.dart';
 import 'package:dis_saucisse_mobile/features/transfer/presentation/remaining_time_label.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class TransferHeader extends StatelessWidget {
   const TransferHeader({super.key, required this.progress, required this.now});
@@ -15,11 +16,11 @@ class TransferHeader extends StatelessWidget {
     child: Column(
       spacing: DsSpacing.s,
       children: <Widget>[
-        Text('Envoi vers ${progress.computer.name}', style: DsTextStyles.bodyBold),
+        Text(t.transfer.header.sendingTo(computerName: progress.computer.name), style: DsTextStyles.bodyBold),
         const DsMascot(width: 150),
         Text('${progress.sent} / ${progress.total}', style: DsTextStyles.number),
         Text(
-          'photos envoyées · ${remainingTimeLabel(progress.remainingTime(now))}',
+          t.transfer.header.photosSent(remainingTime: remainingTimeLabel(progress.remainingTime(now))),
           style: DsTextStyles.caption.copyWith(fontSize: 13),
         ),
         DsProgressBar(value: progress.total == 0 ? 0 : progress.sent / progress.total),

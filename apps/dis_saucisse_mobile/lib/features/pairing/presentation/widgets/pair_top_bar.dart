@@ -1,5 +1,6 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class PairTopBar extends StatelessWidget {
   const PairTopBar({super.key});
@@ -16,18 +17,18 @@ class PairTopBar extends StatelessWidget {
             children: <Widget>[
               DsRoundIconButton(
                 icon: Icons.close_rounded,
-                tooltip: 'Fermer',
+                tooltip: t.pairing.topBar.close,
                 variant: DsRoundIconButtonVariant.glass,
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               const Spacer(),
-              const DsGlassPill(label: 'Associer le PC'),
+              DsGlassPill(label: t.pairing.topBar.pill),
               const Spacer(),
               const SizedBox(width: 44),
             ],
           ),
           Text(
-            'Scanne le QR code\naffiché sur ton PC',
+            t.pairing.topBar.scan,
             style: DsTextStyles.titleL.copyWith(color: DsColors.background),
             textAlign: TextAlign.center,
           ),

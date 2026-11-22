@@ -5,6 +5,7 @@ import 'package:dis_saucisse_mobile/features/transfer/presentation/widgets/trans
 import 'package:dis_saucisse_mobile/features/transfer/presentation/widgets/transfer_progress_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class TransferScreen extends StatelessWidget {
   const TransferScreen({super.key});
@@ -12,7 +13,7 @@ class TransferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DsMessageAction backHome = DsMessageAction(
-      label: 'Retour à l’accueil',
+      label: t.transfer.backHome,
       onPressed: () => Navigator.of(context).maybePop(),
     );
     return Scaffold(
@@ -20,31 +21,33 @@ class TransferScreen extends StatelessWidget {
         builder: (BuildContext context, TransferState state) => switch (state) {
           TransferPreparing() => const Center(child: DsLoader()),
           TransferNeedsPairing() => DsMessageView(
-            title: 'Associe d’abord ton PC',
-            message: 'Ouvre Dis Saucisse ! sur ton ordinateur et scanne son QR code.',
+            title: t.transfer.needsPairing.title,
+            message: t.transfer.needsPairing.message,
             primaryAction: DsMessageAction(
-              label: 'Associer mon PC',
+              label: t.transfer.needsPairing.pair,
               onPressed: () => const PairComputerPageRoute().pushReplacement(context),
             ),
             secondaryAction: backHome,
           ),
           TransferNothingToSend() => DsMessageView(
-            title: 'Rien à envoyer',
-            message: 'Trie des photos : celles que tu gardes ou écartes partiront sur ton PC.',
-            primaryAction: DsMessageAction(label: 'Revérifier', onPressed: context.read<TransferCubit>().start),
+            title: t.transfer.nothingToSend.title,
+            message: t.transfer.nothingToSend.message,
+            primaryAction: DsMessageAction(
+              label: t.transfer.nothingToSend.recheck,
+              onPressed: context.read<TransferCubit>().start,
+            ),
             secondaryAction: backHome,
           ),
           TransferFailed(:final TransferProblem problem) => DsMessageView(
             title: switch (problem) {
-              TransferProblem.unreachable => 'PC introuvable',
-              TransferProblem.failed => 'L’envoi s’est arrêté',
+              TransferProblem.unreachable => t.transfer.unreachable.title,
+              TransferProblem.failed => t.transfer.failed.title,
             },
             message: switch (problem) {
-              TransferProblem.unreachable =>
-                'Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi.',
-              TransferProblem.failed => 'Les photos déjà envoyées sont à l’abri. Réessaie pour envoyer la suite.',
+              TransferProblem.unreachable => t.transfer.unreachable.message,
+              TransferProblem.failed => t.transfer.failed.message,
             },
-            primaryAction: DsMessageAction(label: 'Réessayer', onPressed: context.read<TransferCubit>().start),
+            primaryAction: DsMessageAction(label: t.transfer.retry, onPressed: context.read<TransferCubit>().start),
             secondaryAction: backHome,
           ),
           TransferSending(:final progress) => TransferProgressView(progress: progress, paused: false),

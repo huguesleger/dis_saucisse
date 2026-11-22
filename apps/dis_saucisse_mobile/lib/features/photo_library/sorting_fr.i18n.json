@@ -1,0 +1,22 @@
+{
+  "header": {
+    "title": "Depuis quand\non trie ?",
+    "subtitle": "Commence par tes photos récentes : tu pourras toujours remonter plus loin plus tard."
+  },
+  "privacyNote": "Tes photos restent chez toi : elles ne partent que vers ton ordinateur, par ton Wi-Fi.",
+  "start": "C'est parti !",
+  "status": {
+    "accessDenied": "Sans accès à tes photos, je ne peux rien trier. Tu peux l'autoriser dans les réglages.",
+    "openSettings": "Ouvrir les réglages",
+    "failed": "Oups, je n'ai pas réussi à lire tes photos. Réessaie."
+  },
+  "options": {
+    "datePickerHelp": "Trier les photos depuis le",
+    "oneMonth": "1 mois",
+    "threeMonths": "3 mois",
+    "sixMonths": "6 mois",
+    "oneYear": "1 an",
+    "otherDate": "Autre date",
+    "startingFrom": "À partir du {date}"
+  }
+}

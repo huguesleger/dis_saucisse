@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/bloc/burst_sort_cubit.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/widgets/burst_sort_in_progress_view.dart';
@@ -11,7 +12,7 @@ class BurstSortScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DsMessageAction backHome = DsMessageAction(
-      label: "Retour à l'accueil",
+      label: t.burstSort.backHome,
       onPressed: () => Navigator.of(context).maybePop(),
     );
     return Scaffold(
@@ -25,8 +26,8 @@ class BurstSortScreen extends StatelessWidget {
             secondaryAction: backHome,
           ),
           BurstSortFinished() => DsMessageView(
-            title: 'Tout est trié !',
-            message: 'Bravo, il ne reste plus aucune rafale à trier ici.',
+            title: t.burstSort.finished.title,
+            message: t.burstSort.finished.message,
             primaryAction: backHome,
           ),
           final BurstSortInProgress sorting => BurstSortInProgressView(state: sorting),

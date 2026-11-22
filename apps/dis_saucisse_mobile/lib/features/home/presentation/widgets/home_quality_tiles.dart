@@ -1,6 +1,7 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class HomeQualityTiles extends StatelessWidget {
   const HomeQualityTiles({
@@ -27,7 +28,7 @@ class HomeQualityTiles extends StatelessWidget {
           Expanded(
             child: DsStatTile(
               value: '$duplicateCount',
-              label: 'doublons',
+              label: t.home.quality.duplicates,
               icon: Icons.filter_none_rounded,
               iconBackground: DsColors.mustardLight,
               onTap: () => onOpen(QualityIssue.duplicates),
@@ -36,7 +37,7 @@ class HomeQualityTiles extends StatelessWidget {
           Expanded(
             child: DsStatTile(
               value: '$blurryCount',
-              label: 'photos floues',
+              label: t.home.quality.blurry,
               icon: Icons.remove_circle_outline_rounded,
               iconBackground: DsColors.surfaceStrong,
               onTap: () => onOpen(QualityIssue.blurry),
@@ -46,7 +47,9 @@ class HomeQualityTiles extends StatelessWidget {
       ),
       if (photosLeftToAnalyze > 0)
         Text(
-          'Analyse en cours… encore $photosLeftToAnalyze photo${photosLeftToAnalyze > 1 ? 's' : ''}',
+          photosLeftToAnalyze > 1
+              ? t.home.quality.analyzingSeveral(count: photosLeftToAnalyze)
+              : t.home.quality.analyzingSingle,
           style: DsTextStyles.caption,
         ),
     ],

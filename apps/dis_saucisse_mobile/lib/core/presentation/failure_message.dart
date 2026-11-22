@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/burst_sort_failure.dart';
 import 'package:dis_saucisse_mobile/features/free_space/domain/free_space_failure.dart';
 import 'package:dis_saucisse_mobile/features/memories/domain/memories_failure.dart';
@@ -16,29 +17,29 @@ final class FailureMessage {
 }
 
 FailureMessage failureMessage(AppFailure failure) => switch (failure) {
-  PhotoAccessDeniedFailure() => const FailureMessage(
-    title: 'Je n’ai pas accès à tes photos',
-    message: 'Autorise Dis Saucisse ! à lire tes photos dans les réglages du téléphone, puis reviens ici.',
+  PhotoAccessDeniedFailure() => FailureMessage(
+    title: t.failures.accessDenied.title,
+    message: t.failures.accessDenied.message,
   ),
-  PhotoLibraryUnavailableFailure() => const FailureMessage(
-    title: 'Tes photos ne répondent pas',
-    message: 'Je n’arrive pas à lire la photothèque du téléphone. Réessaie dans un instant.',
+  PhotoLibraryUnavailableFailure() => FailureMessage(
+    title: t.failures.libraryUnavailable.title,
+    message: t.failures.libraryUnavailable.message,
   ),
-  PhotoAnalysisFailure() => const FailureMessage(
-    title: 'Analyse impossible',
-    message: 'Je n’ai pas réussi à examiner tes photos. Réessaie dans un instant.',
+  PhotoAnalysisFailure() => FailureMessage(
+    title: t.failures.analysis.title,
+    message: t.failures.analysis.message,
   ),
-  PhotoDeletionFailure() => const FailureMessage(
-    title: 'Rien n’a été supprimé',
-    message: 'La suppression a été annulée ou n’a pas abouti. Tes photos sont toujours là.',
+  PhotoDeletionFailure() => FailureMessage(
+    title: t.failures.deletion.title,
+    message: t.failures.deletion.message,
   ),
-  SentPhotoHistoryFailure() => const FailureMessage(
-    title: 'Souvenirs introuvables',
-    message: 'Je n’arrive pas à retrouver la liste des photos déjà envoyées sur ton PC.',
+  SentPhotoHistoryFailure() => FailureMessage(
+    title: t.failures.history.title,
+    message: t.failures.history.message,
   ),
-  ComputerUnreachableFailure() => const FailureMessage(
-    title: 'PC introuvable',
-    message: 'Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi.',
+  ComputerUnreachableFailure() => FailureMessage(
+    title: t.failures.computerUnreachable.title,
+    message: t.failures.computerUnreachable.message,
   ),
   SortingStartStorageFailure() ||
   IgnoredOriginsStorageFailure() ||
@@ -47,9 +48,9 @@ FailureMessage failureMessage(AppFailure failure) => switch (failure) {
   EventBoundaryStorageFailure() ||
   PhotoQualityStorageFailure() ||
   SentPhotoStorageFailure() ||
-  PairingStorageFailure() => const FailureMessage(
-    title: 'Je perds le fil',
-    message: 'Je n’arrive pas à relire ce que j’ai noté sur le téléphone. Réessaie, et relance l’app si ça continue.',
+  PairingStorageFailure() => FailureMessage(
+    title: t.failures.storage.title,
+    message: t.failures.storage.message,
   ),
-  _ => const FailureMessage(title: 'Oups !', message: 'Quelque chose s’est mal passé. Réessaie dans un instant.'),
+  _ => FailureMessage(title: t.failures.unknown.title, message: t.failures.unknown.message),
 };

@@ -1,6 +1,7 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/core/presentation/main_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class MainNavBar extends StatelessWidget {
   const MainNavBar({super.key, required this.selectedTab, required this.onSelected});
@@ -37,8 +38,8 @@ class MainNavBar extends StatelessWidget {
   );
 
   DsNavDestination _destinationOf(MainTab tab) => switch (tab) {
-    MainTab.photos => const DsNavDestination(icon: Icons.photo_outlined, label: 'Photos à trier'),
-    MainTab.memories => const DsNavDestination(icon: Icons.favorite_border_rounded, label: 'Souvenirs'),
-    MainTab.settings => const DsNavDestination(icon: Icons.tune_rounded, label: 'Réglages'),
+    MainTab.photos => DsNavDestination(icon: Icons.photo_outlined, label: t.navigation.photos),
+    MainTab.memories => DsNavDestination(icon: Icons.favorite_border_rounded, label: t.navigation.memories),
+    MainTab.settings => DsNavDestination(icon: Icons.tune_rounded, label: t.navigation.settings),
   };
 }

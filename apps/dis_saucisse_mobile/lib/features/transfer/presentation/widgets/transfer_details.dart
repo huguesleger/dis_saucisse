@@ -1,6 +1,7 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/transfer/domain/entities/transfer_progress.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class TransferDetails extends StatelessWidget {
   const TransferDetails({
@@ -30,10 +31,8 @@ class TransferDetails extends StatelessWidget {
             iconBackground: DsColors.mustardLight,
             title: progress.computer.name,
             subtitle: paused
-                ? 'En pause'
-                : (waitingForComputer
-                      ? 'Le PC a mis la réception en pause, ça reprendra tout seul'
-                      : 'Connecté en Wi-Fi'),
+                ? t.transfer.details.paused
+                : (waitingForComputer ? t.transfer.details.computerPaused : t.transfer.details.connected),
             trailing: Container(
               width: 10,
               height: 10,
@@ -49,10 +48,10 @@ class TransferDetails extends StatelessWidget {
         spacing: DsSpacing.s,
         children: <Widget>[
           Expanded(
-            child: DsStatTile(value: '${progress.sent}', label: 'vérifiées'),
+            child: DsStatTile(value: '${progress.sent}', label: t.transfer.details.checked),
           ),
           Expanded(
-            child: DsStatTile(value: '${progress.discardedSent}', label: 'écartées'),
+            child: DsStatTile(value: '${progress.discardedSent}', label: t.transfer.details.discarded),
           ),
         ],
       ),
@@ -60,13 +59,16 @@ class TransferDetails extends StatelessWidget {
         children: <Widget>[
           DsSettingsTile(
             icon: Icons.folder_open_rounded,
-            title: progress.currentFolder.match(() => 'Préparation…', (String folder) => folder.replaceAll('/', ' / ')),
-            subtitle: 'En train de ranger dans',
+            title: progress.currentFolder.match(
+              () => t.transfer.details.preparing,
+              (String folder) => folder.replaceAll('/', ' / '),
+            ),
+            subtitle: t.transfer.details.sortingInto,
           ),
         ],
       ),
       DsButton(
-        label: paused ? 'Reprendre' : 'Mettre en pause',
+        label: paused ? t.transfer.details.resume : t.transfer.details.pause,
         variant: paused ? DsButtonVariant.primary : DsButtonVariant.light,
         onPressed: paused ? onResume : onPause,
       ),

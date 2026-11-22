@@ -5,6 +5,7 @@ import 'package:dis_saucisse_mobile/features/transfer/presentation/widgets/trans
 import 'package:dis_saucisse_mobile/features/transfer/presentation/widgets/transfer_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class TransferProgressView extends StatelessWidget {
   const TransferProgressView({
@@ -31,7 +32,7 @@ class TransferProgressView extends StatelessWidget {
               padding: const EdgeInsets.all(DsSpacing.m),
               child: DsRoundIconButton(
                 icon: Icons.arrow_back_rounded,
-                tooltip: 'Retour à l’accueil',
+                tooltip: t.transfer.backHome,
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
             ),

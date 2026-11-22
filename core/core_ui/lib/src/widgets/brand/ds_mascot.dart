@@ -1,5 +1,5 @@
+import 'package:core_ui/src/gen/assets.gen.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 /// The sausage mascot. Its outline scales with its size, so it keeps the logo proportions.
 class DsMascot extends StatelessWidget {
@@ -8,9 +8,7 @@ class DsMascot extends StatelessWidget {
   final double width;
 
   @override
-  Widget build(BuildContext context) => SvgPicture.asset(
-    'assets/images/mascot.svg',
-    package: 'core_ui',
+  Widget build(BuildContext context) => Assets.images.mascot.svg(
     width: width,
     height: width * 150 / 240,
     semanticsLabel: 'Saucisse',

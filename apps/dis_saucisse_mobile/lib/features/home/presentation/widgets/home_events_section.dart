@@ -8,6 +8,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_
 import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_labels.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class HomeEventsSection extends StatelessWidget {
   const HomeEventsSection({
@@ -26,7 +27,7 @@ class HomeEventsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => eventsByMonth.isEmpty
       ? Text(
-          'Tout est trié pour le moment. Saucisse !',
+          t.home.allSorted,
           style: DsTextStyles.body.copyWith(color: DsColors.textSoft),
         )
       : Column(

@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/core/router/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class TransferDoneView extends StatelessWidget {
   const TransferDoneView({
@@ -29,11 +30,16 @@ class TransferDoneView extends StatelessWidget {
             const Spacer(),
             const Center(child: DsMascot(width: 220)),
             const SizedBox(height: DsSpacing.xl),
-            Text('Saucisse !', style: DsTextStyles.display, textAlign: TextAlign.center),
+            Text(t.transfer.done.title, style: DsTextStyles.display, textAlign: TextAlign.center),
             const SizedBox(height: DsSpacing.s),
             Text(
-              '${sentCount == 1 ? '1 photo est bien rangée' : '$sentCount photos sont bien rangées'} sur $computerName, '
-              'dans ${eventCount == 1 ? '1 événement' : '$eventCount événements'}.',
+              t.transfer.done.summary(
+                photos: sentCount == 1 ? t.transfer.done.photosSingle : t.transfer.done.photosSeveral(count: sentCount),
+                computerName: computerName,
+                events: eventCount == 1
+                    ? t.transfer.done.eventsSingle
+                    : t.transfer.done.eventsSeveral(count: eventCount),
+              ),
               style: DsTextStyles.body,
               textAlign: TextAlign.center,
             ),
@@ -50,7 +56,7 @@ class TransferDoneView extends StatelessWidget {
                           text: byteSizeLabel(sentBytes),
                           style: DsTextStyles.titleM.copyWith(color: DsColors.sausage),
                         ),
-                        TextSpan(text: '  libérables sur le téléphone', style: DsTextStyles.bodyBold),
+                        TextSpan(text: t.transfer.done.freeable, style: DsTextStyles.bodyBold),
                       ],
                     ),
                   ),
@@ -59,13 +65,13 @@ class TransferDoneView extends StatelessWidget {
             ),
             const Spacer(),
             DsButton(
-              label: 'Libérer de la place',
+              label: t.transfer.done.freeSpace,
               variant: DsButtonVariant.dark,
               onPressed: () => const FreeSpacePageRoute().pushReplacement(context),
             ),
             const SizedBox(height: DsSpacing.s),
             DsButton(
-              label: 'Garder sur le téléphone',
+              label: t.transfer.done.keep,
               variant: DsButtonVariant.light,
               onPressed: () => Navigator.of(context).maybePop(),
             ),

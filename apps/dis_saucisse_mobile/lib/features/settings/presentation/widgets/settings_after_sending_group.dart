@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class SettingsAfterSendingGroup extends StatelessWidget {
@@ -8,12 +9,12 @@ class SettingsAfterSendingGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DsSettingsGroup(
-    title: "Après l'envoi",
+    title: t.settings.afterSending.title,
     children: <Widget>[
       DsSettingsTile(
         icon: Icons.cleaning_services_outlined,
-        title: 'Libérer de la place',
-        subtitle: 'Les photos déjà sur le PC passent par la corbeille, récupérables 30 jours',
+        title: t.settings.afterSending.freeSpace,
+        subtitle: t.settings.afterSending.freeSpaceSubtitle,
         trailing: const Icon(Icons.chevron_right_rounded, color: DsColors.text),
         onTap: onFreeSpace,
       ),

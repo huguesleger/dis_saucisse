@@ -1,18 +1,20 @@
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
 
 String qualityReviewTitle(QualityIssue issue) => switch (issue) {
-  QualityIssue.duplicates => 'Doublons',
-  QualityIssue.blurry => 'Photos floues',
+  QualityIssue.duplicates => t.quality.title.duplicates,
+  QualityIssue.blurry => t.quality.title.blurry,
 };
 
 String qualityReviewIntro(QualityIssue issue) => switch (issue) {
-  QualityIssue.duplicates => 'Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.',
-  QualityIssue.blurry => 'Ces photos semblent floues. Décoche celles que tu veux garder.',
+  QualityIssue.duplicates => t.quality.intro.duplicates,
+  QualityIssue.blurry => t.quality.intro.blurry,
 };
 
 String qualityReviewEmpty(QualityIssue issue) => switch (issue) {
-  QualityIssue.duplicates => 'Aucun doublon parmi les photos à trier.',
-  QualityIssue.blurry => 'Aucune photo floue parmi les photos à trier.',
+  QualityIssue.duplicates => t.quality.empty.duplicates,
+  QualityIssue.blurry => t.quality.empty.blurry,
 };
 
-String photoCountLabel(int count) => count <= 1 ? '$count photo' : '$count photos';
+String photoCountLabel(int count) =>
+    count <= 1 ? t.quality.photoCount.single(count: count) : t.quality.photoCount.several(count: count);

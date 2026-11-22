@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/bloc/memories_cubit.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/memories_bone_mock.dart';
@@ -23,10 +24,10 @@ class MemoriesScreen extends StatelessWidget {
           ),
           MemoriesLoaded(months: <Object>[]) => DsRefresh(
             onRefresh: context.read<MemoriesCubit>().load,
-            child: const DsRefreshFillView(
+            child: DsRefreshFillView(
               child: DsMessageView(
-                title: 'Pas encore de souvenirs',
-                message: 'Envoie tes premières photos sur le PC : elles apparaîtront ici, rangées par mois.',
+                title: t.memories.empty.title,
+                message: t.memories.empty.message,
                 placement: DsMessagePlacement.tab,
               ),
             ),

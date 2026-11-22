@@ -1,4 +1,5 @@
 import 'package:core_ui/src/foundation/ds_colors.dart';
+import 'package:core_ui/src/gen/fonts.gen.dart';
 import 'package:flutter/painting.dart';
 
 /// Text styles of the design system: Fredoka for titles, Nunito Sans for text.
@@ -33,10 +34,10 @@ abstract final class DsTextStyles {
   static final TextStyle label = _fredoka(16, FontWeight.w500, height: 1.2);
 
   static TextStyle _fredoka(double size, FontWeight weight, {double height = 1.2}) =>
-      _style('Fredoka', size, weight, height: height, color: DsColors.text);
+      _style(FontFamily.fredoka, size, weight, height: height, color: DsColors.text);
 
   static TextStyle _nunito(double size, FontWeight weight, {Color color = DsColors.text}) =>
-      _style('NunitoSans', size, weight, height: 1.35, color: color);
+      _style(FontFamily.nunitoSans, size, weight, height: 1.35, color: color);
 
   static TextStyle _style(
     String family,

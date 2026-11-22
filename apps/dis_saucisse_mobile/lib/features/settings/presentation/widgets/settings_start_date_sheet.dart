@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/sorting_start_choice.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/presentation/sorting_start/widgets/sorting_start_options.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _SettingsStartDateSheetState extends State<SettingsStartDateSheet> {
 
   @override
   Widget build(BuildContext context) => DsBottomSheet(
-    title: 'Trier les photos depuis…',
+    title: t.settings.startDateSheet.title,
     child: SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -31,7 +32,7 @@ class _SettingsStartDateSheetState extends State<SettingsStartDateSheet> {
             onChoose: (SortingStartChoice choice) => setState(() => _choice = choice),
           ),
           DsButton(
-            label: 'Valider',
+            label: t.settings.startDateSheet.confirm,
             variant: DsButtonVariant.dark,
             onPressed: () => Navigator.of(context).pop(_choice.startDate(widget.today)),
           ),

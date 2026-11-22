@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -16,7 +17,7 @@ class MemoriesYearFilters extends StatelessWidget {
     child: Row(
       spacing: DsSpacing.xs,
       children: <Widget>[
-        DsFilterChip(label: 'Tout', selected: selectedYear.isNone(), onSelected: () => onSelected(none())),
+        DsFilterChip(label: t.memories.allYears, selected: selectedYear.isNone(), onSelected: () => onSelected(none())),
         for (final int year in years)
           DsFilterChip(label: '$year', selected: selectedYear == some(year), onSelected: () => onSelected(some(year))),
       ],

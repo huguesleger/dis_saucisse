@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/widgets.dart';
 
 class SortingStartHeader extends StatelessWidget {
@@ -10,10 +11,10 @@ class SortingStartHeader extends StatelessWidget {
     children: <Widget>[
       const Center(child: DsMascot(width: 160)),
       const SizedBox(height: DsSpacing.xl),
-      Text('Depuis quand\non trie ?', style: DsTextStyles.display),
+      Text(t.sorting.header.title, style: DsTextStyles.display),
       const SizedBox(height: DsSpacing.s),
       Text(
-        'Commence par tes photos récentes : tu pourras toujours remonter plus loin plus tard.',
+        t.sorting.header.subtitle,
         style: DsTextStyles.body.copyWith(color: DsColors.textSoft),
       ),
     ],

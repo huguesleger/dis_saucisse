@@ -1,0 +1,19 @@
+{
+  "ready": {
+    "title": "Libérer de la place",
+    "subtitle": "Ces photos sont déjà rangées et vérifiées sur ton ordinateur.",
+    "kept": "{count} photos gardées",
+    "deleteDiscarded": "Supprimer aussi les {count} écartées",
+    "trashNote": "Elles partent dans la corbeille du téléphone : tu peux les récupérer pendant 30 jours.",
+    "free": "Libérer {size}",
+    "keep": "Garder sur le téléphone"
+  },
+  "nothingToFree": {
+    "title": "Rien à libérer",
+    "message": "Envoie d’abord des photos sur ton ordinateur : tu pourras ensuite faire de la place."
+  },
+  "done": {
+    "title": "{size} libérés !",
+    "message": "{count} photos sont dans la corbeille du téléphone. Elles restent rangées sur ton ordinateur."
+  }
+}

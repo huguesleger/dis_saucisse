@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/pairing/domain/entities/paired_computer.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
@@ -30,13 +31,13 @@ class SettingsComputerCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    computer.match(() => 'Aucun ordinateur', (PairedComputer paired) => paired.name),
+                    computer.match(() => t.settings.computer.noComputer, (PairedComputer paired) => paired.name),
                     style: DsTextStyles.titleM,
                   ),
                   Text(
                     computer.match(
-                      () => 'Associe ton PC pour y envoyer tes photos',
-                      (PairedComputer paired) => '${_platformLabel(paired.platform)} · associé',
+                      () => t.settings.computer.pairHint,
+                      (PairedComputer paired) => t.settings.computer.paired(platform: _platformLabel(paired.platform)),
                     ),
                     style: DsTextStyles.caption,
                   ),
@@ -44,7 +45,7 @@ class SettingsComputerCard extends StatelessWidget {
               ),
             ),
             DsButton(
-              label: computer.isSome() ? 'Changer' : 'Associer',
+              label: computer.isSome() ? t.settings.computer.change : t.settings.computer.pair,
               variant: DsButtonVariant.secondary,
               expanded: false,
               onPressed: onChange,
@@ -52,7 +53,7 @@ class SettingsComputerCard extends StatelessWidget {
           ],
         ),
         Text(
-          'Le dossier de rangement et son format se choisissent dans l’app du PC.',
+          t.settings.computer.folderHint,
           style: DsTextStyles.caption,
         ),
       ],
@@ -60,7 +61,7 @@ class SettingsComputerCard extends StatelessWidget {
   );
 
   String _platformLabel(ComputerPlatform platform) => switch (platform) {
-    ComputerPlatform.macos => 'Mac',
-    ComputerPlatform.windows => 'PC Windows',
+    ComputerPlatform.macos => t.settings.computer.macos,
+    ComputerPlatform.windows => t.settings.computer.windows,
   };
 }

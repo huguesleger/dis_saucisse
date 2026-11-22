@@ -3,6 +3,7 @@ import 'package:dis_saucisse_mobile/core/formatting/french_dates.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_month.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class HomeMonthFilters extends StatelessWidget {
   const HomeMonthFilters({super.key, required this.months, required this.selectedMonth, required this.onSelected});
@@ -20,7 +21,7 @@ class HomeMonthFilters extends StatelessWidget {
       child: Row(
         spacing: DsSpacing.xs,
         children: <Widget>[
-          DsFilterChip(label: 'Tout', selected: selectedMonth.isNone(), onSelected: () => onSelected(none())),
+          DsFilterChip(label: t.home.allMonths, selected: selectedMonth.isNone(), onSelected: () => onSelected(none())),
           for (final PhotoMonth month in months)
             DsFilterChip(
               label: month.year == currentYear

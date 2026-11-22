@@ -1,0 +1,53 @@
+{
+  "backHome": "Retour à l’accueil",
+  "retry": "Réessayer",
+  "needsPairing": {
+    "title": "Associe d’abord ton PC",
+    "message": "Ouvre Dis Saucisse ! sur ton ordinateur et scanne son QR code.",
+    "pair": "Associer mon PC"
+  },
+  "nothingToSend": {
+    "title": "Rien à envoyer",
+    "message": "Trie des photos : celles que tu gardes ou écartes partiront sur ton PC.",
+    "recheck": "Revérifier"
+  },
+  "unreachable": {
+    "title": "PC introuvable",
+    "message": "Vérifie que le PC est allumé, que l’app est ouverte et que vous êtes sur le même Wi-Fi."
+  },
+  "failed": {
+    "title": "L’envoi s’est arrêté",
+    "message": "Les photos déjà envoyées sont à l’abri. Réessaie pour envoyer la suite."
+  },
+  "header": {
+    "sendingTo": "Envoi vers {computerName}",
+    "photosSent": "photos envoyées · {remainingTime}"
+  },
+  "remainingTime": {
+    "computing": "calcul du temps restant…",
+    "fewSeconds": "encore quelques secondes",
+    "minutes": "encore ~{minutes} min"
+  },
+  "details": {
+    "paused": "En pause",
+    "computerPaused": "Le PC a mis la réception en pause, ça reprendra tout seul",
+    "connected": "Connecté en Wi-Fi",
+    "checked": "vérifiées",
+    "discarded": "écartées",
+    "preparing": "Préparation…",
+    "sortingInto": "En train de ranger dans",
+    "resume": "Reprendre",
+    "pause": "Mettre en pause"
+  },
+  "done": {
+    "title": "Saucisse !",
+    "summary": "{photos} sur {computerName}, dans {events}.",
+    "photosSingle": "1 photo est bien rangée",
+    "photosSeveral": "{count} photos sont bien rangées",
+    "eventsSingle": "1 événement",
+    "eventsSeveral": "{count} événements",
+    "freeable": "  libérables sur le téléphone",
+    "freeSpace": "Libérer de la place",
+    "keep": "Garder sur le téléphone"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "title": {
+    "duplicates": "Doublons",
+    "blurry": "Photos floues"
+  },
+  "intro": {
+    "duplicates": "Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.",
+    "blurry": "Ces photos semblent floues. Décoche celles que tu veux garder."
+  },
+  "empty": {
+    "title": "Tout est propre !",
+    "duplicates": "Aucun doublon parmi les photos à trier.",
+    "blurry": "Aucune photo floue parmi les photos à trier."
+  },
+  "photoCount": {
+    "single": "{count} photo",
+    "several": "{count} photos"
+  },
+  "done": {
+    "titleSingle": "{count} photo écartée",
+    "titleSeveral": "{count} photos écartées",
+    "messageSingle": "Elle ira dans « Écartées » sur l’ordinateur. Rien n’est supprimé du téléphone.",
+    "messageSeveral": "Elles iront dans « Écartées » sur l’ordinateur. Rien n’est supprimé du téléphone."
+  },
+  "review": {
+    "back": "Retour",
+    "discard": "Écarter {photos}",
+    "nothingDeleted": "Rien n’est supprimé : elles iront dans « Écartées » sur l’ordinateur."
+  },
+  "photoTile": {
+    "kept": "Photo gardée",
+    "toDiscard": "Photo à écarter"
+  }
+}

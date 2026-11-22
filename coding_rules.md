@@ -18,25 +18,35 @@
   - In new code, one public widget per file, the file named after the class in snake_case. No private widget and no `Widget _buildX()` method: extract a public widget instead (only the `_XxxState` of a `StatefulWidget` stays private)
   - Prefer `StatelessWidget`
   - Use BlocBuilder to build the screen based on the state of the cubit, with an exhaustive switch expression on the state. No `if (state is X)` followed by a cast
-  - A model (entity, state, route extra, sealed configuration type) only carries data and derives data from it (`Option<RealEstate> get preselectedRealEstate`). It never takes a UI decision: no getter that says which step to show or hide, where to navigate, or which wording to display (`hidesPurchaseProjectStep`, `returnsToPurchaseProject`). The widget takes that decision from the data: an exhaustive switch on the case, or a read of the `Option` (`isNone()` shows the step)
+  - A model (entity, state, route extra, sealed configuration type) only carries data and derives data from it (`List<PhotoMonth> get months`). It never takes a UI decision: no getter that says which step to show or hide, where to navigate, or which wording to display (`showsQualityTiles`, `returnsToHome`). The widget takes that decision from the data: an exhaustive switch on the case, or a read of the `Option` (`isNone()` shows the step)
   - A UI decision with more than two outcomes (several possible returns after a success) is an exhaustive switch on a sealed type or an enum, never a `bool`
   - Never put a view model in the screen facts (`XxxFacts`, the raw data the presentation rules read), nor a fact in a view model, even when their fields are identical: the facts get their own type, and a pure rule function converts them into view models
-  - For a paginated list, use `PaginatedListView` from ui_toolkit: it carries loading, next pages, empty and error states, `initialOptions` carries the filters, read once: add `key: ValueKey(filter)` so that a new filter reloads the list. `boneMocks` with `AppSkeletonizer(enabled: loading)` in `itemBuilder` give the skeleton. Do not add a cubit for the list itself. Do not use `InfiniteListView` or `PaginationCubit` from core_ui in new code, even though existing screens still rely on them
+
+## Design system and screen states
+  - Build the UI with the `core_ui` components (`Ds*`) and tokens (`DsColors`, `DsSpacing`, `DsRadius`, `DsTextStyles`), never with raw colors, sizes or text styles. A component shared by both apps belongs in `core_ui`
+  - Loading:
+    - A content screen (a list, a dashboard) shows its real loaded view filled with a bone mock inside `DsSkeletonizer`. The bone mock is a top-level value in `<feature>_bone_mock.dart`, in the presentation layer, never in the state
+    - Any other wait shows `DsLoader`
+    - So that the loader does not flash, the cubit wraps the loading in `withMinimalDelay(DsLoader.minDuration)` (or `DsSkeletonizer.minDuration`), only when the loader is on screen: a silent reload of data already shown never waits. The duration is injected (`Duration? minimalLoading`) and the tests pass `Duration.zero`
+  - Empty states, successes and messages use `DsMessageView` (`placement: DsMessagePlacement.tab` inside a tab)
+  - A failure state carries its `AppFailure` (`XxxFailed(this.failure)`) and the screen shows it with `FailureView`. The wording of each failure lives in `failureMessage` (`lib/core/presentation/failure_message.dart`): a new failure that can reach a screen gets its message there
+  - A modal bottom sheet is opened with `DsBottomSheet.show` and its content is a `DsBottomSheet`
+  - A screen that the user may want to reload is wrapped in `DsRefresh`; a state that does not scroll (empty, error) goes inside a `DsRefreshFillView`
 
 ## State
   - Model the state as a sum type: an `@immutable sealed class` with variants (`final class` in new code) (`Initial`, `Loading`, `Loaded`, `Error`...), never a class with nullable fields and status flags
   - Use a sealed class when the variants carry data, an enum when they carry none, a record for a local composite value
   - The state lives in `xxx_state.dart`, declared `part of 'xxx_cubit.dart';`
   - Data shared by every variant becomes a required field of the sealed parent
-  - No `Equatable` and no `freezed` on states or domain entities (`freezed` is only for the generated swagger DTOs)
+  - No `Equatable` and no `freezed` on states or domain entities (`AppFailure` is the only `Equatable`)
   - `copyWith` may evolve a variant that carries independent fields, never switch from one variant to another: build the new variant
   - Always use SafeCubit instead of Cubit
-  - Inject dependencies through the constructor with a fallback on the service locator (`repository ?? getIt.get<Repository>()`), and never mix `getIt` and `ServiceLocator` in the same file
+  - Inject dependencies through the constructor with a fallback on the service locator (`repository ?? getIt.get<Repository>()`)
 
 ## Functional Programming
   - Use fpdart for functional programming
   - Use `Option<T>` instead of nullable types in the domain and as soon as a value enters a `map` / `flatMap` / `match` chain. A nullable is only acceptable for a value consumed immediately for display (`Text(maybe ?? '')`)
-  - A sealed type whose variants only say whether a value is present (`NoX` / `X(value)`) is an `Option<T>`: do not write it. Two values that play the same role side by side (the preselected real estate and the preselected purchase project) get the same type and the same naming
+  - A sealed type whose variants only say whether a value is present (`NoX` / `X(value)`) is an `Option<T>`: do not write it. Two values that play the same role side by side (the selected month on the home and the selected year in the memories) get the same type and the same naming
   - Use `TaskEither<AppFailure, T>` for every I/O operation which may fail
   - `AppFailure` is an `abstract class` extending `Equatable`, never sealed: each package defines its own failures
   - Always compose operations in multiple simple ways (`map`, `flatMap`, Do notation beyond two steps)
@@ -73,9 +83,11 @@
   - Use switch expressions instead of switch statements
   - Prefer to use expressions instead of statements
   - Use a ternary or a switch expression to choose a value instead of if-else. An `if` stays for a side effect
-  - In new application code, naming replaces comments: no `//` nor `///` comments (the public API of `core/`, `aether/` and `shared_packages/` keeps its `///` documentation)
+  - In new application code, naming replaces comments: no `//` nor `///` comments (the public API of `core/` and `shared_packages/` keeps its `///` documentation)
   - No `print`
-  - Never edit generated files (`swagger_gen/`, `*.g.dart`, `widgetbook/lib/generated/`): regenerate them
+  - Never edit generated files (`*.g.dart`, `*.gen.dart`): regenerate them
+  - No user-visible text written in the Dart code of the mobile app: it lives in the feature's `*_fr.i18n.json` (slang) and is read with `t.<namespace>.<key>`. Parameters use braces (`{count}`). Do not use slang plurals: keep the choice in Dart with separate keys (`zero`, `single`, `several`)
+  - Never write an asset path by hand: use the generated `Assets` class of `core_ui`
   - Run `flutter` and `dart` through `fvm`
 
 ## Tests

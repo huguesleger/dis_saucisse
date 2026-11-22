@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/photo_thumbnail_image.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class QualityPhotoTile extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     button: onTap != null,
     selected: isSelected,
-    label: isBest ? 'Photo gardée' : (isSelected ? 'Photo à écarter' : 'Photo gardée'),
+    label: isBest ? t.quality.photoTile.kept : (isSelected ? t.quality.photoTile.toDiscard : t.quality.photoTile.kept),
     child: GestureDetector(
       onTap: onTap,
       child: SizedBox.square(

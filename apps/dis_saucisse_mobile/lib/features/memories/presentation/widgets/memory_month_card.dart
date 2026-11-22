@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/memories/domain/entities/memory_month.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/memories_labels.dart';
 import 'package:dis_saucisse_mobile/features/memories/presentation/widgets/memory_month_mosaic.dart';
@@ -17,7 +18,7 @@ class MemoryMonthCard extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(child: Text(memoryMonthTitle(memory.month), style: DsTextStyles.titleM)),
-            const DsStatusBadge(label: 'Sur le PC', icon: Icons.check_rounded),
+            DsStatusBadge(label: t.memories.monthCard.onComputer, icon: Icons.check_rounded),
           ],
         ),
         const SizedBox(height: DsSpacing.xxs),

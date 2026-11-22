@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class BurstSortTopBar extends StatelessWidget {
@@ -17,12 +18,14 @@ class BurstSortTopBar extends StatelessWidget {
         children: <Widget>[
           DsRoundIconButton(
             icon: Icons.arrow_back_rounded,
-            tooltip: "Retour à l'accueil",
+            tooltip: t.burstSort.backHome,
             variant: DsRoundIconButtonVariant.glass,
             onPressed: onBack,
           ),
           const Spacer(),
-          DsGlassPill(label: 'Rafale $burstPosition sur $burstCount'),
+          DsGlassPill(
+            label: t.burstSort.burstPosition(position: burstPosition, count: burstCount),
+          ),
           const Spacer(),
           const SizedBox(width: 44),
         ],

@@ -1,0 +1,17 @@
+{
+  "backHome": "Retour à l'accueil",
+  "burstPosition": "Rafale {position} sur {count}",
+  "finished": {
+    "title": "Tout est trié !",
+    "message": "Bravo, il ne reste plus aucune rafale à trier ici."
+  },
+  "sheet": {
+    "photoCount": {
+      "single": "1 photo dans cette rafale",
+      "several": "{count} photos dans cette rafale"
+    },
+    "swipeHint": "Glisse vers le haut pour garder, vers le bas pour écarter",
+    "discard": "Écarter",
+    "keep": "Garder"
+  }
+}

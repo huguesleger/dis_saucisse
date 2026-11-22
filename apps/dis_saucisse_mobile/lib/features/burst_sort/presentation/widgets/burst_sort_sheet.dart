@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/bloc/burst_sort_cubit.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/widgets/burst_sort_thumbnails.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/presentation/event_labels.dart';
@@ -26,12 +27,14 @@ class BurstSortSheet extends StatelessWidget {
             children: <Widget>[
               Text(eventTitle(state.event), style: DsTextStyles.titleL),
               Text(
-                photoCount == 1 ? '1 photo dans cette rafale' : '$photoCount photos dans cette rafale',
+                photoCount == 1
+                    ? t.burstSort.sheet.photoCount.single
+                    : t.burstSort.sheet.photoCount.several(count: photoCount),
                 style: DsTextStyles.caption,
               ),
               BurstSortThumbnails(state: state),
               Text(
-                'Glisse vers le haut pour garder, vers le bas pour écarter',
+                t.burstSort.sheet.swipeHint,
                 style: DsTextStyles.caption,
                 textAlign: TextAlign.center,
               ),
@@ -40,13 +43,13 @@ class BurstSortSheet extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: DsButton(
-                      label: 'Écarter',
+                      label: t.burstSort.sheet.discard,
                       variant: DsButtonVariant.light,
                       onPressed: context.read<BurstSortCubit>().discard,
                     ),
                   ),
                   Expanded(
-                    child: DsButton(label: 'Garder', onPressed: context.read<BurstSortCubit>().keep),
+                    child: DsButton(label: t.burstSort.sheet.keep, onPressed: context.read<BurstSortCubit>().keep),
                   ),
                 ],
               ),

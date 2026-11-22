@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/features/free_space/presentation/bloc/free_space_cubit.dart';
 import 'package:dis_saucisse_mobile/features/free_space/presentation/widgets/free_space_ready_view.dart';
@@ -14,9 +15,9 @@ class FreeSpaceScreen extends StatelessWidget {
     body: BlocBuilder<FreeSpaceCubit, FreeSpaceState>(
       builder: (BuildContext context, FreeSpaceState state) => switch (state) {
         FreeSpaceLoading() || FreeSpaceDeleting() => const Center(child: DsLoader()),
-        FreeSpaceNothingToFree() => const DsMessageView(
-          title: 'Rien à libérer',
-          message: 'Envoie d’abord des photos sur ton ordinateur : tu pourras ensuite faire de la place.',
+        FreeSpaceNothingToFree() => DsMessageView(
+          title: t.freeSpace.nothingToFree.title,
+          message: t.freeSpace.nothingToFree.message,
           showBackButton: true,
         ),
         FreeSpaceFailed(:final failure) => FailureView(
@@ -25,9 +26,8 @@ class FreeSpaceScreen extends StatelessWidget {
           showBackButton: true,
         ),
         FreeSpaceDone(:final int deletedCount, :final int freedBytes) => DsMessageView(
-          title: '${byteSizeLabel(freedBytes)} libérés !',
-          message:
-              '$deletedCount photos sont dans la corbeille du téléphone. Elles restent rangées sur ton ordinateur.',
+          title: t.freeSpace.done.title(size: byteSizeLabel(freedBytes)),
+          message: t.freeSpace.done.message(count: deletedCount),
           showBackButton: true,
         ),
         final FreeSpaceReady ready => FreeSpaceReadyView(state: ready),

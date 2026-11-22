@@ -1,6 +1,7 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/pairing/presentation/widgets/pair_step.dart';
 import 'package:flutter/material.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 
 class PairHelpSheet extends StatelessWidget {
   const PairHelpSheet({super.key, required this.onImportImage});
@@ -27,18 +28,18 @@ class PairHelpSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('C’est rapide !', style: DsTextStyles.titleM),
-                      Text('Une seule fois, ensuite tout est automatique', style: DsTextStyles.caption),
+                      Text(t.pairing.help.title, style: DsTextStyles.titleM),
+                      Text(t.pairing.help.subtitle, style: DsTextStyles.caption),
                     ],
                   ),
                 ),
               ],
             ),
-            const PairStep(number: 1, text: 'Ouvre Dis Saucisse ! sur le PC'),
-            const PairStep(number: 2, text: 'Vérifie que les deux sont sur le même Wi-Fi'),
-            const PairStep(number: 3, text: 'Vise le QR code, c’est tout'),
+            PairStep(number: 1, text: t.pairing.help.step1),
+            PairStep(number: 2, text: t.pairing.help.step2),
+            PairStep(number: 3, text: t.pairing.help.step3),
             DsButton(
-              label: 'Importer une image du QR code',
+              label: t.pairing.help.importImage,
               variant: DsButtonVariant.secondary,
               icon: Icons.image_outlined,
               onPressed: onImportImage,
@@ -48,7 +49,7 @@ class PairHelpSheet extends StatelessWidget {
               children: <Widget>[
                 const Icon(Icons.lock_outline_rounded, size: 14, color: DsColors.textSoft),
                 Expanded(
-                  child: Text('Les photos restent chez vous, sans passer par internet', style: DsTextStyles.caption),
+                  child: Text(t.pairing.help.privacy, style: DsTextStyles.caption),
                 ),
               ],
             ),

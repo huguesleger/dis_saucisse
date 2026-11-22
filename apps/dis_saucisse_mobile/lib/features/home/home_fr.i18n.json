@@ -1,0 +1,27 @@
+{
+  "accessDenied": {
+    "title": "Je n'ai pas accès à tes photos",
+    "message": "Autorise Dis Saucisse ! à lire tes photos dans les réglages, puis reviens ici.",
+    "openSettings": "Ouvrir les réglages",
+    "retry": "C'est fait, réessayer"
+  },
+  "greeting": "Coucou ! Prête pour le tri ?",
+  "photosToSort": {
+    "zero": "Aucune photo\nà trier",
+    "single": "1 photo\nà trier",
+    "several": "{count} photos\nà trier"
+  },
+  "quality": {
+    "duplicates": "doublons",
+    "blurry": "photos floues",
+    "analyzingSingle": "Analyse en cours… encore 1 photo",
+    "analyzingSeveral": "Analyse en cours… encore {count} photos"
+  },
+  "topBar": {
+    "calendar": "Calendrier",
+    "computer": "Ordinateur"
+  },
+  "allMonths": "Tout",
+  "allSorted": "Tout est trié pour le moment. Saucisse !",
+  "startSorting": "Lancer le tri"
+}

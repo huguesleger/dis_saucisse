@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:flutter/widgets.dart';
 
 class SettingsHeader extends StatelessWidget {
@@ -10,9 +11,9 @@ class SettingsHeader extends StatelessWidget {
     children: <Widget>[
       const DsLogoPill(),
       const SizedBox(height: DsSpacing.xl),
-      Text("L'app, à ta façon", style: DsTextStyles.caption.copyWith(fontSize: 13)),
+      Text(t.settings.header.subtitle, style: DsTextStyles.caption.copyWith(fontSize: 13)),
       const SizedBox(height: DsSpacing.xxs),
-      Text('Réglages', style: DsTextStyles.display),
+      Text(t.settings.header.title, style: DsTextStyles.display),
     ],
   );
 }
