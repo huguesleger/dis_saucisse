@@ -10,7 +10,9 @@ final class BurstSortLoading extends BurstSortState {
 }
 
 final class BurstSortFailed extends BurstSortState {
-  const BurstSortFailed();
+  const BurstSortFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class BurstSortFinished extends BurstSortState {

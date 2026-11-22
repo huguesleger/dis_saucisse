@@ -87,7 +87,10 @@ void main() {
     setUp: () => when(() => loadEventLibrary()).thenReturn(TaskEither.left(const UnknownFailure())),
     build: buildCubit,
     act: (HomeCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<HomeLoading>(), isA<HomeFailed>()],
+    expect: () => <Matcher>[
+      isA<HomeLoading>(),
+      isA<HomeFailed>().having((HomeFailed s) => s.failure, 'failure', const UnknownFailure()),
+    ],
   );
 
   blocTest<HomeCubit, HomeState>(

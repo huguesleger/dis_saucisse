@@ -36,5 +36,7 @@ final class FreeSpaceDone extends FreeSpaceState {
 }
 
 final class FreeSpaceFailed extends FreeSpaceState {
-  const FreeSpaceFailed();
+  const FreeSpaceFailed(this.failure);
+
+  final AppFailure failure;
 }

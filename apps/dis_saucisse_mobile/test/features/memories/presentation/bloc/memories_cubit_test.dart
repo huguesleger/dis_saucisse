@@ -93,6 +93,8 @@ void main() {
     ).thenReturn(TaskEither<AppFailure, List<SentPhotoRecord>>.left(const SentPhotoHistoryFailure())),
     build: buildCubit,
     act: (MemoriesCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<MemoriesFailed>()],
+    expect: () => <Matcher>[
+      isA<MemoriesFailed>().having((MemoriesFailed s) => s.failure, 'failure', const SentPhotoHistoryFailure()),
+    ],
   );
 }

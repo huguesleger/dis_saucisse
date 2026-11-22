@@ -124,6 +124,8 @@ void main() {
     ).thenReturn(TaskEither<AppFailure, Option<DateTime>>.left(const SortingStartStorageFailure())),
     build: buildCubit,
     act: (SettingsCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<SettingsFailed>()],
+    expect: () => <Matcher>[
+      isA<SettingsFailed>().having((SettingsFailed s) => s.failure, 'failure', const SortingStartStorageFailure()),
+    ],
   );
 }

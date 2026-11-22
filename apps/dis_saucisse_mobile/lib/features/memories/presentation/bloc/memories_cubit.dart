@@ -34,7 +34,7 @@ class MemoriesCubit extends SafeCubit<MemoriesState> {
           return memoryMonthsNewestFirst(sent, events);
         })
         .match(
-          (AppFailure _) => const MemoriesFailed(),
+          MemoriesFailed.new,
           (List<MemoryMonth> months) => MemoriesLoaded(months: months, selectedYear: _keptYear(months, selectedYear)),
         )
         .map(emit)

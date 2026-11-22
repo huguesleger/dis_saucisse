@@ -10,7 +10,9 @@ final class QualityReviewLoading extends QualityReviewState {
 }
 
 final class QualityReviewFailed extends QualityReviewState {
-  const QualityReviewFailed();
+  const QualityReviewFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class QualityReviewReady extends QualityReviewState {

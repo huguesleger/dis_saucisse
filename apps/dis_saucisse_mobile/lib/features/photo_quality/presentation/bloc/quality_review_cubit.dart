@@ -8,6 +8,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_event_library.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/library_photo.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_failure.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/photo_quality.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_group.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
@@ -41,9 +42,10 @@ class QualityReviewCubit extends SafeCubit<QualityReviewState> {
       EventLibraryLoaded(:final EventLibrary library) => _readyState(
         qualityGroups(issue, undecidedPhotos(library.photos, library.decisions), qualities),
       ),
-      EventLibraryNeedsSortingStart() || EventLibraryAccessDenied() => const QualityReviewFailed(),
+      EventLibraryNeedsSortingStart() => const QualityReviewFailed(UnknownFailure()),
+      EventLibraryAccessDenied() => const QualityReviewFailed(PhotoAccessDeniedFailure()),
     };
-  }).match((AppFailure _) => const QualityReviewFailed(), identity).map(emit).run();
+  }).match(QualityReviewFailed.new, identity).map(emit).run();
 
   void toggle(PhotoId photo) => switch (state) {
     final QualityReviewReady ready => emit(

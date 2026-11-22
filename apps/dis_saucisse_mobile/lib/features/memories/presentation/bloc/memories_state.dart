@@ -10,7 +10,9 @@ final class MemoriesLoading extends MemoriesState {
 }
 
 final class MemoriesFailed extends MemoriesState {
-  const MemoriesFailed();
+  const MemoriesFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class MemoriesLoaded extends MemoriesState {

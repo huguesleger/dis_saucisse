@@ -90,7 +90,10 @@ void main() {
       await cubit.freeSpace();
     },
     skip: 2,
-    expect: () => <Matcher>[isA<FreeSpaceDeleting>(), isA<FreeSpaceFailed>()],
+    expect: () => <Matcher>[
+      isA<FreeSpaceDeleting>(),
+      isA<FreeSpaceFailed>().having((FreeSpaceFailed s) => s.failure, 'failure', const UnknownFailure()),
+    ],
   );
 
   blocTest<FreeSpaceCubit, FreeSpaceState>(

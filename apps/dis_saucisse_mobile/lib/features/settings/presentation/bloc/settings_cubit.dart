@@ -31,7 +31,7 @@ class SettingsCubit extends SafeCubit<SettingsState> {
       final Option<DateTime> startDate = await $(_sortingStartRepository.loadStartDate());
       final Set<PhotoOrigin> ignoredOrigins = await $(_ignoredOriginsRepository.loadIgnoredOrigins());
       return SettingsLoaded(computer: computer, startDate: startDate, ignoredOrigins: ignoredOrigins);
-    }).match((AppFailure _) => const SettingsFailed(), identity).map(emit).run();
+    }).match(SettingsFailed.new, identity).map(emit).run();
   }
 
   Future<void> ignoreOrigin(PhotoOrigin origin, {required bool ignored}) => switch (state) {

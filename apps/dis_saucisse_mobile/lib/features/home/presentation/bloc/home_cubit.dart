@@ -45,7 +45,7 @@ class HomeCubit extends SafeCubit<HomeState> {
 
   Future<void> refresh() => _loadEventLibrary()
       .match(
-        (AppFailure _) => const HomeFailed(),
+        HomeFailed.new,
         (EventLibraryLoad load) => switch (load) {
           EventLibraryNeedsSortingStart() => const HomeNeedsSortingStart(),
           EventLibraryAccessDenied() => const HomeAccessDenied(),

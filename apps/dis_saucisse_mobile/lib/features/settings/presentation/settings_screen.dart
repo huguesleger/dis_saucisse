@@ -1,7 +1,7 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_mobile/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_mobile/features/settings/presentation/bloc/settings_cubit.dart';
 import 'package:dis_saucisse_mobile/features/settings/presentation/widgets/settings_loaded_view.dart';
-import 'package:dis_saucisse_mobile/features/settings/presentation/widgets/settings_message_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +15,11 @@ class SettingsScreen extends StatelessWidget {
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (BuildContext context, SettingsState state) => switch (state) {
           SettingsLoading() => const Center(child: DsLoader()),
-          SettingsFailed() => SettingsMessageView(onRetry: context.read<SettingsCubit>().load),
+          SettingsFailed(:final failure) => FailureView(
+            failure: failure,
+            onRetry: context.read<SettingsCubit>().load,
+            placement: DsMessagePlacement.tab,
+          ),
           final SettingsLoaded loaded => SettingsLoadedView(state: loaded),
         },
       ),

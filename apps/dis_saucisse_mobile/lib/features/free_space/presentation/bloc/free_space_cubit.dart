@@ -42,7 +42,7 @@ class FreeSpaceCubit extends SafeCubit<FreeSpaceState> {
           },
         )
         .match(
-          (AppFailure _) => const FreeSpaceFailed(),
+          FreeSpaceFailed.new,
           (FreeablePhotos photos) =>
               photos.isEmpty ? const FreeSpaceNothingToFree() : FreeSpaceReady(photos: photos, includeDiscarded: false),
         )
@@ -73,7 +73,7 @@ class FreeSpaceCubit extends SafeCubit<FreeSpaceState> {
     return _freeSpaceRepository
         .movePhotosToTrash(ready.selected)
         .match(
-          (AppFailure _) => const FreeSpaceFailed(),
+          FreeSpaceFailed.new,
           (Set<PhotoId> deleted) =>
               FreeSpaceDone(deletedCount: deleted.length, freedBytes: ready.photos.bytesOf(deleted)),
         )

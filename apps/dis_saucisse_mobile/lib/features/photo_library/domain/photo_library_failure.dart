@@ -11,3 +11,7 @@ class SortingStartStorageFailure extends AppFailure {
 class IgnoredOriginsStorageFailure extends AppFailure {
   const IgnoredOriginsStorageFailure();
 }
+
+class PhotoAccessDeniedFailure extends AppFailure {
+  const PhotoAccessDeniedFailure();
+}

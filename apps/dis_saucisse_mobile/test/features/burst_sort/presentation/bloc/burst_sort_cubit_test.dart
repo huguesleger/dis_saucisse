@@ -10,6 +10,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event_library_load.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_event_library.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
@@ -135,6 +136,18 @@ void main() {
     setUp: () => when(() => loadEventLibrary()).thenReturn(TaskEither.left(const UnknownFailure())),
     build: buildCubit,
     act: (BurstSortCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<BurstSortFailed>()],
+    expect: () => <Matcher>[
+      isA<BurstSortFailed>().having((BurstSortFailed s) => s.failure, 'failure', const UnknownFailure()),
+    ],
+  );
+
+  blocTest<BurstSortCubit, BurstSortState>(
+    'fails without access to the photos',
+    setUp: () => when(() => loadEventLibrary()).thenReturn(TaskEither.right(const EventLibraryAccessDenied())),
+    build: buildCubit,
+    act: (BurstSortCubit cubit) => cubit.load(),
+    expect: () => <Matcher>[
+      isA<BurstSortFailed>().having((BurstSortFailed s) => s.failure, 'failure', const PhotoAccessDeniedFailure()),
+    ],
   );
 }

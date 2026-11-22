@@ -18,7 +18,9 @@ final class HomeAccessDenied extends HomeState {
 }
 
 final class HomeFailed extends HomeState {
-  const HomeFailed();
+  const HomeFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class HomeLoaded extends HomeState {

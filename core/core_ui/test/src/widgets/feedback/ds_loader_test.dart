@@ -4,8 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lottie/lottie.dart';
 
 void main() {
-  Future<void> pumpLoader(WidgetTester tester, DsLoader loader) =>
-      tester.pumpWidget(MaterialApp(home: Scaffold(body: Center(child: loader))));
+  Future<void> pumpLoader(WidgetTester tester, DsLoader loader) => tester.pumpWidget(
+    MaterialApp(
+      home: Scaffold(body: Center(child: loader)),
+    ),
+  );
 
   testWidgets('plays the sausage animation', (WidgetTester tester) async {
     await pumpLoader(tester, const DsLoader());

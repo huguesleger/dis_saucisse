@@ -11,6 +11,7 @@ import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/photo_
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/event_library_load.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/use_cases/load_event_library.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_library/domain/photo_library_failure.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -32,10 +33,11 @@ class BurstSortCubit extends SafeCubit<BurstSortState> {
 
   Future<void> load() => _loadEventLibrary()
       .match(
-        (AppFailure _) => const BurstSortFailed(),
+        BurstSortFailed.new,
         (EventLibraryLoad load) => switch (load) {
           EventLibraryLoaded(:final EventLibrary library) => _start(library),
-          EventLibraryNeedsSortingStart() || EventLibraryAccessDenied() => const BurstSortFailed(),
+          EventLibraryNeedsSortingStart() => const BurstSortFailed(UnknownFailure()),
+          EventLibraryAccessDenied() => const BurstSortFailed(PhotoAccessDeniedFailure()),
         },
       )
       .map(emit)

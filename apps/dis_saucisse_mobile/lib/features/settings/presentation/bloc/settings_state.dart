@@ -10,7 +10,9 @@ final class SettingsLoading extends SettingsState {
 }
 
 final class SettingsFailed extends SettingsState {
-  const SettingsFailed();
+  const SettingsFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class SettingsLoaded extends SettingsState {
