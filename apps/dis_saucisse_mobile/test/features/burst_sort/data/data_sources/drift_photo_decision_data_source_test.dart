@@ -27,4 +27,16 @@ void main() {
       ('cake-1', 'discarded'),
     ]);
   });
+
+  test('deletes only the given decisions', () async {
+    final DateTime decidedAt = DateTime(2026, 11, 19, 17, 30);
+    for (final String id in <String>['cake-1', 'cake-2', 'walk']) {
+      await dataSource.saveDecision(PhotoDecisionRow(photoId: id, decision: 'discarded', decidedAt: decidedAt)).run();
+    }
+
+    await dataSource.deleteDecisions(<String>['cake-1', 'walk']).run();
+
+    final rows = (await dataSource.loadDecisions().run()).getOrElse((_) => <PhotoDecisionRow>[]);
+    expect(rows.map((PhotoDecisionRow row) => row.photoId), <String>['cake-2']);
+  });
 }

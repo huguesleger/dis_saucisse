@@ -27,6 +27,17 @@ class DriftPhotoDecisionDataSource implements PhotoDecisionDataSource {
     _failure,
   );
 
+  @override
+  TaskEither<AppFailure, Unit> deleteDecisions(List<String> photoIds) => TaskEither<AppFailure, Unit>.tryCatch(
+    () async {
+      await (_database.delete(
+        _database.photoDecisions,
+      )..where(($PhotoDecisionsTable row) => row.photoId.isIn(photoIds))).go();
+      return unit;
+    },
+    _failure,
+  );
+
   AppFailure _failure(Object error, StackTrace stackTrace) {
     log('Photo decision storage failed', error: error, stackTrace: stackTrace, name: 'burst_sort');
     return const PhotoDecisionStorageFailure();

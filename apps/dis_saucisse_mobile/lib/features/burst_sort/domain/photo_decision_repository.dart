@@ -7,4 +7,6 @@ abstract interface class PhotoDecisionRepository {
   TaskEither<AppFailure, Map<PhotoId, PhotoDecision>> loadDecisions();
 
   TaskEither<AppFailure, Unit> saveDecision(PhotoId photo, PhotoDecision decision);
+
+  TaskEither<AppFailure, Unit> removeDecisions(Set<PhotoId> photos);
 }

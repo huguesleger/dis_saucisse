@@ -11,6 +11,8 @@ Future<void> openPairComputer(BuildContext context, {required SettingsCubit cubi
 
 Future<void> openFreeSpace(BuildContext context) => const FreeSpacePageRoute().push<void>(context);
 
+Future<void> openDiscardedPhotos(BuildContext context) => const DiscardedPhotosPageRoute().push<void>(context);
+
 Future<void> openStartDateSheet(BuildContext context, {required SettingsCubit cubit, required DateTime current}) async {
   final DateTime? start = await DsBottomSheet.show<DateTime>(
     context,

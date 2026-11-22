@@ -42,6 +42,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final Translations$burstSort$fr burstSort = Translations$burstSort$fr.internal(_root);
+	late final Translations$discarded$fr discarded = Translations$discarded$fr.internal(_root);
 	late final Translations$events$fr events = Translations$events$fr.internal(_root);
 	late final Translations$failures$fr failures = Translations$failures$fr.internal(_root);
 	late final Translations$freeSpace$fr freeSpace = Translations$freeSpace$fr.internal(_root);
@@ -71,6 +72,34 @@ class Translations$burstSort$fr {
 
 	late final Translations$burstSort$finished$fr finished = Translations$burstSort$finished$fr.internal(_root);
 	late final Translations$burstSort$sheet$fr sheet = Translations$burstSort$sheet$fr.internal(_root);
+}
+
+// Path: discarded
+class Translations$discarded$fr {
+	Translations$discarded$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Retour'
+	String get back => 'Retour';
+
+	/// fr: 'Photos écartées'
+	String get title => 'Photos écartées';
+
+	/// fr: 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.'
+	String get intro => 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.';
+
+	/// fr: 'Sur le téléphone'
+	String get onPhone => 'Sur le téléphone';
+
+	late final Translations$discarded$alreadySent$fr alreadySent = Translations$discarded$alreadySent$fr.internal(_root);
+	late final Translations$discarded$photoCount$fr photoCount = Translations$discarded$photoCount$fr.internal(_root);
+	late final Translations$discarded$restore$fr restore = Translations$discarded$restore$fr.internal(_root);
+	late final Translations$discarded$tile$fr tile = Translations$discarded$tile$fr.internal(_root);
+	late final Translations$discarded$empty$fr empty = Translations$discarded$empty$fr.internal(_root);
+	late final Translations$discarded$restored$fr restored = Translations$discarded$restored$fr.internal(_root);
 }
 
 // Path: events
@@ -323,6 +352,105 @@ class Translations$burstSort$sheet$fr {
 
 	/// fr: 'Garder'
 	String get keep => 'Garder';
+}
+
+// Path: discarded.alreadySent
+class Translations$discarded$alreadySent$fr {
+	Translations$discarded$alreadySent$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Déjà sur ton PC'
+	String get title => 'Déjà sur ton PC';
+
+	/// fr: 'Elles sont rangées dans « Écartées » sur ton PC. Pour en garder une, déplace-la à la main depuis ce dossier.'
+	String get message => 'Elles sont rangées dans « Écartées » sur ton PC. Pour en garder une, déplace-la à la main depuis ce dossier.';
+}
+
+// Path: discarded.photoCount
+class Translations$discarded$photoCount$fr {
+	Translations$discarded$photoCount$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: '1 photo'
+	String get single => '1 photo';
+
+	/// fr: '{count} photos'
+	String several({required Object count}) => '${count} photos';
+}
+
+// Path: discarded.restore
+class Translations$discarded$restore$fr {
+	Translations$discarded$restore$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Choisis des photos'
+	String get zero => 'Choisis des photos';
+
+	/// fr: 'Remettre 1 photo à trier'
+	String get single => 'Remettre 1 photo à trier';
+
+	/// fr: 'Remettre {count} photos à trier'
+	String several({required Object count}) => 'Remettre ${count} photos à trier';
+}
+
+// Path: discarded.tile
+class Translations$discarded$tile$fr {
+	Translations$discarded$tile$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Photo à remettre à trier'
+	String get selected => 'Photo à remettre à trier';
+
+	/// fr: 'Photo écartée'
+	String get discarded => 'Photo écartée';
+
+	/// fr: 'Photo déjà sur ton PC'
+	String get alreadySent => 'Photo déjà sur ton PC';
+}
+
+// Path: discarded.empty
+class Translations$discarded$empty$fr {
+	Translations$discarded$empty$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Aucune photo écartée'
+	String get title => 'Aucune photo écartée';
+
+	/// fr: 'Quand tu écartes une photo, elle reste sur ton téléphone et tu la retrouves ici.'
+	String get message => 'Quand tu écartes une photo, elle reste sur ton téléphone et tu la retrouves ici.';
+}
+
+// Path: discarded.restored
+class Translations$discarded$restored$fr {
+	Translations$discarded$restored$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: '1 photo remise à trier'
+	String get titleSingle => '1 photo remise à trier';
+
+	/// fr: '{count} photos remises à trier'
+	String titleSeveral({required Object count}) => '${count} photos remises à trier';
+
+	/// fr: 'Tu les retrouveras sur l’accueil, prêtes à être triées.'
+	String get message => 'Tu les retrouveras sur l’accueil, prêtes à être triées.';
 }
 
 // Path: events.subtitle
@@ -1112,6 +1240,12 @@ class Translations$settings$sorting$fr {
 
 	/// fr: 'Pas encore choisi'
 	String get notChosen => 'Pas encore choisi';
+
+	/// fr: 'Photos écartées'
+	String get discarded => 'Photos écartées';
+
+	/// fr: 'Les revoir et les remettre à trier'
+	String get discardedSubtitle => 'Les revoir et les remettre à trier';
 }
 
 // Path: settings.startDateSheet
@@ -1440,6 +1574,25 @@ extension on Translations {
 			'burstSort.sheet.swipeHint' => 'Glisse vers le haut pour garder, vers le bas pour écarter',
 			'burstSort.sheet.discard' => 'Écarter',
 			'burstSort.sheet.keep' => 'Garder',
+			'discarded.back' => 'Retour',
+			'discarded.title' => 'Photos écartées',
+			'discarded.intro' => 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.',
+			'discarded.onPhone' => 'Sur le téléphone',
+			'discarded.alreadySent.title' => 'Déjà sur ton PC',
+			'discarded.alreadySent.message' => 'Elles sont rangées dans « Écartées » sur ton PC. Pour en garder une, déplace-la à la main depuis ce dossier.',
+			'discarded.photoCount.single' => '1 photo',
+			'discarded.photoCount.several' => ({required Object count}) => '${count} photos',
+			'discarded.restore.zero' => 'Choisis des photos',
+			'discarded.restore.single' => 'Remettre 1 photo à trier',
+			'discarded.restore.several' => ({required Object count}) => 'Remettre ${count} photos à trier',
+			'discarded.tile.selected' => 'Photo à remettre à trier',
+			'discarded.tile.discarded' => 'Photo écartée',
+			'discarded.tile.alreadySent' => 'Photo déjà sur ton PC',
+			'discarded.empty.title' => 'Aucune photo écartée',
+			'discarded.empty.message' => 'Quand tu écartes une photo, elle reste sur ton téléphone et tu la retrouves ici.',
+			'discarded.restored.titleSingle' => '1 photo remise à trier',
+			'discarded.restored.titleSeveral' => ({required Object count}) => '${count} photos remises à trier',
+			'discarded.restored.message' => 'Tu les retrouveras sur l’accueil, prêtes à être triées.',
 			'events.dateRangeTitle' => ({required Object startDay, required Object endDate}) => 'Du ${startDay} au ${endDate}',
 			'events.subtitle.single' => ({required Object dates, required Object count}) => '${dates} · ${count} photo',
 			'events.subtitle.several' => ({required Object dates, required Object count}) => '${dates} · ${count} photos',
@@ -1581,6 +1734,8 @@ extension on Translations {
 			'settings.sorting.title' => 'Tri',
 			'settings.sorting.startDate' => 'Photos à trier depuis le',
 			'settings.sorting.notChosen' => 'Pas encore choisi',
+			'settings.sorting.discarded' => 'Photos écartées',
+			'settings.sorting.discardedSubtitle' => 'Les revoir et les remettre à trier',
 			'settings.startDateSheet.title' => 'Trier les photos depuis…',
 			'settings.startDateSheet.confirm' => 'Valider',
 			'settings.ignored.title' => 'Ce que l\'app ignore',

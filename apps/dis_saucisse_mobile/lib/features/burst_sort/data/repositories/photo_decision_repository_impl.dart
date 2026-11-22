@@ -20,4 +20,8 @@ class PhotoDecisionRepositoryImpl implements PhotoDecisionRepository {
   @override
   TaskEither<AppFailure, Unit> saveDecision(PhotoId photo, PhotoDecision decision) =>
       _dataSource.saveDecision(photoDecisionToRow(photo, decision, _clock()));
+
+  @override
+  TaskEither<AppFailure, Unit> removeDecisions(Set<PhotoId> photos) =>
+      _dataSource.deleteDecisions(photos.map((PhotoId photo) => photo.value).toList());
 }

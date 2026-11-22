@@ -32,6 +32,7 @@ class SettingsLoadedView extends StatelessWidget {
           SettingsSortingGroup(
             startDate: state.startDate,
             onChangeStartDate: (DateTime current) => openStartDateSheet(context, cubit: cubit, current: current),
+            onOpenDiscarded: () => openDiscardedPhotos(context),
           ),
           const SizedBox(height: DsSpacing.xl),
           SettingsIgnoredGroup(ignoredOrigins: state.ignoredOrigins, onIgnoredChanged: cubit.ignoreOrigin),

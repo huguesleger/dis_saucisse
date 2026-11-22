@@ -6,4 +6,6 @@ abstract interface class PhotoDecisionDataSource {
   TaskEither<AppFailure, List<PhotoDecisionRow>> loadDecisions();
 
   TaskEither<AppFailure, Unit> saveDecision(PhotoDecisionRow decision);
+
+  TaskEither<AppFailure, Unit> deleteDecisions(List<String> photoIds);
 }

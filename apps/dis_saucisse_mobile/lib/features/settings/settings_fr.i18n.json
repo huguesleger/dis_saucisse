@@ -16,7 +16,9 @@
   "sorting": {
     "title": "Tri",
     "startDate": "Photos à trier depuis le",
-    "notChosen": "Pas encore choisi"
+    "notChosen": "Pas encore choisi",
+    "discarded": "Photos écartées",
+    "discardedSubtitle": "Les revoir et les remettre à trier"
   },
   "startDateSheet": {
     "title": "Trier les photos depuis…",

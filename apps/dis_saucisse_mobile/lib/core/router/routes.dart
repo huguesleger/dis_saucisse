@@ -1,6 +1,8 @@
 import 'package:dis_saucisse_mobile/core/presentation/widgets/main_shell.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/bloc/burst_sort_cubit.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/presentation/burst_sort_screen.dart';
+import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/bloc/discarded_photos_cubit.dart';
+import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/discarded_photos_screen.dart';
 import 'package:dis_saucisse_mobile/features/free_space/presentation/bloc/free_space_cubit.dart';
 import 'package:dis_saucisse_mobile/features/free_space/presentation/free_space_screen.dart';
 import 'package:dis_saucisse_mobile/features/home/presentation/bloc/home_cubit.dart';
@@ -26,6 +28,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 
 part '../../features/burst_sort/presentation/burst_sort_page_route.dart';
+part '../../features/discarded_photos/presentation/discarded_photos_page_route.dart';
 part '../../features/free_space/presentation/free_space_page_route.dart';
 part '../../features/home/presentation/home_page_route.dart';
 part '../../features/memories/presentation/memories_page_route.dart';
