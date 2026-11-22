@@ -39,6 +39,7 @@ dev_dependencies:
   bloc_test: ^10.0.0
   build_runner: ^2.15.1
   drift_dev: ^2.34.0
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
   go_router_builder: ^4.5.0
@@ -54,3 +55,14 @@ flutter_native_splash:
     color: "#FFD23F"
     image: res/splash/logo_splash_android12.png
   web: false
+
+flutter_launcher_icons:
+  ios: true
+  image_path_ios: res/icon/icon_ios.png
+  remove_alpha_ios: true
+  android: true
+  image_path_android: res/icon/icon_ios.png
+  adaptive_icon_background: "#FFD23F"
+  adaptive_icon_foreground: res/icon/icon_android_foreground.png
+  adaptive_icon_foreground_inset: 0
+  min_sdk_android: 26
