@@ -72,19 +72,31 @@ final class ReceptionInProgress extends ReceptionActivity {
   final int folderPhotoCount;
   final bool paused;
 
-  ReceptionInProgress withPaused(bool value) => ReceptionInProgress(
+  ReceptionInProgress withPaused(bool value) => copyWith(paused: value);
+
+  ReceptionInProgress copyWith({
+    int? received,
+    int? rejected,
+    int? byteCount,
+    List<String>? folders,
+    Map<String, ReceivedEvent>? events,
+    DateTime? lastReceivedAt,
+    List<String>? folderPhotoPaths,
+    int? folderPhotoCount,
+    bool? paused,
+  }) => ReceptionInProgress(
     phoneName: phoneName,
     expected: expected,
-    received: received,
-    rejected: rejected,
-    byteCount: byteCount,
-    folders: folders,
-    events: events,
+    received: received ?? this.received,
+    rejected: rejected ?? this.rejected,
+    byteCount: byteCount ?? this.byteCount,
+    folders: folders ?? this.folders,
+    events: events ?? this.events,
     startedAt: startedAt,
-    lastReceivedAt: lastReceivedAt,
-    folderPhotoPaths: folderPhotoPaths,
-    folderPhotoCount: folderPhotoCount,
-    paused: value,
+    lastReceivedAt: lastReceivedAt ?? this.lastReceivedAt,
+    folderPhotoPaths: folderPhotoPaths ?? this.folderPhotoPaths,
+    folderPhotoCount: folderPhotoCount ?? this.folderPhotoCount,
+    paused: paused ?? this.paused,
   );
 
   Option<String> get currentFolder => Option<String>.fromNullable(folders.lastOrNull);

@@ -1,14 +1,13 @@
 import 'dart:async';
-import 'dart:math' show max;
 
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/config/setup_get_it.dart';
-import 'package:dis_saucisse_desktop/features/history/domain/entities/transfer_record.dart';
 import 'package:dis_saucisse_desktop/features/history/domain/history_repository.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_failure.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/pairing_repository.dart';
+import 'package:dis_saucisse_desktop/features/pairing/presentation/reception_activity_rules.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/received_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/reception_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/reception_repository.dart';
@@ -96,84 +95,8 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
     }
   }
 
-  void _applyReceptionEvent(ReceptionEvent event) => _updateActivity(
-    (ReceptionActivity activity) => switch ((event, activity)) {
-      (TransferStarted(:final String phoneName, :final int photoCount), final ReceptionActivity previous) =>
-        ReceptionInProgress(
-          phoneName: phoneName,
-          expected: photoCount,
-          received: 0,
-          rejected: 0,
-          byteCount: 0,
-          folders: const <String>[],
-          events: const <String, ReceivedEvent>{},
-          startedAt: _clock(),
-          lastReceivedAt: _clock(),
-          folderPhotoPaths: const <String>[],
-          folderPhotoCount: 0,
-          paused: switch (previous) {
-            ReceptionInProgress(:final bool paused) => paused,
-            ReceptionIdle() || ReceptionDone() => false,
-          },
-        ),
-      (
-        PhotoReceived(
-          :final String folder,
-          :final String filePath,
-          :final String eventKey,
-          :final String eventLabel,
-          :final int byteCount,
-        ),
-        final ReceptionInProgress progress,
-      ) =>
-        ReceptionInProgress(
-          phoneName: progress.phoneName,
-          expected: progress.expected,
-          received: progress.received + 1,
-          rejected: progress.rejected,
-          byteCount: progress.byteCount + byteCount,
-          folders: <String>[...progress.folders.where((String known) => known != folder), folder],
-          events: <String, ReceivedEvent>{
-            ...progress.events,
-            eventKey: (label: eventLabel, count: (progress.events[eventKey]?.count ?? 0) + 1),
-          },
-          startedAt: progress.startedAt,
-          lastReceivedAt: _clock(),
-          folderPhotoPaths: progress.currentFolder == some(folder)
-              ? <String>[
-                  ...progress.folderPhotoPaths.skip(
-                    max(0, progress.folderPhotoPaths.length - ReceptionInProgress.shownFolderPhotos + 1),
-                  ),
-                  filePath,
-                ]
-              : <String>[filePath],
-          folderPhotoCount: progress.currentFolder == some(folder) ? progress.folderPhotoCount + 1 : 1,
-          paused: progress.paused,
-        ),
-      (PhotoRejected(), final ReceptionInProgress progress) => ReceptionInProgress(
-        phoneName: progress.phoneName,
-        expected: progress.expected,
-        received: progress.received,
-        rejected: progress.rejected + 1,
-        byteCount: progress.byteCount,
-        folders: progress.folders,
-        events: progress.events,
-        startedAt: progress.startedAt,
-        lastReceivedAt: progress.lastReceivedAt,
-        folderPhotoPaths: progress.folderPhotoPaths,
-        folderPhotoCount: progress.folderPhotoCount,
-        paused: progress.paused,
-      ),
-      (TransferFinished(), final ReceptionInProgress progress) => ReceptionDone(
-        phoneName: progress.phoneName,
-        received: progress.received,
-        rejected: progress.rejected,
-        folders: progress.folders,
-        events: progress.events.values.toList(),
-      ),
-      (PhotoReceived() || PhotoRejected() || TransferFinished(), ReceptionIdle() || ReceptionDone()) => activity,
-    },
-  );
+  void _applyReceptionEvent(ReceptionEvent event) =>
+      _updateActivity((ReceptionActivity activity) => nextReceptionActivity(activity, event, _clock()));
 
   void _updateActivity(ReceptionActivity Function(ReceptionActivity activity) update) => switch (state) {
     final ReceptionReady ready => emit(ready.copyWith(activity: update(ready.activity))),
@@ -199,12 +122,3 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
     return super.close();
   }
 }
-
-TransferRecord transferRecordOf(ReceptionInProgress progress, DateTime receivedAt) => TransferRecord(
-  receivedAt: receivedAt,
-  phoneName: progress.phoneName,
-  photoCount: progress.received,
-  rejectedCount: progress.rejected,
-  byteCount: progress.byteCount,
-  eventCount: progress.events.length,
-);
