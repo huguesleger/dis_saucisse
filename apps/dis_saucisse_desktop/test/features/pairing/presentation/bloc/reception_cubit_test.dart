@@ -57,6 +57,7 @@ void main() {
       when(() => repository.loadPairedPhones()).thenReturn(TaskEither.right(<PairedPhone>[]));
     },
     build: () => ReceptionCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: repository,
       receptionRepository: receptionRepository,
       historyRepository: _MockHistoryRepository(),
@@ -76,6 +77,7 @@ void main() {
       when(() => repository.savePairedPhone(any())).thenReturn(TaskEither.right(unit));
     },
     build: () => ReceptionCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: repository,
       receptionRepository: receptionRepository,
       historyRepository: _MockHistoryRepository(),
@@ -98,6 +100,7 @@ void main() {
     'explains that the computer has no network',
     setUp: () => when(() => repository.startReception()).thenReturn(TaskEither.left(const NoLocalNetworkFailure())),
     build: () => ReceptionCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: repository,
       receptionRepository: receptionRepository,
       historyRepository: _MockHistoryRepository(),

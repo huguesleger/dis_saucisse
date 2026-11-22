@@ -21,7 +21,8 @@ void main() {
 
   setUp(() => repository = _MockStorageSettingsRepository());
 
-  StorageSettingsCubit buildCubit() => StorageSettingsCubit(repository: repository, clock: () => DateTime(2026, 5, 3));
+  StorageSettingsCubit buildCubit() =>
+      StorageSettingsCubit(repository: repository, minimalLoading: Duration.zero, clock: () => DateTime(2026, 5, 3));
 
   blocTest<StorageSettingsCubit, StorageSettingsState>(
     'loads the saved folder and layout',

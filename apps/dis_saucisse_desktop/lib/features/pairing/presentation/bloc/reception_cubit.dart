@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/config/setup_get_it.dart';
 import 'package:dis_saucisse_desktop/features/history/domain/entities/transfer_record.dart';
 import 'package:dis_saucisse_desktop/features/history/domain/history_repository.dart';
@@ -23,10 +24,12 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
     ReceptionRepository? receptionRepository,
     HistoryRepository? historyRepository,
     DateTime Function()? clock,
+    Duration? minimalLoading,
   }) : _pairingRepository = pairingRepository ?? getIt.get<PairingRepository>(),
        _receptionRepository = receptionRepository ?? getIt.get<ReceptionRepository>(),
        _historyRepository = historyRepository ?? getIt.get<HistoryRepository>(),
        _clock = clock ?? DateTime.now,
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
        super(const ReceptionStarting()) {
     _pairings = _pairingRepository.pairedPhones.listen(_onPhonePaired);
     _receptions = _receptionRepository.events.listen(_onReceptionEvent);
@@ -36,6 +39,7 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
   final ReceptionRepository _receptionRepository;
   final HistoryRepository _historyRepository;
   final DateTime Function() _clock;
+  final Duration _minimalLoading;
   late final StreamSubscription<PairedPhone> _pairings;
   late final StreamSubscription<ReceptionEvent> _receptions;
 
@@ -46,6 +50,7 @@ class ReceptionCubit extends SafeCubit<ReceptionState> {
           final List<PairedPhone> phones = await $(_pairingRepository.loadPairedPhones());
           return ReceptionReady(invitation: invitation, phones: phones, activity: const ReceptionIdle());
         })
+        .withMinimalDelay(_minimalLoading)
         .match(
           (AppFailure failure) => ReceptionFailed(switch (failure) {
             NoLocalNetworkFailure() => ReceptionProblem.noNetwork,

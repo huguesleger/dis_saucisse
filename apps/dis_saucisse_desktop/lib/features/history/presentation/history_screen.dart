@@ -3,6 +3,7 @@ import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_desktop/core/router/routes.dart';
 import 'package:dis_saucisse_desktop/features/history/presentation/bloc/history_cubit.dart';
+import 'package:dis_saucisse_desktop/features/history/presentation/history_bone_mock.dart';
 import 'package:dis_saucisse_desktop/features/history/presentation/widgets/history_loaded_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocBuilder<HistoryCubit, HistoryState>(
     builder: (BuildContext context, HistoryState state) => switch (state) {
-      HistoryLoading() => const Center(child: DsLoader()),
+      HistoryLoading() => DsSkeletonizer(child: HistoryLoadedView(state: historyBoneMock)),
       HistoryFailed(:final failure) => FailureView(failure: failure, onRetry: context.read<HistoryCubit>().load),
       HistoryLoaded(records: <Object>[]) => DsMessageView(
         title: t.history.empty.title,

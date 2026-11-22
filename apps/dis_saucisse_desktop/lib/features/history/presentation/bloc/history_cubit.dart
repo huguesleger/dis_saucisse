@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/config/setup_get_it.dart';
 import 'package:dis_saucisse_desktop/features/history/domain/entities/transfer_record.dart';
 import 'package:dis_saucisse_desktop/features/history/domain/entities/year_stats.dart';
@@ -14,19 +15,23 @@ class HistoryCubit extends SafeCubit<HistoryState> {
     HistoryRepository? historyRepository,
     ReceptionRepository? receptionRepository,
     DateTime Function()? clock,
+    Duration? minimalLoading,
   }) : _historyRepository = historyRepository ?? getIt.get<HistoryRepository>(),
        _receptionRepository = receptionRepository ?? getIt.get<ReceptionRepository>(),
        _clock = clock ?? DateTime.now,
+       _minimalLoading = minimalLoading ?? DsSkeletonizer.minDuration,
        super(const HistoryLoading());
 
   final HistoryRepository _historyRepository;
   final ReceptionRepository _receptionRepository;
   final DateTime Function() _clock;
+  final Duration _minimalLoading;
 
   Future<void> load() {
     if (state is HistoryFailed) emit(const HistoryLoading());
     return _historyRepository
         .loadHistory()
+        .withMinimalDelay(_minimalLoading)
         .match(
           HistoryFailed.new,
           (List<TransferRecord> records) => HistoryLoaded(

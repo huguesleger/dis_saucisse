@@ -63,6 +63,7 @@ void main() {
   blocTest<ReceptionCubit, ReceptionState>(
     'follows a transfer from the first photo to the summary',
     build: () => ReceptionCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: pairingRepository,
       receptionRepository: receptionRepository,
       historyRepository: historyRepository,
@@ -124,6 +125,7 @@ void main() {
     'pauses the reception and keeps the pause while photos keep coming',
     setUp: () => when(() => receptionRepository.setPaused(true)).thenReturn(TaskEither.right(unit)),
     build: () => ReceptionCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: pairingRepository,
       receptionRepository: receptionRepository,
       historyRepository: historyRepository,

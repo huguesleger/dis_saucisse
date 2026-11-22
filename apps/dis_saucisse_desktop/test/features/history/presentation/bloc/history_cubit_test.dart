@@ -26,6 +26,7 @@ void main() {
   setUp(() => historyRepository = _MockHistoryRepository());
 
   HistoryCubit buildCubit() => HistoryCubit(
+    minimalLoading: Duration.zero,
     historyRepository: historyRepository,
     receptionRepository: _MockReceptionRepository(),
     clock: () => DateTime(2026, 11, 19),
