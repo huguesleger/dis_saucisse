@@ -17,6 +17,7 @@ export 'src/widgets/cards/ds_event_photo_card.dart';
 export 'src/widgets/cards/ds_stat_tile.dart';
 export 'src/widgets/chips/ds_filter_chip.dart';
 export 'src/widgets/chips/ds_glass_pill.dart';
+export 'src/widgets/feedback/ds_loader.dart';
 export 'src/widgets/feedback/ds_progress_bar.dart';
 export 'src/widgets/feedback/ds_status_badge.dart';
 export 'src/widgets/feedback/ds_status_tone.dart';

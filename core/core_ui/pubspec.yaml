@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.1
+  lottie: ^3.7.0
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +21,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/animations/
   fonts:
     - family: Fredoka
       fonts:

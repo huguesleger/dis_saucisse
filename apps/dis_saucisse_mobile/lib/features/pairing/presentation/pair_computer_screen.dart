@@ -19,7 +19,7 @@ class PairComputerScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             spacing: DsSpacing.m,
             children: <Widget>[
-              const CircularProgressIndicator(color: DsColors.mustard),
+              const DsLoader(),
               Text(
                 'Association avec $computerName…',
                 style: DsTextStyles.titleM.copyWith(color: DsColors.background),

@@ -12,7 +12,7 @@ class StorageSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocBuilder<StorageSettingsCubit, StorageSettingsState>(
     builder: (BuildContext context, StorageSettingsState state) => switch (state) {
-      StorageSettingsLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+      StorageSettingsLoading() => const Center(child: DsLoader()),
       StorageSettingsFailed() => Center(child: Text('Réglages illisibles pour le moment.', style: DsTextStyles.body)),
       final StorageSettingsLoaded loaded => Padding(
         padding: const EdgeInsets.fromLTRB(DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xl),

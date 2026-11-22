@@ -13,7 +13,7 @@ class ReceptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocBuilder<ReceptionCubit, ReceptionState>(
     builder: (BuildContext context, ReceptionState state) => switch (state) {
-      ReceptionStarting() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+      ReceptionStarting() => const Center(child: DsLoader()),
       ReceptionFailed(:final problem) => ReceptionFailedView(problem: problem),
       final ReceptionReady ready => switch (ready.activity) {
         ReceptionIdle() => ReceptionReadyView(state: ready),

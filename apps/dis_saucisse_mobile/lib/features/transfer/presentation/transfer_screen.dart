@@ -14,7 +14,7 @@ class TransferScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     body: BlocBuilder<TransferCubit, TransferState>(
       builder: (BuildContext context, TransferState state) => switch (state) {
-        TransferPreparing() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+        TransferPreparing() => const Center(child: DsLoader()),
         TransferNeedsPairing() => TransferMessageView(
           title: 'Associe d’abord ton PC',
           message: 'Ouvre Dis Saucisse ! sur ton ordinateur et scanne son QR code.',

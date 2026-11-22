@@ -12,7 +12,7 @@ class MemoriesLoadingView extends StatelessWidget {
       children: <Widget>[
         const DsMascot(width: 140),
         Text('Je rassemble tes souvenirs…', style: DsTextStyles.titleM),
-        const CircularProgressIndicator(color: DsColors.mustard),
+        const DsLoader(),
       ],
     ),
   );

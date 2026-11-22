@@ -12,7 +12,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocBuilder<HistoryCubit, HistoryState>(
     builder: (BuildContext context, HistoryState state) => switch (state) {
-      HistoryLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+      HistoryLoading() => const Center(child: DsLoader()),
       HistoryFailed() => Center(child: Text('Historique illisible pour le moment.', style: DsTextStyles.body)),
       final HistoryLoaded loaded => ListView(
         padding: const EdgeInsets.all(DsSpacing.xxl),

@@ -13,7 +13,7 @@ class BurstSortScreen extends StatelessWidget {
     backgroundColor: DsColors.pageBackground,
     body: BlocBuilder<BurstSortCubit, BurstSortState>(
       builder: (BuildContext context, BurstSortState state) => switch (state) {
-        BurstSortLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+        BurstSortLoading() => const Center(child: DsLoader()),
         BurstSortFailed() => const BurstSortMessageView(
           title: 'Oups !',
           message: "Je n'ai pas réussi à charger tes photos.",

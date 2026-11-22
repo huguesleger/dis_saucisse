@@ -14,7 +14,7 @@ class FreeSpaceScreen extends StatelessWidget {
     body: BlocBuilder<FreeSpaceCubit, FreeSpaceState>(
       builder: (BuildContext context, FreeSpaceState state) => switch (state) {
         FreeSpaceLoading() || FreeSpaceDeleting() => const Center(
-          child: CircularProgressIndicator(color: DsColors.mustard),
+          child: DsLoader(),
         ),
         FreeSpaceNothingToFree() => const FreeSpaceMessageView(
           title: 'Rien à libérer',

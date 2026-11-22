@@ -16,7 +16,7 @@ class QualityReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     body: BlocBuilder<QualityReviewCubit, QualityReviewState>(
       builder: (BuildContext context, QualityReviewState state) => switch (state) {
-        QualityReviewLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+        QualityReviewLoading() => const Center(child: DsLoader()),
         QualityReviewFailed() => const QualityReviewMessageView(
           title: 'Oups !',
           message: 'Je n’ai pas réussi à relire tes photos.',

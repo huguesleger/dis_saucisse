@@ -14,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
       meshHeight: 340,
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (BuildContext context, SettingsState state) => switch (state) {
-          SettingsLoading() => const Center(child: CircularProgressIndicator(color: DsColors.mustard)),
+          SettingsLoading() => const Center(child: DsLoader()),
           SettingsFailed() => SettingsMessageView(onRetry: context.read<SettingsCubit>().load),
           final SettingsLoaded loaded => SettingsLoadedView(state: loaded),
         },
