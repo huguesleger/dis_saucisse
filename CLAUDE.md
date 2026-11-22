@@ -35,6 +35,12 @@ Configurés dans `apps/dis_saucisse_mobile/pubspec.yaml`, images sources dans `a
 - Icône : `fvm dart run flutter_launcher_icons`. Ce générateur remplace à tort `ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES` par `= AppIcon` dans `ios/Runner.xcodeproj/project.pbxproj` : remettre `YES` après chaque génération.
 - Le fond jaune est `#FFD23F` (`DsColors.mustardLight`).
 
+## APK Android (app mobile)
+
+- Construire : `fvm flutter build apk --release` dans `apps/dis_saucisse_mobile`, puis copier `build/app/outputs/flutter-apk/app-release.apk` dans `dist/` (ignoré par git).
+- Signature : `android/app/build.gradle.kts` lit `android/key.properties` (jamais commité, modèle dans `android/key.properties.example`). Sans ce fichier, le build release est signé avec la clé de développement du Mac, et un avertissement s'affiche. Une mise à jour ne s'installe par-dessus l'ancienne version que si elle est signée avec la même clé.
+- Ne jamais créer, lire ni afficher la clé ou ses mots de passe : c'est l'utilisateur qui les gère.
+
 ## Icône (app desktop)
 
 Configurée dans `apps/dis_saucisse_desktop/pubspec.yaml` pour macOS et Windows. L'image source `apps/dis_saucisse_desktop/res/icon/app_icon.png` suit la grille macOS (carré arrondi de 824 px avec ombre, dans une image de 1024 px aux bords transparents) : macOS n'arrondit pas les icônes lui-même.

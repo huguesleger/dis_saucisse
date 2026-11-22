@@ -1,0 +1,6 @@
+# Copier ce fichier en android/key.properties (jamais commité) et remplir les valeurs.
+# storeFile : chemin absolu vers la clé créée avec keytool, rangée hors du projet.
+storeFile=/Users/VOUS/cles/dis-saucisse-upload.jks
+storePassword=MOT_DE_PASSE_DE_LA_CLE
+keyAlias=upload
+keyPassword=MOT_DE_PASSE_DE_LA_CLE
