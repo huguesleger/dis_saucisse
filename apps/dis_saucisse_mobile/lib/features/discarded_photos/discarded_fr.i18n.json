@@ -1,7 +1,7 @@
 {
   "back": "Retour",
   "title": "Photos écartées",
-  "intro": "Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.",
+  "intro": "Elles sont toujours sur ton téléphone. Touche une photo pour la voir en grand, ou son rond pour la sélectionner.",
   "onPhone": "Sur le téléphone",
   "alreadySent": {
     "title": "Déjà sur ton PC",
@@ -12,14 +12,15 @@
     "several": "{count} photos"
   },
   "restore": {
-    "zero": "Choisis des photos",
     "single": "Remettre 1 photo à trier",
     "several": "Remettre {count} photos à trier"
   },
   "tile": {
     "selected": "Photo à remettre à trier",
     "discarded": "Photo écartée",
-    "alreadySent": "Photo déjà sur ton PC"
+    "alreadySent": "Photo déjà sur ton PC",
+    "select": "Sélectionner",
+    "unselect": "Désélectionner"
   },
   "empty": {
     "title": "Aucune photo écartée",
@@ -29,5 +30,18 @@
     "titleSingle": "1 photo remise à trier",
     "titleSeveral": "{count} photos remises à trier",
     "message": "Tu les retrouveras sur l’accueil, prêtes à être triées."
+  },
+  "viewer": {
+    "back": "Retour",
+    "title": "Photo écartée",
+    "position": "Photo {position} sur {count}",
+    "badge": {
+      "alreadySent": "Sur ton PC"
+    },
+    "message": {
+      "restorable": "Elle ne partira pas avec tes photos gardées. Remets-la à trier si tu as changé d’avis.",
+      "alreadySent": "Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier."
+    },
+    "restore": "Remettre à trier"
   }
 }

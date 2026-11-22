@@ -3,7 +3,9 @@ import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/features/discarded_photos/domain/entities/discarded_photos.dart';
 import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/bloc/discarded_photos_cubit.dart';
 import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/discarded_photos_screen.dart';
+import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/widgets/discarded_photo_badge.dart';
 import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/widgets/discarded_photo_tile.dart';
+import 'package:dis_saucisse_mobile/features/discarded_photos/presentation/widgets/discarded_photo_viewer.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,8 @@ class _MockDiscardedPhotosCubit extends MockCubit<DiscardedPhotosState> implemen
 
 void main() {
   late _MockDiscardedPhotosCubit cubit;
+
+  setUpAll(() => registerFallbackValue(<PhotoId>{}));
 
   Future<void> pumpScreen(WidgetTester tester, DiscardedPhotosState state) async {
     await tester.binding.setSurfaceSize(const Size(480, 1000));
@@ -37,10 +41,10 @@ void main() {
     selected: selected,
   );
 
-  testWidgets('waits for a selection before restoring', (WidgetTester tester) async {
+  testWidgets('shows the restore button only once a photo is selected', (WidgetTester tester) async {
     await pumpScreen(tester, ready());
 
-    expect(tester.widget<DsButton>(find.widgetWithText(DsButton, 'Choisis des photos')).onPressed, isNull);
+    expect(find.byType(DsButton), findsNothing);
   });
 
   testWidgets('restores the selected photos', (WidgetTester tester) async {
@@ -56,7 +60,7 @@ void main() {
     await pumpScreen(tester, ready());
 
     final Iterable<DiscardedPhotoTile> tiles = tester.widgetList<DiscardedPhotoTile>(find.byType(DiscardedPhotoTile));
-    expect(tiles.where((DiscardedPhotoTile tile) => tile.onTap == null), hasLength(2));
+    expect(tiles.where((DiscardedPhotoTile tile) => tile.onToggle == null), hasLength(2));
     expect(find.text('Déjà sur ton PC'), findsOneWidget);
   });
 
@@ -70,5 +74,31 @@ void main() {
     );
 
     expect(find.text('Aucune photo écartée'), findsOneWidget);
+  });
+
+  testWidgets('opens a photo in full screen and puts it back to sort', (WidgetTester tester) async {
+    await pumpScreen(tester, ready());
+    when(() => cubit.restore(any())).thenAnswer((_) async {});
+
+    await tester.tap(find.byType(DiscardedPhotoTile).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(DiscardedPhotoViewer), findsOneWidget);
+    expect(find.bySemanticsLabel('Photo 1 sur 2'), findsOneWidget);
+
+    await tester.tap(find.text('Remettre à trier'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DiscardedPhotoViewer), findsNothing);
+    verify(() => cubit.restore(<PhotoId>{const PhotoId('cake-1')})).called(1);
+  });
+
+  testWidgets('shows a photo already on the computer without the restore action', (WidgetTester tester) async {
+    await pumpScreen(tester, ready());
+
+    await tester.tap(find.byType(DiscardedPhotoTile).last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Remettre à trier'), findsNothing);
+    expect(find.widgetWithText(DiscardedPhotoBadge, 'Sur ton PC'), findsOneWidget);
   });
 }

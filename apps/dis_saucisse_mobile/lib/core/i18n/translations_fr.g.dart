@@ -88,8 +88,8 @@ class Translations$discarded$fr {
 	/// fr: 'Photos écartées'
 	String get title => 'Photos écartées';
 
-	/// fr: 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.'
-	String get intro => 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.';
+	/// fr: 'Elles sont toujours sur ton téléphone. Touche une photo pour la voir en grand, ou son rond pour la sélectionner.'
+	String get intro => 'Elles sont toujours sur ton téléphone. Touche une photo pour la voir en grand, ou son rond pour la sélectionner.';
 
 	/// fr: 'Sur le téléphone'
 	String get onPhone => 'Sur le téléphone';
@@ -100,6 +100,7 @@ class Translations$discarded$fr {
 	late final Translations$discarded$tile$fr tile = Translations$discarded$tile$fr.internal(_root);
 	late final Translations$discarded$empty$fr empty = Translations$discarded$empty$fr.internal(_root);
 	late final Translations$discarded$restored$fr restored = Translations$discarded$restored$fr.internal(_root);
+	late final Translations$discarded$viewer$fr viewer = Translations$discarded$viewer$fr.internal(_root);
 }
 
 // Path: events
@@ -392,9 +393,6 @@ class Translations$discarded$restore$fr {
 
 	// Translations
 
-	/// fr: 'Choisis des photos'
-	String get zero => 'Choisis des photos';
-
 	/// fr: 'Remettre 1 photo à trier'
 	String get single => 'Remettre 1 photo à trier';
 
@@ -418,6 +416,12 @@ class Translations$discarded$tile$fr {
 
 	/// fr: 'Photo déjà sur ton PC'
 	String get alreadySent => 'Photo déjà sur ton PC';
+
+	/// fr: 'Sélectionner'
+	String get select => 'Sélectionner';
+
+	/// fr: 'Désélectionner'
+	String get unselect => 'Désélectionner';
 }
 
 // Path: discarded.empty
@@ -451,6 +455,30 @@ class Translations$discarded$restored$fr {
 
 	/// fr: 'Tu les retrouveras sur l’accueil, prêtes à être triées.'
 	String get message => 'Tu les retrouveras sur l’accueil, prêtes à être triées.';
+}
+
+// Path: discarded.viewer
+class Translations$discarded$viewer$fr {
+	Translations$discarded$viewer$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Retour'
+	String get back => 'Retour';
+
+	/// fr: 'Photo écartée'
+	String get title => 'Photo écartée';
+
+	/// fr: 'Photo {position} sur {count}'
+	String position({required Object position, required Object count}) => 'Photo ${position} sur ${count}';
+
+	late final Translations$discarded$viewer$badge$fr badge = Translations$discarded$viewer$badge$fr.internal(_root);
+	late final Translations$discarded$viewer$message$fr message = Translations$discarded$viewer$message$fr.internal(_root);
+
+	/// fr: 'Remettre à trier'
+	String get restore => 'Remettre à trier';
 }
 
 // Path: events.subtitle
@@ -1557,6 +1585,33 @@ class Translations$burstSort$sheet$photoCount$fr {
 	String several({required Object count}) => '${count} photos dans cette rafale';
 }
 
+// Path: discarded.viewer.badge
+class Translations$discarded$viewer$badge$fr {
+	Translations$discarded$viewer$badge$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Sur ton PC'
+	String get alreadySent => 'Sur ton PC';
+}
+
+// Path: discarded.viewer.message
+class Translations$discarded$viewer$message$fr {
+	Translations$discarded$viewer$message$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Elle ne partira pas avec tes photos gardées. Remets-la à trier si tu as changé d’avis.'
+	String get restorable => 'Elle ne partira pas avec tes photos gardées. Remets-la à trier si tu as changé d’avis.';
+
+	/// fr: 'Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier.'
+	String get alreadySent => 'Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier.';
+}
+
 /// The flat map containing all translations for locale <fr>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1576,23 +1631,31 @@ extension on Translations {
 			'burstSort.sheet.keep' => 'Garder',
 			'discarded.back' => 'Retour',
 			'discarded.title' => 'Photos écartées',
-			'discarded.intro' => 'Elles sont toujours sur ton téléphone. Choisis celles que tu veux remettre à trier.',
+			'discarded.intro' => 'Elles sont toujours sur ton téléphone. Touche une photo pour la voir en grand, ou son rond pour la sélectionner.',
 			'discarded.onPhone' => 'Sur le téléphone',
 			'discarded.alreadySent.title' => 'Déjà sur ton PC',
 			'discarded.alreadySent.message' => 'Elles sont rangées dans « Écartées » sur ton PC. Pour en garder une, déplace-la à la main depuis ce dossier.',
 			'discarded.photoCount.single' => '1 photo',
 			'discarded.photoCount.several' => ({required Object count}) => '${count} photos',
-			'discarded.restore.zero' => 'Choisis des photos',
 			'discarded.restore.single' => 'Remettre 1 photo à trier',
 			'discarded.restore.several' => ({required Object count}) => 'Remettre ${count} photos à trier',
 			'discarded.tile.selected' => 'Photo à remettre à trier',
 			'discarded.tile.discarded' => 'Photo écartée',
 			'discarded.tile.alreadySent' => 'Photo déjà sur ton PC',
+			'discarded.tile.select' => 'Sélectionner',
+			'discarded.tile.unselect' => 'Désélectionner',
 			'discarded.empty.title' => 'Aucune photo écartée',
 			'discarded.empty.message' => 'Quand tu écartes une photo, elle reste sur ton téléphone et tu la retrouves ici.',
 			'discarded.restored.titleSingle' => '1 photo remise à trier',
 			'discarded.restored.titleSeveral' => ({required Object count}) => '${count} photos remises à trier',
 			'discarded.restored.message' => 'Tu les retrouveras sur l’accueil, prêtes à être triées.',
+			'discarded.viewer.back' => 'Retour',
+			'discarded.viewer.title' => 'Photo écartée',
+			'discarded.viewer.position' => ({required Object position, required Object count}) => 'Photo ${position} sur ${count}',
+			'discarded.viewer.badge.alreadySent' => 'Sur ton PC',
+			'discarded.viewer.message.restorable' => 'Elle ne partira pas avec tes photos gardées. Remets-la à trier si tu as changé d’avis.',
+			'discarded.viewer.message.alreadySent' => 'Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier.',
+			'discarded.viewer.restore' => 'Remettre à trier',
 			'events.dateRangeTitle' => ({required Object startDay, required Object endDate}) => 'Du ${startDay} au ${endDate}',
 			'events.subtitle.single' => ({required Object dates, required Object count}) => '${dates} · ${count} photo',
 			'events.subtitle.several' => ({required Object dates, required Object count}) => '${dates} · ${count} photos',

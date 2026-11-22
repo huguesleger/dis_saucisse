@@ -142,4 +142,18 @@ void main() {
       ),
     ],
   );
+
+  blocTest<DiscardedPhotosCubit, DiscardedPhotosState>(
+    'puts a single photo back to sort from the full screen view',
+    build: buildCubit,
+    act: (DiscardedPhotosCubit cubit) async {
+      await cubit.load();
+      await cubit.restore(<PhotoId>{const PhotoId('walk')});
+    },
+    skip: 2,
+    expect: () => <Matcher>[
+      isA<DiscardedPhotosRestored>().having((DiscardedPhotosRestored s) => s.restoredCount, 'count', 1),
+    ],
+    verify: (_) => verify(() => decisionRepository.removeDecisions(<PhotoId>{const PhotoId('walk')})).called(1),
+  );
 }

@@ -9,13 +9,20 @@ class DiscardedPhotosRestoreButton extends StatelessWidget {
   final VoidCallback onRestore;
 
   @override
-  Widget build(BuildContext context) => DsButton(
-    label: switch (selectedCount) {
-      0 => t.discarded.restore.zero,
-      1 => t.discarded.restore.single,
-      _ => t.discarded.restore.several(count: selectedCount),
-    },
-    variant: DsButtonVariant.dark,
-    onPressed: selectedCount == 0 ? null : onRestore,
+  Widget build(BuildContext context) => AnimatedSize(
+    duration: const Duration(milliseconds: 200),
+    curve: Curves.easeOut,
+    child: selectedCount == 0
+        ? const SizedBox(width: double.infinity)
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.s, DsSpacing.l, DsSpacing.l),
+            child: DsButton(
+              label: selectedCount == 1
+                  ? t.discarded.restore.single
+                  : t.discarded.restore.several(count: selectedCount),
+              variant: DsButtonVariant.dark,
+              onPressed: onRestore,
+            ),
+          ),
   );
 }

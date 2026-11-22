@@ -29,6 +29,7 @@ export 'src/widgets/feedback/ds_status_badge.dart';
 export 'src/widgets/feedback/ds_status_tone.dart';
 export 'src/widgets/layout/ds_bottom_sheet.dart';
 export 'src/widgets/layout/ds_card.dart';
+export 'src/widgets/layout/ds_glass_card.dart';
 export 'src/widgets/layout/ds_icon_square.dart';
 export 'src/widgets/layout/ds_mesh_background.dart';
 export 'src/widgets/layout/ds_section_header.dart';

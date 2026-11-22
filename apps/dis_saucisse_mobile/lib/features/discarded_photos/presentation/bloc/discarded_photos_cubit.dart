@@ -64,12 +64,13 @@ class DiscardedPhotosCubit extends SafeCubit<DiscardedPhotosState> {
   };
 
   Future<void> restoreSelected() => switch (state) {
-    final DiscardedPhotosReady ready =>
-      _decisionRepository
-          .removeDecisions(ready.selected)
-          .match(DiscardedPhotosFailed.new, (_) => DiscardedPhotosRestored(restoredCount: ready.selected.length))
-          .map(emit)
-          .run(),
+    final DiscardedPhotosReady ready => restore(ready.selected),
     DiscardedPhotosLoading() || DiscardedPhotosFailed() || DiscardedPhotosRestored() => Future<void>.value(),
   };
+
+  Future<void> restore(Set<PhotoId> photos) => _decisionRepository
+      .removeDecisions(photos)
+      .match(DiscardedPhotosFailed.new, (_) => DiscardedPhotosRestored(restoredCount: photos.length))
+      .map(emit)
+      .run();
 }
