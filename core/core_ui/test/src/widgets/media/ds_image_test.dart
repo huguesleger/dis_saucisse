@@ -42,4 +42,20 @@ void main() {
     expect(find.byType(DsPhoto), findsOneWidget);
     expect(find.byType(DsSkeletonizer), findsNothing);
   });
+
+  testWidgets('stays tappable while the image loads', (WidgetTester tester) async {
+    int taps = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GestureDetector(
+          onTap: () => taps++,
+          child: SizedBox(width: 200, height: 300, child: DsImage(image: _PendingImage(Completer<ui.Codec>()))),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(DsImage));
+
+    expect(taps, 1);
+  });
 }

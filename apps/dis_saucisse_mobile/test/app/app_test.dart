@@ -99,7 +99,8 @@ void main() {
     );
 
     await tester.pumpWidget(const App());
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 2));
 
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.text('2 photos\nà trier'), findsOneWidget);

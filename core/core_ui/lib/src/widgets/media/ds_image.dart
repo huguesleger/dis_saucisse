@@ -7,11 +7,20 @@ import 'package:skeletonizer/skeletonizer.dart';
 ///
 /// Shows the placeholder gradient of [DsPhoto] when the image cannot be loaded.
 class DsImage extends StatelessWidget {
-  const DsImage({super.key, required this.image, this.fit = BoxFit.cover, this.borderRadius = BorderRadius.zero});
+  const DsImage({
+    super.key,
+    required this.image,
+    this.fit = BoxFit.cover,
+    this.borderRadius = BorderRadius.zero,
+    this.placeholderIndex = 0,
+  });
 
   final ImageProvider image;
   final BoxFit fit;
   final BorderRadius borderRadius;
+
+  /// Which placeholder gradient of [DsPhoto] to show when the image cannot be loaded.
+  final int placeholderIndex;
 
   static const Duration _fadeIn = Duration(milliseconds: 300);
 
@@ -31,13 +40,18 @@ class DsImage extends StatelessWidget {
               duration: _fadeIn,
               child: frame == null
                   ? LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) => DsSkeletonizer(
-                        child: Bone(width: constraints.maxWidth, height: constraints.maxHeight),
+                      builder: (BuildContext context, BoxConstraints constraints) => ColoredBox(
+                        color: const Color(0x00000000),
+                        child: DsSkeletonizer(
+                          ignorePointers: false,
+                          child: Bone(width: constraints.maxWidth, height: constraints.maxHeight),
+                        ),
                       ),
                     )
                   : child,
             ),
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => DsPhoto(borderRadius: borderRadius),
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) =>
+          DsPhoto(borderRadius: borderRadius, placeholderIndex: placeholderIndex),
     ),
   );
 }

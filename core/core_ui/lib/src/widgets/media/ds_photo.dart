@@ -1,10 +1,12 @@
 import 'package:core_ui/src/foundation/ds_gradients.dart';
 import 'package:core_ui/src/foundation/ds_radius.dart';
+import 'package:core_ui/src/widgets/media/ds_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-/// Rounded photo. Shows a placeholder gradient while [image] is null or fails to load.
+/// Rounded photo: a shimmering skeleton while [image] loads, then a fade in.
 ///
+/// Shows a placeholder gradient when there is no [image] or when it fails to load.
 /// Inside an enabled [DsSkeletonizer], it is drawn as a plain grey shape.
 class DsPhoto extends StatelessWidget {
   const DsPhoto({
@@ -26,14 +28,18 @@ class DsPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImageProvider? photo = image;
     return Skeleton.leaf(
-      child: Container(
+      child: SizedBox(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          gradient: DsGradients.photoPlaceholders[placeholderIndex % DsGradients.photoPlaceholders.length],
-          image: photo == null ? null : DecorationImage(image: photo, fit: BoxFit.cover, onError: (_, _) {}),
-        ),
+        child: photo == null
+            ? DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  gradient: DsGradients.photoPlaceholders[placeholderIndex % DsGradients.photoPlaceholders.length],
+                ),
+                child: const SizedBox.expand(),
+              )
+            : DsImage(image: photo, borderRadius: borderRadius, placeholderIndex: placeholderIndex),
       ),
     );
   }
