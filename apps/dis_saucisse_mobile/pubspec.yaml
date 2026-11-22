@@ -21,6 +21,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.4.7
   fpdart: ^1.2.0
   get_it: ^8.2.0
   go_router: ^17.0.0
@@ -45,3 +46,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+flutter_native_splash:
+  color: "#FFD23F"
+  image: res/splash/logo_splash.png
+  android_12:
+    color: "#FFD23F"
+    image: res/splash/logo_splash_android12.png
+  web: false
