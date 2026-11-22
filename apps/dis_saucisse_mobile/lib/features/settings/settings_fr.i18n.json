@@ -28,9 +28,7 @@
     "title": "Ce que l'app ignore",
     "screenshots": "Captures d'écran",
     "whatsapp": "Images WhatsApp",
-    "whatsappSubtitle": "Et des autres messageries",
-    "videos": "Vidéos",
-    "videosSubtitle": "Toujours ignorées pour le moment"
+    "whatsappSubtitle": "Et des autres messageries"
   },
   "afterSending": {
     "title": "Après l'envoi",

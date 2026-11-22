@@ -33,13 +33,6 @@ class SettingsIgnoredGroup extends StatelessWidget {
           onChanged: (bool ignored) => onIgnoredChanged(PhotoOrigin.messagingApp, ignored: ignored),
         ),
       ),
-      DsSettingsTile(
-        icon: Icons.videocam_outlined,
-        iconBackground: DsColors.blushSoft,
-        title: t.settings.ignored.videos,
-        subtitle: t.settings.ignored.videosSubtitle,
-        trailing: const SettingsSwitch(value: true),
-      ),
     ],
   );
 }

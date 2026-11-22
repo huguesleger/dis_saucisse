@@ -4,8 +4,8 @@
     "blurry": "Photos floues"
   },
   "intro": {
-    "duplicates": "Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.",
-    "blurry": "Ces photos semblent floues. Décoche celles que tu veux garder."
+    "duplicates": "Ces photos se ressemblent comme deux gouttes d’eau. L’étoile marque la plus nette, toujours gardée. Touche une photo pour la voir en grand.",
+    "blurry": "Ces photos semblent floues. Touche une photo pour la voir en grand, ou son rond pour la garder."
   },
   "empty": {
     "title": "Tout est propre !",
@@ -27,8 +27,28 @@
     "discard": "Écarter {photos}",
     "nothingDeleted": "Rien n’est supprimé : elles iront dans « Écartées » sur l’ordinateur."
   },
-  "photoTile": {
+  "card": {
+    "series": "Série de {count} photos",
+    "blurrySingle": "1 photo floue",
+    "blurrySeveral": "{count} photos floues",
+    "takenAt": "{date} · {time}"
+  },
+  "tile": {
+    "best": "Meilleure de la série",
     "kept": "Photo gardée",
-    "toDiscard": "Photo à écarter"
+    "toDiscard": "Photo à écarter",
+    "discardIt": "Écarter cette photo",
+    "keepIt": "Garder cette photo"
+  },
+  "viewer": {
+    "photo": "Photo {position}",
+    "best": "Meilleure de la série",
+    "message": {
+      "best": "La plus nette de la série : elle est toujours gardée.",
+      "duplicate": "Elle ressemble à la meilleure de la série. Écarte-la si tu n’en as pas besoin.",
+      "blurry": "Elle semble floue. Garde-la si elle compte pour toi."
+    },
+    "keep": "Garder",
+    "discard": "Écarter"
   }
 }

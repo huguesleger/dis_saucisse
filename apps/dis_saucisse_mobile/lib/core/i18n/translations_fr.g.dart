@@ -50,6 +50,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$memories$fr memories = Translations$memories$fr.internal(_root);
 	late final Translations$navigation$fr navigation = Translations$navigation$fr.internal(_root);
 	late final Translations$pairing$fr pairing = Translations$pairing$fr.internal(_root);
+	late final Translations$photoViewer$fr photoViewer = Translations$photoViewer$fr.internal(_root);
 	late final Translations$quality$fr quality = Translations$quality$fr.internal(_root);
 	late final Translations$settings$fr settings = Translations$settings$fr.internal(_root);
 	late final Translations$sorting$fr sorting = Translations$sorting$fr.internal(_root);
@@ -165,8 +166,8 @@ class Translations$home$fr {
 	// Translations
 	late final Translations$home$accessDenied$fr accessDenied = Translations$home$accessDenied$fr.internal(_root);
 
-	/// fr: 'Coucou ! Prête pour le tri ?'
-	String get greeting => 'Coucou ! Prête pour le tri ?';
+	/// fr: 'Coucou ! Prêt pour le tri ?'
+	String get greeting => 'Coucou ! Prêt pour le tri ?';
 
 	late final Translations$home$photosToSort$fr photosToSort = Translations$home$photosToSort$fr.internal(_root);
 	late final Translations$home$quality$fr quality = Translations$home$quality$fr.internal(_root);
@@ -247,6 +248,21 @@ class Translations$pairing$fr {
 	late final Translations$pairing$help$fr help = Translations$pairing$help$fr.internal(_root);
 }
 
+// Path: photoViewer
+class Translations$photoViewer$fr {
+	Translations$photoViewer$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Retour'
+	String get back => 'Retour';
+
+	/// fr: 'Photo {position} sur {count}'
+	String position({required Object position, required Object count}) => 'Photo ${position} sur ${count}';
+}
+
 // Path: quality
 class Translations$quality$fr {
 	Translations$quality$fr.internal(this._root);
@@ -260,7 +276,9 @@ class Translations$quality$fr {
 	late final Translations$quality$photoCount$fr photoCount = Translations$quality$photoCount$fr.internal(_root);
 	late final Translations$quality$done$fr done = Translations$quality$done$fr.internal(_root);
 	late final Translations$quality$review$fr review = Translations$quality$review$fr.internal(_root);
-	late final Translations$quality$photoTile$fr photoTile = Translations$quality$photoTile$fr.internal(_root);
+	late final Translations$quality$card$fr card = Translations$quality$card$fr.internal(_root);
+	late final Translations$quality$tile$fr tile = Translations$quality$tile$fr.internal(_root);
+	late final Translations$quality$viewer$fr viewer = Translations$quality$viewer$fr.internal(_root);
 }
 
 // Path: settings
@@ -465,14 +483,8 @@ class Translations$discarded$viewer$fr {
 
 	// Translations
 
-	/// fr: 'Retour'
-	String get back => 'Retour';
-
 	/// fr: 'Photo écartée'
 	String get title => 'Photo écartée';
-
-	/// fr: 'Photo {position} sur {count}'
-	String position({required Object position, required Object count}) => 'Photo ${position} sur ${count}';
 
 	late final Translations$discarded$viewer$badge$fr badge = Translations$discarded$viewer$badge$fr.internal(_root);
 	late final Translations$discarded$viewer$message$fr message = Translations$discarded$viewer$message$fr.internal(_root);
@@ -1110,11 +1122,11 @@ class Translations$quality$intro$fr {
 
 	// Translations
 
-	/// fr: 'Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.'
-	String get duplicates => 'Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.';
+	/// fr: 'Ces photos se ressemblent comme deux gouttes d’eau. L’étoile marque la plus nette, toujours gardée. Touche une photo pour la voir en grand.'
+	String get duplicates => 'Ces photos se ressemblent comme deux gouttes d’eau. L’étoile marque la plus nette, toujours gardée. Touche une photo pour la voir en grand.';
 
-	/// fr: 'Ces photos semblent floues. Décoche celles que tu veux garder.'
-	String get blurry => 'Ces photos semblent floues. Décoche celles que tu veux garder.';
+	/// fr: 'Ces photos semblent floues. Touche une photo pour la voir en grand, ou son rond pour la garder.'
+	String get blurry => 'Ces photos semblent floues. Touche une photo pour la voir en grand, ou son rond pour la garder.';
 }
 
 // Path: quality.empty
@@ -1189,19 +1201,72 @@ class Translations$quality$review$fr {
 	String get nothingDeleted => 'Rien n’est supprimé : elles iront dans « Écartées » sur l’ordinateur.';
 }
 
-// Path: quality.photoTile
-class Translations$quality$photoTile$fr {
-	Translations$quality$photoTile$fr.internal(this._root);
+// Path: quality.card
+class Translations$quality$card$fr {
+	Translations$quality$card$fr.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// fr: 'Série de {count} photos'
+	String series({required Object count}) => 'Série de ${count} photos';
+
+	/// fr: '1 photo floue'
+	String get blurrySingle => '1 photo floue';
+
+	/// fr: '{count} photos floues'
+	String blurrySeveral({required Object count}) => '${count} photos floues';
+
+	/// fr: '{date} · {time}'
+	String takenAt({required Object date, required Object time}) => '${date} · ${time}';
+}
+
+// Path: quality.tile
+class Translations$quality$tile$fr {
+	Translations$quality$tile$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Meilleure de la série'
+	String get best => 'Meilleure de la série';
 
 	/// fr: 'Photo gardée'
 	String get kept => 'Photo gardée';
 
 	/// fr: 'Photo à écarter'
 	String get toDiscard => 'Photo à écarter';
+
+	/// fr: 'Écarter cette photo'
+	String get discardIt => 'Écarter cette photo';
+
+	/// fr: 'Garder cette photo'
+	String get keepIt => 'Garder cette photo';
+}
+
+// Path: quality.viewer
+class Translations$quality$viewer$fr {
+	Translations$quality$viewer$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'Photo {position}'
+	String photo({required Object position}) => 'Photo ${position}';
+
+	/// fr: 'Meilleure de la série'
+	String get best => 'Meilleure de la série';
+
+	late final Translations$quality$viewer$message$fr message = Translations$quality$viewer$message$fr.internal(_root);
+
+	/// fr: 'Garder'
+	String get keep => 'Garder';
+
+	/// fr: 'Écarter'
+	String get discard => 'Écarter';
 }
 
 // Path: settings.header
@@ -1310,12 +1375,6 @@ class Translations$settings$ignored$fr {
 
 	/// fr: 'Et des autres messageries'
 	String get whatsappSubtitle => 'Et des autres messageries';
-
-	/// fr: 'Vidéos'
-	String get videos => 'Vidéos';
-
-	/// fr: 'Toujours ignorées pour le moment'
-	String get videosSubtitle => 'Toujours ignorées pour le moment';
 }
 
 // Path: settings.afterSending
@@ -1612,6 +1671,24 @@ class Translations$discarded$viewer$message$fr {
 	String get alreadySent => 'Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier.';
 }
 
+// Path: quality.viewer.message
+class Translations$quality$viewer$message$fr {
+	Translations$quality$viewer$message$fr.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// fr: 'La plus nette de la série : elle est toujours gardée.'
+	String get best => 'La plus nette de la série : elle est toujours gardée.';
+
+	/// fr: 'Elle ressemble à la meilleure de la série. Écarte-la si tu n’en as pas besoin.'
+	String get duplicate => 'Elle ressemble à la meilleure de la série. Écarte-la si tu n’en as pas besoin.';
+
+	/// fr: 'Elle semble floue. Garde-la si elle compte pour toi.'
+	String get blurry => 'Elle semble floue. Garde-la si elle compte pour toi.';
+}
+
 /// The flat map containing all translations for locale <fr>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -1649,9 +1726,7 @@ extension on Translations {
 			'discarded.restored.titleSingle' => '1 photo remise à trier',
 			'discarded.restored.titleSeveral' => ({required Object count}) => '${count} photos remises à trier',
 			'discarded.restored.message' => 'Tu les retrouveras sur l’accueil, prêtes à être triées.',
-			'discarded.viewer.back' => 'Retour',
 			'discarded.viewer.title' => 'Photo écartée',
-			'discarded.viewer.position' => ({required Object position, required Object count}) => 'Photo ${position} sur ${count}',
 			'discarded.viewer.badge.alreadySent' => 'Sur ton PC',
 			'discarded.viewer.message.restorable' => 'Elle ne partira pas avec tes photos gardées. Remets-la à trier si tu as changé d’avis.',
 			'discarded.viewer.message.alreadySent' => 'Elle est rangée dans « Écartées » sur ton PC. Pour la garder, déplace-la à la main depuis ce dossier.',
@@ -1707,7 +1782,7 @@ extension on Translations {
 			'home.accessDenied.message' => 'Autorise Dis Saucisse ! à lire tes photos dans les réglages, puis reviens ici.',
 			'home.accessDenied.openSettings' => 'Ouvrir les réglages',
 			'home.accessDenied.retry' => 'C\'est fait, réessayer',
-			'home.greeting' => 'Coucou ! Prête pour le tri ?',
+			'home.greeting' => 'Coucou ! Prêt pour le tri ?',
 			'home.photosToSort.zero' => 'Aucune photo\nà trier',
 			'home.photosToSort.single' => '1 photo\nà trier',
 			'home.photosToSort.several' => ({required Object count}) => '${count} photos\nà trier',
@@ -1766,10 +1841,12 @@ extension on Translations {
 			'pairing.help.step3' => 'Vise le QR code, c’est tout',
 			'pairing.help.importImage' => 'Importer une image du QR code',
 			'pairing.help.privacy' => 'Les photos restent chez vous, sans passer par internet',
+			'photoViewer.back' => 'Retour',
+			'photoViewer.position' => ({required Object position, required Object count}) => 'Photo ${position} sur ${count}',
 			'quality.title.duplicates' => 'Doublons',
 			'quality.title.blurry' => 'Photos floues',
-			'quality.intro.duplicates' => 'Ces photos se ressemblent comme deux gouttes d’eau. La plus nette est gardée.',
-			'quality.intro.blurry' => 'Ces photos semblent floues. Décoche celles que tu veux garder.',
+			'quality.intro.duplicates' => 'Ces photos se ressemblent comme deux gouttes d’eau. L’étoile marque la plus nette, toujours gardée. Touche une photo pour la voir en grand.',
+			'quality.intro.blurry' => 'Ces photos semblent floues. Touche une photo pour la voir en grand, ou son rond pour la garder.',
 			'quality.empty.title' => 'Tout est propre !',
 			'quality.empty.duplicates' => 'Aucun doublon parmi les photos à trier.',
 			'quality.empty.blurry' => 'Aucune photo floue parmi les photos à trier.',
@@ -1782,8 +1859,22 @@ extension on Translations {
 			'quality.review.back' => 'Retour',
 			'quality.review.discard' => ({required Object photos}) => 'Écarter ${photos}',
 			'quality.review.nothingDeleted' => 'Rien n’est supprimé : elles iront dans « Écartées » sur l’ordinateur.',
-			'quality.photoTile.kept' => 'Photo gardée',
-			'quality.photoTile.toDiscard' => 'Photo à écarter',
+			'quality.card.series' => ({required Object count}) => 'Série de ${count} photos',
+			'quality.card.blurrySingle' => '1 photo floue',
+			'quality.card.blurrySeveral' => ({required Object count}) => '${count} photos floues',
+			'quality.card.takenAt' => ({required Object date, required Object time}) => '${date} · ${time}',
+			'quality.tile.best' => 'Meilleure de la série',
+			'quality.tile.kept' => 'Photo gardée',
+			'quality.tile.toDiscard' => 'Photo à écarter',
+			'quality.tile.discardIt' => 'Écarter cette photo',
+			'quality.tile.keepIt' => 'Garder cette photo',
+			'quality.viewer.photo' => ({required Object position}) => 'Photo ${position}',
+			'quality.viewer.best' => 'Meilleure de la série',
+			'quality.viewer.message.best' => 'La plus nette de la série : elle est toujours gardée.',
+			'quality.viewer.message.duplicate' => 'Elle ressemble à la meilleure de la série. Écarte-la si tu n’en as pas besoin.',
+			'quality.viewer.message.blurry' => 'Elle semble floue. Garde-la si elle compte pour toi.',
+			'quality.viewer.keep' => 'Garder',
+			'quality.viewer.discard' => 'Écarter',
 			'settings.header.subtitle' => 'L\'app, à ta façon',
 			'settings.header.title' => 'Réglages',
 			'settings.computer.noComputer' => 'Aucun ordinateur',
@@ -1805,8 +1896,6 @@ extension on Translations {
 			'settings.ignored.screenshots' => 'Captures d\'écran',
 			'settings.ignored.whatsapp' => 'Images WhatsApp',
 			'settings.ignored.whatsappSubtitle' => 'Et des autres messageries',
-			'settings.ignored.videos' => 'Vidéos',
-			'settings.ignored.videosSubtitle' => 'Toujours ignorées pour le moment',
 			'settings.afterSending.title' => 'Après l\'envoi',
 			'settings.afterSending.freeSpace' => 'Libérer de la place',
 			'settings.afterSending.freeSpaceSubtitle' => 'Les photos déjà sur le PC passent par la corbeille, récupérables 30 jours',

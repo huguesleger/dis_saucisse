@@ -32,9 +32,7 @@
     "message": "Tu les retrouveras sur l’accueil, prêtes à être triées."
   },
   "viewer": {
-    "back": "Retour",
     "title": "Photo écartée",
-    "position": "Photo {position} sur {count}",
     "badge": {
       "alreadySent": "Sur ton PC"
     },

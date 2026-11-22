@@ -2,51 +2,58 @@ import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/photo_thumbnail_image.dart';
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/quality_photo_status.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/widgets/quality_status_dot.dart';
 import 'package:flutter/material.dart';
 
 class QualityPhotoTile extends StatelessWidget {
   const QualityPhotoTile({
     super.key,
     required this.photoId,
-    required this.isBest,
-    required this.isSelected,
-    required this.onTap,
+    required this.status,
+    required this.onOpen,
+    required this.onToggle,
   });
 
-  static const double size = 96;
-
   final PhotoId photoId;
-  final bool isBest;
-  final bool isSelected;
-  final VoidCallback? onTap;
+  final QualityPhotoStatus status;
+  final VoidCallback onOpen;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) => Semantics(
-    button: onTap != null,
-    selected: isSelected,
-    label: isBest ? t.quality.photoTile.kept : (isSelected ? t.quality.photoTile.toDiscard : t.quality.photoTile.kept),
+    button: true,
+    label: switch (status) {
+      QualityPhotoStatus.best => t.quality.tile.best,
+      QualityPhotoStatus.kept => t.quality.tile.kept,
+      QualityPhotoStatus.toDiscard => t.quality.tile.toDiscard,
+    },
     child: GestureDetector(
-      onTap: onTap,
-      child: SizedBox.square(
-        dimension: size,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Opacity(
-              opacity: isSelected ? 0.55 : 1,
-              child: DsPhoto(image: PhotoThumbnailImage(photoId, size: 240), borderRadius: DsRadius.smallAll),
-            ),
-            Positioned(
-              top: DsSpacing.xxs,
-              right: DsSpacing.xxs,
-              child: Icon(
-                isBest ? Icons.star_rounded : (isSelected ? Icons.remove_circle_rounded : Icons.check_circle_rounded),
-                color: isBest ? DsColors.mustard : (isSelected ? DsColors.sausage : DsColors.success),
-                size: 26,
+      onTap: onOpen,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 150),
+            opacity: status == QualityPhotoStatus.toDiscard ? 0.55 : 1,
+            child: DsPhoto(image: PhotoThumbnailImage(photoId, size: 360), borderRadius: DsRadius.mediumAll),
+          ),
+          if (status == QualityPhotoStatus.toDiscard)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: DsRadius.mediumAll,
+                border: Border.all(color: DsColors.sausage, width: 3),
               ),
             ),
-          ],
-        ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: QualityStatusDot(
+              status: status,
+              onTap: status == QualityPhotoStatus.best ? null : onToggle,
+            ),
+          ),
+        ],
       ),
     ),
   );

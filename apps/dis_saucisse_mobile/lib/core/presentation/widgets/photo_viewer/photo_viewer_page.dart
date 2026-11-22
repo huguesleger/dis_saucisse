@@ -3,8 +3,8 @@ import 'package:dis_saucisse_mobile/features/photo_library/data/data_sources/pho
 import 'package:dis_saucisse_mobile/features/photo_library/domain/entities/photo_id.dart';
 import 'package:flutter/material.dart';
 
-class DiscardedPhotoViewerPage extends StatelessWidget {
-  const DiscardedPhotoViewerPage({super.key, required this.photoId, required this.onTap});
+class PhotoViewerPage extends StatelessWidget {
+  const PhotoViewerPage({super.key, required this.photoId, required this.onTap});
 
   final PhotoId photoId;
   final VoidCallback onTap;

@@ -44,6 +44,7 @@ class SettingsComputerCard extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(width: DsSpacing.s),
             DsButton(
               label: computer.isSome() ? t.settings.computer.change : t.settings.computer.pair,
               variant: DsButtonVariant.secondary,

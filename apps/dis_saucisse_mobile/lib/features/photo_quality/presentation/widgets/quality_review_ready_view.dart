@@ -3,7 +3,10 @@ import 'package:dis_saucisse_mobile/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_group.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/domain/entities/quality_issue.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/bloc/quality_review_cubit.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/quality_review_groups.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/quality_review_navigation.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/quality_review_texts.dart';
+import 'package:dis_saucisse_mobile/features/photo_quality/presentation/widgets/quality_discard_bar.dart';
 import 'package:dis_saucisse_mobile/features/photo_quality/presentation/widgets/quality_group_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,10 +39,18 @@ class QualityReviewReadyView extends StatelessWidget {
                 const SizedBox(height: DsSpacing.xs),
                 Text(qualityReviewIntro(issue), style: DsTextStyles.body.copyWith(color: DsColors.textSoft)),
                 const SizedBox(height: DsSpacing.l),
-                for (final QualityGroup group in state.groups) ...<Widget>[
+                for (final QualityGroup group in displayedQualityGroups(issue, state.groups)) ...<Widget>[
                   QualityGroupCard(
+                    issue: issue,
                     group: group,
                     selected: state.selected,
+                    onOpen: (int index) => openQualityPhoto(
+                      context,
+                      cubit: context.read<QualityReviewCubit>(),
+                      issue: issue,
+                      group: group,
+                      index: index,
+                    ),
                     onToggle: context.read<QualityReviewCubit>().toggle,
                   ),
                   const SizedBox(height: DsSpacing.s),
@@ -47,24 +58,9 @@ class QualityReviewReadyView extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.s, DsSpacing.l, DsSpacing.l),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: DsSpacing.xs,
-              children: <Widget>[
-                DsButton(
-                  label: t.quality.review.discard(photos: photoCountLabel(state.selected.length)),
-                  variant: DsButtonVariant.dark,
-                  onPressed: state.selected.isEmpty ? null : context.read<QualityReviewCubit>().discardSelected,
-                ),
-                Text(
-                  t.quality.review.nothingDeleted,
-                  style: DsTextStyles.caption,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+          QualityDiscardBar(
+            selectedCount: state.selected.length,
+            onDiscard: context.read<QualityReviewCubit>().discardSelected,
           ),
         ],
       ),
