@@ -57,8 +57,11 @@ class PhotoManagerDataSource implements PhotoLibraryDataSource {
             .toList();
       }, _failure);
 
-  Future<List<AssetEntity>> _assetsOf(AssetPathEntity path) async =>
-      path.getAssetListRange(start: 0, end: await path.assetCountAsync);
+  Future<List<AssetEntity>> _assetsOf(AssetPathEntity path) async {
+    final int count = await path.assetCountAsync;
+    if (count == 0) return <AssetEntity>[];
+    return path.getAssetListRange(start: 0, end: count);
+  }
 
   Future<Set<String>> _messagingAlbumAssetIds(FilterOptionGroup filter) async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
