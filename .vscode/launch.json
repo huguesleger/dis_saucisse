@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Mobile (iOS / Android)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "apps/dis_saucisse_mobile",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Desktop (macOS)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "apps/dis_saucisse_desktop",
+      "program": "lib/main.dart",
+      "deviceId": "macos"
+    }
+  ]
+}
