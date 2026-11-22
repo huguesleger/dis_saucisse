@@ -9,39 +9,17 @@ class ReceptionFailedView extends StatelessWidget {
   final ReceptionProblem problem;
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 420),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: DsSpacing.m,
-        children: <Widget>[
-          const DsMascot(width: 160),
-          Text(
-            switch (problem) {
-              ReceptionProblem.noNetwork => 'Pas de réseau Wi-Fi',
-              ReceptionProblem.serverUnavailable => 'Réception impossible',
-            },
-            style: DsTextStyles.titleXl,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            switch (problem) {
-              ReceptionProblem.noNetwork => 'Connecte l’ordinateur au Wi-Fi de la maison, puis réessaie.',
-              ReceptionProblem.serverUnavailable =>
-                'Une autre copie de Dis Saucisse ! est peut-être déjà ouverte sur cet ordinateur.',
-            },
-            style: DsTextStyles.body.copyWith(color: DsColors.textSoft),
-            textAlign: TextAlign.center,
-          ),
-          DsButton(
-            label: 'Réessayer',
-            variant: DsButtonVariant.dark,
-            expanded: false,
-            onPressed: context.read<ReceptionCubit>().start,
-          ),
-        ],
-      ),
-    ),
+  Widget build(BuildContext context) => DsMessageView(
+    title: switch (problem) {
+      ReceptionProblem.noNetwork => 'Pas de réseau Wi-Fi',
+      ReceptionProblem.serverUnavailable => 'Réception impossible',
+    },
+    message: switch (problem) {
+      ReceptionProblem.noNetwork => 'Connecte l’ordinateur au Wi-Fi de la maison, puis réessaie.',
+      ReceptionProblem.serverUnavailable =>
+        'Une autre copie de Dis Saucisse ! est peut-être déjà ouverte sur cet ordinateur.',
+    },
+    placement: DsMessagePlacement.panel,
+    primaryAction: DsMessageAction(label: 'Réessayer', onPressed: context.read<ReceptionCubit>().start),
   );
 }

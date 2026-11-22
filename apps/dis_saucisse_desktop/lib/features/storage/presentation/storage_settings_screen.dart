@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/bloc/storage_settings_cubit.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_options_card.dart';
@@ -13,7 +14,10 @@ class StorageSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<StorageSettingsCubit, StorageSettingsState>(
     builder: (BuildContext context, StorageSettingsState state) => switch (state) {
       StorageSettingsLoading() => const Center(child: DsLoader()),
-      StorageSettingsFailed() => Center(child: Text('Réglages illisibles pour le moment.', style: DsTextStyles.body)),
+      StorageSettingsFailed(:final failure) => FailureView(
+        failure: failure,
+        onRetry: context.read<StorageSettingsCubit>().load,
+      ),
       final StorageSettingsLoaded loaded => Padding(
         padding: const EdgeInsets.fromLTRB(DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xxl, DsSpacing.xl),
         child: Column(

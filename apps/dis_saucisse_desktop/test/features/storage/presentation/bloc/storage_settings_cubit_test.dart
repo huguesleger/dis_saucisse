@@ -34,7 +34,9 @@ void main() {
     setUp: () => when(() => repository.loadSettings()).thenReturn(TaskEither.left(const UnknownFailure())),
     build: buildCubit,
     act: (StorageSettingsCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<StorageSettingsFailed>()],
+    expect: () => <Matcher>[
+      isA<StorageSettingsFailed>().having((StorageSettingsFailed s) => s.failure, 'failure', const UnknownFailure()),
+    ],
   );
 
   blocTest<StorageSettingsCubit, StorageSettingsState>(

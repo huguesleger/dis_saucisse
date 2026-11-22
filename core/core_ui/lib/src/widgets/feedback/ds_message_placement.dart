@@ -5,4 +5,7 @@ enum DsMessagePlacement {
 
   /// The content of a tab: the screen paints the background and the floating nav bar covers its bottom.
   tab,
+
+  /// A panel of a desktop window: the window paints the background, and the message keeps a readable width.
+  panel,
 }

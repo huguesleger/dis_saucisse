@@ -69,4 +69,20 @@ void main() {
     );
     expect(find.byType(DsMeshBackground), findsNothing);
   });
+
+  testWidgets('keeps a readable width inside a desktop panel', (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(1200, 800));
+    await pumpMessage(
+      tester,
+      DsMessageView(
+        title: 'Historique illisible',
+        message: 'Réessaie dans un instant.',
+        placement: DsMessagePlacement.panel,
+        primaryAction: DsMessageAction(label: 'Réessayer', onPressed: () {}),
+      ),
+    );
+
+    expect(find.byType(DsMeshBackground), findsNothing);
+    expect(tester.getSize(find.byType(DsButton)).width, lessThanOrEqualTo(460));
+  });
 }

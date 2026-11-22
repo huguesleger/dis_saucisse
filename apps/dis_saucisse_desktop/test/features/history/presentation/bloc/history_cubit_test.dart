@@ -56,7 +56,18 @@ void main() {
     setUp: () => when(() => historyRepository.loadHistory()).thenReturn(TaskEither.left(const UnknownFailure())),
     build: buildCubit,
     act: (HistoryCubit cubit) => cubit.load(),
-    expect: () => <Matcher>[isA<HistoryFailed>()],
+    expect: () => <Matcher>[
+      isA<HistoryFailed>().having((HistoryFailed s) => s.failure, 'failure', const UnknownFailure()),
+    ],
+  );
+
+  blocTest<HistoryCubit, HistoryState>(
+    'shows the loader again when retrying after a failure',
+    setUp: () => when(() => historyRepository.loadHistory()).thenReturn(TaskEither.right(<TransferRecord>[])),
+    build: buildCubit,
+    seed: () => const HistoryFailed(UnknownFailure()),
+    act: (HistoryCubit cubit) => cubit.load(),
+    expect: () => <Matcher>[isA<HistoryLoading>(), isA<HistoryLoaded>()],
   );
 
   blocTest<HistoryCubit, HistoryState>(

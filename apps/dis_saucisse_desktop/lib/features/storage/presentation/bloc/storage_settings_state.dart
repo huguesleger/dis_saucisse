@@ -10,7 +10,9 @@ final class StorageSettingsLoading extends StorageSettingsState {
 }
 
 final class StorageSettingsFailed extends StorageSettingsState {
-  const StorageSettingsFailed();
+  const StorageSettingsFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class StorageSettingsLoaded extends StorageSettingsState {

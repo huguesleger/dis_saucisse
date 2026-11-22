@@ -10,7 +10,9 @@ final class HistoryLoading extends HistoryState {
 }
 
 final class HistoryFailed extends HistoryState {
-  const HistoryFailed();
+  const HistoryFailed(this.failure);
+
+  final AppFailure failure;
 }
 
 final class HistoryLoaded extends HistoryState {

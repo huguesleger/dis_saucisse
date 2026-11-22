@@ -15,14 +15,17 @@ class StorageSettingsCubit extends SafeCubit<StorageSettingsState> {
 
   final StorageSettingsRepository _repository;
 
-  Future<void> load() => _repository
-      .loadSettings()
-      .match(
-        (AppFailure _) => const StorageSettingsFailed(),
-        (StorageSettings settings) => StorageSettingsLoaded(folderPath: settings.folderPath, layout: settings.layout),
-      )
-      .map(emit)
-      .run();
+  Future<void> load() {
+    if (state is StorageSettingsFailed) emit(const StorageSettingsLoading());
+    return _repository
+        .loadSettings()
+        .match(
+          StorageSettingsFailed.new,
+          (StorageSettings settings) => StorageSettingsLoaded(folderPath: settings.folderPath, layout: settings.layout),
+        )
+        .map(emit)
+        .run();
+  }
 
   Future<void> updateLayout(StorageLayout layout) async => switch (state) {
     final StorageSettingsLoaded loaded =>

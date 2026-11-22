@@ -23,17 +23,20 @@ class HistoryCubit extends SafeCubit<HistoryState> {
   final ReceptionRepository _receptionRepository;
   final DateTime Function() _clock;
 
-  Future<void> load() => _historyRepository
-      .loadHistory()
-      .match(
-        (AppFailure _) => const HistoryFailed(),
-        (List<TransferRecord> records) => HistoryLoaded(
-          records: records,
-          selectedYear: historyYearsNewestFirst(records).firstOrNull ?? _clock().year,
-        ),
-      )
-      .map(emit)
-      .run();
+  Future<void> load() {
+    if (state is HistoryFailed) emit(const HistoryLoading());
+    return _historyRepository
+        .loadHistory()
+        .match(
+          HistoryFailed.new,
+          (List<TransferRecord> records) => HistoryLoaded(
+            records: records,
+            selectedYear: historyYearsNewestFirst(records).firstOrNull ?? _clock().year,
+          ),
+        )
+        .map(emit)
+        .run();
+  }
 
   void selectYear(int year) => switch (state) {
     HistoryLoaded(:final List<TransferRecord> records) => emit(HistoryLoaded(records: records, selectedYear: year)),

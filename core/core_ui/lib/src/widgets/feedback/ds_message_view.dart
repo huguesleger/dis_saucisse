@@ -36,6 +36,8 @@ class DsMessageView extends StatelessWidget {
 
   final DsMessagePlacement placement;
 
+  static const double _panelMaxWidth = 460;
+
   @override
   Widget build(BuildContext context) {
     final DsMessageAction? primary = primaryAction;
@@ -45,6 +47,7 @@ class DsMessageView extends StatelessWidget {
         padding: switch (placement) {
           DsMessagePlacement.page => const EdgeInsets.all(DsSpacing.l),
           DsMessagePlacement.tab => const EdgeInsets.fromLTRB(DsSpacing.l, DsSpacing.l, DsSpacing.l, 120),
+          DsMessagePlacement.panel => const EdgeInsets.all(DsSpacing.xxl),
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,7 +70,7 @@ class DsMessageView extends StatelessWidget {
                   Center(
                     child: DsMascot(
                       width: switch (placement) {
-                        DsMessagePlacement.page => 160,
+                        DsMessagePlacement.page || DsMessagePlacement.panel => 160,
                         DsMessagePlacement.tab => 140,
                       },
                     ),
@@ -93,6 +96,12 @@ class DsMessageView extends StatelessWidget {
     return switch (placement) {
       DsMessagePlacement.page => DsMeshBackground(child: content),
       DsMessagePlacement.tab => content,
+      DsMessagePlacement.panel => Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: _panelMaxWidth),
+          child: content,
+        ),
+      ),
     };
   }
 }
