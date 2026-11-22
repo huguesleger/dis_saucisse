@@ -47,6 +47,7 @@ void main() {
   });
 
   BurstSortCubit buildCubit([Option<EventId> eventId = const None()]) => BurstSortCubit(
+    minimalLoading: Duration.zero,
     eventId: eventId,
     loadEventLibrary: loadEventLibrary,
     photoDecisionRepository: photoDecisionRepository,

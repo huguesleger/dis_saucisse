@@ -36,7 +36,7 @@ void main() {
   blocTest<PairComputerCubit, PairComputerState>(
     'pairs with the computer of a valid QR code',
     setUp: () => when(() => repository.pairWith(any())).thenReturn(TaskEither.right(computer)),
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     act: (PairComputerCubit cubit) => cubit.codeScanned(invitation.encode()),
     expect: () => <Matcher>[
       isA<PairComputerPairing>().having((PairComputerPairing s) => s.computerName, 'name', 'PC du salon'),
@@ -46,7 +46,7 @@ void main() {
 
   blocTest<PairComputerCubit, PairComputerState>(
     'rejects a QR code that is not a pairing code',
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     act: (PairComputerCubit cubit) => cubit.codeScanned('https://example.com'),
     expect: () => <Matcher>[
       isA<PairComputerFailed>().having((PairComputerFailed s) => s.problem, 'problem', PairingProblem.invalidCode),
@@ -57,7 +57,7 @@ void main() {
   blocTest<PairComputerCubit, PairComputerState>(
     'explains that the computer cannot be reached',
     setUp: () => when(() => repository.pairWith(any())).thenReturn(TaskEither.left(const ComputerUnreachableFailure())),
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     act: (PairComputerCubit cubit) => cubit.codeScanned(invitation.encode()),
     expect: () => <Matcher>[
       isA<PairComputerPairing>(),
@@ -67,7 +67,7 @@ void main() {
 
   blocTest<PairComputerCubit, PairComputerState>(
     'ignores the codes detected while a pairing is in progress',
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     seed: () => const PairComputerPairing('PC du salon'),
     act: (PairComputerCubit cubit) => cubit.codeScanned(invitation.encode()),
     expect: () => <Matcher>[],
@@ -75,7 +75,7 @@ void main() {
 
   blocTest<PairComputerCubit, PairComputerState>(
     'goes back to scanning on retry',
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     seed: () => const PairComputerFailed(PairingProblem.refused),
     act: (PairComputerCubit cubit) => cubit.retry(),
     expect: () => <Matcher>[isA<PairComputerScanning>()],
@@ -87,7 +87,7 @@ void main() {
       when(() => repository.readQrCodeFromImage('/tmp/qr.png')).thenReturn(TaskEither.right(some(invitation.encode())));
       when(() => repository.pairWith(any())).thenReturn(TaskEither.right(computer));
     },
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     act: (PairComputerCubit cubit) => cubit.qrImagePicked('/tmp/qr.png'),
     expect: () => <Matcher>[isA<PairComputerPairing>(), isA<PairComputerPaired>()],
   );
@@ -95,7 +95,7 @@ void main() {
   blocTest<PairComputerCubit, PairComputerState>(
     'explains that the imported image has no QR code',
     setUp: () => when(() => repository.readQrCodeFromImage(any())).thenReturn(TaskEither.right(none())),
-    build: () => PairComputerCubit(pairingRepository: repository),
+    build: () => PairComputerCubit(pairingRepository: repository, minimalLoading: Duration.zero),
     act: (PairComputerCubit cubit) => cubit.qrImagePicked('/tmp/photo.jpg'),
     expect: () => <Matcher>[
       isA<PairComputerFailed>().having((PairComputerFailed s) => s.problem, 'problem', PairingProblem.invalidCode),

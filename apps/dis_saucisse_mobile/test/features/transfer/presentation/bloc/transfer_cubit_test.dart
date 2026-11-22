@@ -82,6 +82,7 @@ void main() {
   });
 
   TransferCubit buildCubit() => TransferCubit(
+    minimalLoading: Duration.zero,
     pairingRepository: pairingRepository,
     transferRepository: transferRepository,
     loadEventLibrary: loadEventLibrary,
@@ -125,6 +126,7 @@ void main() {
       );
     },
     build: () => TransferCubit(
+      minimalLoading: Duration.zero,
       pairingRepository: pairingRepository,
       transferRepository: transferRepository,
       loadEventLibrary: loadEventLibrary,

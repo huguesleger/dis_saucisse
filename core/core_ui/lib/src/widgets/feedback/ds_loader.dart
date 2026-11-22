@@ -10,6 +10,9 @@ class DsLoader extends StatelessWidget {
   /// Width of the animation. Its height is half of it.
   final double width;
 
+  /// One full hop of the three sausages: the shortest time a loader should stay on screen.
+  static const Duration minDuration = Duration(milliseconds: 1100);
+
   static const String _asset = 'assets/animations/ds_loader.json';
 
   @override

@@ -60,6 +60,7 @@ void main() {
   });
 
   HomeCubit buildCubit() => HomeCubit(
+    minimalLoading: Duration.zero,
     loadEventLibrary: loadEventLibrary,
     photoLibraryRepository: photoLibraryRepository,
     eventNameRepository: eventNameRepository,

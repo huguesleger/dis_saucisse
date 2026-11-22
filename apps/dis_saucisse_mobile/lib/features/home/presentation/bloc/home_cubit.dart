@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/rules/sorting_progress.dart';
 import 'package:dis_saucisse_mobile/features/photo_events/domain/entities/event_boundaries.dart';
@@ -27,23 +28,29 @@ class HomeCubit extends SafeCubit<HomeState> {
     PhotoLibraryRepository? photoLibraryRepository,
     EventNameRepository? eventNameRepository,
     EventBoundaryRepository? eventBoundaryRepository,
+    Duration? minimalLoading,
   }) : _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
        _photoLibraryRepository = photoLibraryRepository ?? getIt.get<PhotoLibraryRepository>(),
        _eventNameRepository = eventNameRepository ?? getIt.get<EventNameRepository>(),
        _eventBoundaryRepository = eventBoundaryRepository ?? getIt.get<EventBoundaryRepository>(),
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
        super(const HomeLoading());
 
   final LoadEventLibrary _loadEventLibrary;
   final PhotoLibraryRepository _photoLibraryRepository;
   final EventNameRepository _eventNameRepository;
   final EventBoundaryRepository _eventBoundaryRepository;
+  final Duration _minimalLoading;
 
   Future<void> load() {
     emit(const HomeLoading());
-    return refresh();
+    return _loadLibrary(_minimalLoading);
   }
 
-  Future<void> refresh() => _loadEventLibrary()
+  Future<void> refresh() => _loadLibrary(Duration.zero);
+
+  Future<void> _loadLibrary(Duration minimalDelay) => _loadEventLibrary()
+      .withMinimalDelay(minimalDelay)
       .match(
         HomeFailed.new,
         (EventLibraryLoad load) => switch (load) {

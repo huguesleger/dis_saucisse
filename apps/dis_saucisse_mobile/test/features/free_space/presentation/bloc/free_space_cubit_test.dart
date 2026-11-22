@@ -43,7 +43,11 @@ void main() {
     );
   });
 
-  FreeSpaceCubit buildCubit() => FreeSpaceCubit(freeSpaceRepository: repository, loadEventLibrary: loadEventLibrary);
+  FreeSpaceCubit buildCubit() => FreeSpaceCubit(
+    freeSpaceRepository: repository,
+    loadEventLibrary: loadEventLibrary,
+    minimalLoading: Duration.zero,
+  );
 
   blocTest<FreeSpaceCubit, FreeSpaceState>(
     'proposes to free the kept photos, the discarded ones only on request',

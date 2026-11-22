@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/entities/photo_decision.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/entities/sort_cursor.dart';
@@ -22,16 +23,20 @@ class BurstSortCubit extends SafeCubit<BurstSortState> {
     required Option<EventId> eventId,
     LoadEventLibrary? loadEventLibrary,
     PhotoDecisionRepository? photoDecisionRepository,
+    Duration? minimalLoading,
   }) : _eventId = eventId,
        _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
        _photoDecisionRepository = photoDecisionRepository ?? getIt.get<PhotoDecisionRepository>(),
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
        super(const BurstSortLoading());
 
   final Option<EventId> _eventId;
   final LoadEventLibrary _loadEventLibrary;
   final PhotoDecisionRepository _photoDecisionRepository;
+  final Duration _minimalLoading;
 
   Future<void> load() => _loadEventLibrary()
+      .withMinimalDelay(_minimalLoading)
       .match(
         BurstSortFailed.new,
         (EventLibraryLoad load) => switch (load) {

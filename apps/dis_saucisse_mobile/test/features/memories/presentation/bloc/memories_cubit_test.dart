@@ -44,7 +44,8 @@ void main() {
     when(() => repository.loadSentPhotos()).thenReturn(TaskEither.right(sent));
   });
 
-  MemoriesCubit buildCubit() => MemoriesCubit(memoriesRepository: repository, loadEventLibrary: loadEventLibrary);
+  MemoriesCubit buildCubit() =>
+      MemoriesCubit(memoriesRepository: repository, loadEventLibrary: loadEventLibrary, minimalLoading: Duration.zero);
 
   blocTest<MemoriesCubit, MemoriesState>(
     'loads the months sent to the computer and filters them by year',

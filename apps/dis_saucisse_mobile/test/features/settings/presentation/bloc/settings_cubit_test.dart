@@ -50,6 +50,7 @@ void main() {
   });
 
   SettingsCubit buildCubit() => SettingsCubit(
+    minimalLoading: Duration.zero,
     pairingRepository: pairingRepository,
     sortingStartRepository: sortingStartRepository,
     ignoredOriginsRepository: ignoredOriginsRepository,

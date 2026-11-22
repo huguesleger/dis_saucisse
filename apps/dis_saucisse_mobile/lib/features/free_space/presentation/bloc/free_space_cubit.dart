@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/free_space/domain/entities/freeable_photos.dart';
 import 'package:dis_saucisse_mobile/features/free_space/domain/free_space_repository.dart';
@@ -13,13 +14,18 @@ import 'package:fpdart/fpdart.dart';
 part 'free_space_state.dart';
 
 class FreeSpaceCubit extends SafeCubit<FreeSpaceState> {
-  FreeSpaceCubit({FreeSpaceRepository? freeSpaceRepository, LoadEventLibrary? loadEventLibrary})
-    : _freeSpaceRepository = freeSpaceRepository ?? getIt.get<FreeSpaceRepository>(),
-      _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
-      super(const FreeSpaceLoading());
+  FreeSpaceCubit({
+    FreeSpaceRepository? freeSpaceRepository,
+    LoadEventLibrary? loadEventLibrary,
+    Duration? minimalLoading,
+  }) : _freeSpaceRepository = freeSpaceRepository ?? getIt.get<FreeSpaceRepository>(),
+       _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
+       super(const FreeSpaceLoading());
 
   final FreeSpaceRepository _freeSpaceRepository;
   final LoadEventLibrary _loadEventLibrary;
+  final Duration _minimalLoading;
 
   Future<void> load() {
     emit(const FreeSpaceLoading());
@@ -41,6 +47,7 @@ class FreeSpaceCubit extends SafeCubit<FreeSpaceState> {
             ),
           },
         )
+        .withMinimalDelay(_minimalLoading)
         .match(
           FreeSpaceFailed.new,
           (FreeablePhotos photos) =>
@@ -72,6 +79,7 @@ class FreeSpaceCubit extends SafeCubit<FreeSpaceState> {
     emit(const FreeSpaceDeleting());
     return _freeSpaceRepository
         .movePhotosToTrash(ready.selected)
+        .withMinimalDelayOnRight(_minimalLoading)
         .match(
           FreeSpaceFailed.new,
           (Set<PhotoId> deleted) =>

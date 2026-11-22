@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/pairing/domain/entities/paired_computer.dart';
 import 'package:dis_saucisse_mobile/features/pairing/domain/pairing_failure.dart';
@@ -25,16 +26,19 @@ class TransferCubit extends SafeCubit<TransferState> {
     LoadEventLibrary? loadEventLibrary,
     DateTime Function()? clock,
     this.computerRetryDelay = const Duration(seconds: 5),
+    Duration? minimalLoading,
   }) : _pairingRepository = pairingRepository ?? getIt.get<PairingRepository>(),
        _transferRepository = transferRepository ?? getIt.get<TransferRepository>(),
        _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
        _clock = clock ?? DateTime.now,
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
        super(const TransferPreparing());
 
   final PairingRepository _pairingRepository;
   final TransferRepository _transferRepository;
   final LoadEventLibrary _loadEventLibrary;
   final DateTime Function() _clock;
+  final Duration _minimalLoading;
   final Duration computerRetryDelay;
 
   DateTime get now => _clock();
@@ -49,6 +53,7 @@ class TransferCubit extends SafeCubit<TransferState> {
             _prepareFor,
           ),
         )
+        .withMinimalDelay(_minimalLoading)
         .match(_failed, identity)
         .flatMap((TransferState next) => _emitThenContinue(next))
         .run();

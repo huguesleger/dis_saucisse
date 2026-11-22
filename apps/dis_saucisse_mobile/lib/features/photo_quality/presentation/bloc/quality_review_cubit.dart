@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_mobile/config/setup_get_it.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/entities/photo_decision.dart';
 import 'package:dis_saucisse_mobile/features/burst_sort/domain/photo_decision_repository.dart';
@@ -25,15 +26,18 @@ class QualityReviewCubit extends SafeCubit<QualityReviewState> {
     LoadEventLibrary? loadEventLibrary,
     PhotoQualityRepository? qualityRepository,
     PhotoDecisionRepository? decisionRepository,
+    Duration? minimalLoading,
   }) : _loadEventLibrary = loadEventLibrary ?? LoadEventLibrary(),
        _qualityRepository = qualityRepository ?? getIt.get<PhotoQualityRepository>(),
        _decisionRepository = decisionRepository ?? getIt.get<PhotoDecisionRepository>(),
+       _minimalLoading = minimalLoading ?? DsLoader.minDuration,
        super(const QualityReviewLoading());
 
   final QualityIssue issue;
   final LoadEventLibrary _loadEventLibrary;
   final PhotoQualityRepository _qualityRepository;
   final PhotoDecisionRepository _decisionRepository;
+  final Duration _minimalLoading;
 
   Future<void> load() => TaskEither<AppFailure, QualityReviewState>.Do(($) async {
     final EventLibraryLoad load = await $(_loadEventLibrary());
@@ -45,7 +49,7 @@ class QualityReviewCubit extends SafeCubit<QualityReviewState> {
       EventLibraryNeedsSortingStart() => const QualityReviewFailed(UnknownFailure()),
       EventLibraryAccessDenied() => const QualityReviewFailed(PhotoAccessDeniedFailure()),
     };
-  }).match(QualityReviewFailed.new, identity).map(emit).run();
+  }).withMinimalDelay(_minimalLoading).match(QualityReviewFailed.new, identity).map(emit).run();
 
   void toggle(PhotoId photo) => switch (state) {
     final QualityReviewReady ready => emit(

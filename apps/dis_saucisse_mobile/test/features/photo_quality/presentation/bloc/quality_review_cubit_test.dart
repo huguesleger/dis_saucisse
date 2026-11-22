@@ -59,6 +59,7 @@ void main() {
   });
 
   QualityReviewCubit buildCubit(QualityIssue issue) => QualityReviewCubit(
+    minimalLoading: Duration.zero,
     issue: issue,
     loadEventLibrary: loadEventLibrary,
     qualityRepository: qualityRepository,
