@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_count_card.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_current_folder_card.dart';
@@ -26,16 +27,19 @@ class ReceptionProgressView extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     progress.paused
-                        ? 'Le téléphone attend que tu reprennes'
-                        : '${progress.phoneName} envoie ses photos',
+                        ? t.reception.progress.phoneWaiting
+                        : t.reception.progress.phoneSending(phoneName: progress.phoneName),
                     style: DsTextStyles.caption.copyWith(fontSize: 13),
                   ),
-                  Text(progress.paused ? 'Réception en pause' : 'Réception en cours', style: DsTextStyles.display),
+                  Text(
+                    progress.paused ? t.reception.progress.titlePaused : t.reception.progress.titleRunning,
+                    style: DsTextStyles.display,
+                  ),
                 ],
               ),
             ),
             DsButton(
-              label: progress.paused ? 'Reprendre' : 'Mettre en pause',
+              label: progress.paused ? t.reception.progress.resume : t.reception.progress.pause,
               variant: progress.paused ? DsButtonVariant.dark : DsButtonVariant.light,
               expanded: false,
               onPressed: progress.paused

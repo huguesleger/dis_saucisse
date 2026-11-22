@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/presentation/failure_message.dart';
 import 'package:flutter/widgets.dart';
 
@@ -16,7 +17,7 @@ class FailureView extends StatelessWidget {
       title: content.title,
       message: content.message,
       placement: DsMessagePlacement.panel,
-      primaryAction: DsMessageAction(label: 'Réessayer', onPressed: onRetry),
+      primaryAction: DsMessageAction(label: t.failures.retry, onPressed: onRetry),
     );
   }
 }

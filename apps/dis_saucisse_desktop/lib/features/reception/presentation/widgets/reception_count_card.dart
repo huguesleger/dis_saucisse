@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/rules/remaining_time.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/remaining_time_label.dart';
@@ -65,19 +66,23 @@ class ReceptionCountCard extends StatelessWidget {
             spacing: DsSpacing.s,
             children: <Widget>[
               Expanded(
-                child: ReceptionStatBox(value: '${progress.received}', label: 'vérifiées', dot: DsColors.mustard),
+                child: ReceptionStatBox(
+                  value: '${progress.received}',
+                  label: t.reception.countCard.verified,
+                  dot: DsColors.mustard,
+                ),
               ),
               Expanded(
                 child: ReceptionStatBox(
                   value: '${progress.rejected}',
-                  label: progress.rejected > 1 ? 'erreurs' : 'erreur',
+                  label: progress.rejected > 1 ? t.reception.countCard.errorSeveral : t.reception.countCard.errorSingle,
                   dot: progress.rejected == 0 ? DsColors.success.withValues(alpha: 0.4) : DsColors.sausage,
                 ),
               ),
               Expanded(
                 child: ReceptionStatBox(
                   value: byteSizeLabel(progress.byteCount),
-                  label: 'reçus',
+                  label: t.reception.countCard.received,
                   dot: DsColors.surfaceStrong,
                 ),
               ),

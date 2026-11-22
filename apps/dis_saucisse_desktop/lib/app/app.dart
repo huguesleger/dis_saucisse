@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,7 +23,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-    title: 'Dis Saucisse !',
+    title: t.shell.appTitle,
     debugShowCheckedModeBanner: false,
     theme: DsTheme.light(),
     locale: const Locale('fr'),

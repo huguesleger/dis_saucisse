@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
@@ -43,13 +44,13 @@ class _DesktopBackgroundRunnerState extends State<DesktopBackgroundRunner> with 
       Platform.isWindows ? 'assets/tray/tray_icon.ico' : 'assets/tray/tray_icon.png',
       isTemplate: true,
     );
-    await trayManager.setToolTip('Dis Saucisse ! est prêt à recevoir des photos');
+    await trayManager.setToolTip(t.shell.tray.tooltip);
     await trayManager.setContextMenu(
       Menu(
         items: <MenuItem>[
-          MenuItem(key: _showKey, label: 'Ouvrir Dis Saucisse !'),
+          MenuItem(key: _showKey, label: t.shell.tray.open),
           MenuItem.separator(),
-          MenuItem(key: _quitKey, label: 'Quitter'),
+          MenuItem(key: _quitKey, label: t.shell.tray.quit),
         ],
       ),
     );

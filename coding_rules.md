@@ -86,7 +86,7 @@
   - In new application code, naming replaces comments: no `//` nor `///` comments (the public API of `core/` and `shared_packages/` keeps its `///` documentation)
   - No `print`
   - Never edit generated files (`*.g.dart`, `*.gen.dart`): regenerate them
-  - No user-visible text written in the Dart code of the mobile app: it lives in the feature's `*_fr.i18n.json` (slang) and is read with `t.<namespace>.<key>`. Parameters use braces (`{count}`). Do not use slang plurals: keep the choice in Dart with separate keys (`zero`, `single`, `several`)
+  - No user-visible text written in the Dart code of the apps: it lives in the feature's `*_fr.i18n.json` (slang) and is read with `t.<namespace>.<key>`. Parameters use braces (`{count}`). Do not use slang plurals: keep the choice in Dart with separate keys (`zero`, `single`, `several`)
   - Never write an asset path by hand: use the generated `Assets` class of `core_ui`
   - Run `flutter` and `dart` through `fvm`
 

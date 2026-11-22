@@ -1,0 +1,15 @@
+{
+  "retry": "Réessayer",
+  "history": {
+    "title": "Historique illisible",
+    "message": "Je n’arrive pas à relire la liste des envois reçus sur ce PC. Réessaie dans un instant."
+  },
+  "storageSettings": {
+    "title": "Réglages illisibles",
+    "message": "Je n’arrive pas à relire où ranger tes photos. Réessaie, et relance l’app si ça continue."
+  },
+  "unknown": {
+    "title": "Oups !",
+    "message": "Quelque chose s’est mal passé. Réessaie dans un instant."
+  }
+}

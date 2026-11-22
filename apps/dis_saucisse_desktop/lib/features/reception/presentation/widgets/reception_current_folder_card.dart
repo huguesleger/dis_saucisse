@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_photo_tile.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,10 @@ class ReceptionCurrentFolderCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('En train de ranger dans', style: DsTextStyles.caption),
+                      Text(t.reception.currentFolder.storingIn, style: DsTextStyles.caption),
                       Text(
                         progress.currentFolder.match(
-                          () => 'En attente de la première photo…',
+                          () => t.reception.currentFolder.waitingFirstPhoto,
                           (String folder) => folder.replaceAll('/', ' / '),
                         ),
                         style: DsTextStyles.titleM.copyWith(fontWeight: FontWeight.w600),
@@ -58,9 +59,15 @@ class ReceptionCurrentFolderCard extends StatelessWidget {
             ),
             const SizedBox(height: DsSpacing.s),
             Text(
-              'Événement ${progress.events.length} · ${progress.folderPhotoCount} '
-              'photo${progress.folderPhotoCount > 1 ? 's' : ''} rangée${progress.folderPhotoCount > 1 ? 's' : ''} '
-              'ici',
+              progress.folderPhotoCount > 1
+                  ? t.reception.currentFolder.eventSeveral(
+                      event: progress.events.length,
+                      count: progress.folderPhotoCount,
+                    )
+                  : t.reception.currentFolder.eventSingle(
+                      event: progress.events.length,
+                      count: progress.folderPhotoCount,
+                    ),
               style: DsTextStyles.caption,
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class ReceptionSafetyNote extends StatelessWidget {
@@ -20,11 +21,11 @@ class ReceptionSafetyNote extends StatelessWidget {
           Expanded(
             child: Text.rich(
               TextSpan(
-                text: 'Chaque photo est vérifiée avant d’être marquée comme rangée. ',
+                text: t.reception.safetyNote.verified,
                 style: DsTextStyles.bodyBold.copyWith(fontSize: 13),
                 children: <InlineSpan>[
                   TextSpan(
-                    text: 'Rien n’est supprimé du téléphone sans son accord.',
+                    text: t.reception.safetyNote.nothingDeleted,
                     style: DsTextStyles.body.copyWith(fontSize: 13, color: DsColors.textSoft),
                   ),
                 ],

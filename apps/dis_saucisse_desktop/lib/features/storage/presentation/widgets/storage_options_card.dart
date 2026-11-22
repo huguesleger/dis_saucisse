@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/entities/month_folder_format.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/entities/storage_layout.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/photo_folder.dart';
@@ -14,12 +15,14 @@ class StorageOptionsCard extends StatelessWidget {
     super.key,
     required this.folderPath,
     required this.layout,
+    required this.currentYear,
     required this.onBrowse,
     required this.onLayoutChanged,
   });
 
   final Option<String> folderPath;
   final StorageLayout layout;
+  final int currentYear;
   final VoidCallback onBrowse;
   final ValueChanged<StorageLayout> onLayoutChanged;
 
@@ -35,8 +38,8 @@ class StorageOptionsCard extends StatelessWidget {
           StorageOptionRow(
             icon: Icons.schedule_rounded,
             iconBackground: DsColors.lavenderSoft,
-            title: 'Dossier par année',
-            subtitle: '2026',
+            title: t.storage.options.byYear,
+            subtitle: '$currentYear',
             trailing: StorageSwitch(
               value: layout.byYear,
               onChanged: (bool on) => onLayoutChanged(layout.copyWith(byYear: on)),
@@ -46,9 +49,10 @@ class StorageOptionsCard extends StatelessWidget {
           StorageOptionRow(
             icon: Icons.schedule_rounded,
             iconBackground: DsColors.surfaceStrong,
-            title: 'Dossier par mois',
-            subtitle: 'Choisis le format du nom',
+            title: t.storage.options.byMonth.title,
+            subtitle: t.storage.options.byMonth.subtitle,
             trailing: StorageMonthFormatSelector(
+              year: currentYear,
               selected: layout.byMonth ? some(layout.monthFormat) : none(),
               onSelected: (MonthFolderFormat format) =>
                   onLayoutChanged(layout.copyWith(byMonth: true, monthFormat: format)),
@@ -58,8 +62,8 @@ class StorageOptionsCard extends StatelessWidget {
           StorageOptionRow(
             icon: Icons.image_outlined,
             iconBackground: DsColors.blushSoft,
-            title: 'Dossier par événement',
-            subtitle: 'Daté et nommé : 2026-11-08 Anniversaire de mamie',
+            title: t.storage.options.byEvent.title,
+            subtitle: t.storage.options.byEvent.subtitle,
             trailing: StorageSwitch(
               value: layout.byEvent,
               onChanged: (bool on) => onLayoutChanged(layout.copyWith(byEvent: on)),
@@ -69,10 +73,10 @@ class StorageOptionsCard extends StatelessWidget {
           StorageOptionRow(
             icon: Icons.close_rounded,
             iconBackground: DsColors.skySoft,
-            title: 'Photos écartées',
+            title: t.storage.options.discarded.title,
             subtitle: layout.discardedSubfolder
-                ? 'Rangées dans un sous-dossier « $discardedFolderName »'
-                : 'Rangées avec les autres photos',
+                ? t.storage.options.discarded.inSubfolder(folderName: discardedFolderName)
+                : t.storage.options.discarded.withOthers,
             trailing: StorageSwitch(
               value: layout.discardedSubfolder,
               onChanged: (bool on) => onLayoutChanged(layout.copyWith(discardedSubfolder: on)),
@@ -82,10 +86,10 @@ class StorageOptionsCard extends StatelessWidget {
           StorageOptionRow(
             icon: Icons.check_rounded,
             iconBackground: DsColors.successSoft,
-            title: 'Renommer les fichiers',
+            title: t.storage.options.renameFiles.title,
             subtitle: layout.renameFiles
-                ? 'Avec la date de prise de vue (2026-11-08 14.30.12.jpg)'
-                : 'Garder les noms d’origine (IMG_2034.jpg)',
+                ? t.storage.options.renameFiles.withDate
+                : t.storage.options.renameFiles.keepOriginal,
             trailing: StorageSwitch(
               value: layout.renameFiles,
               onChanged: (bool on) => onLayoutChanged(layout.copyWith(renameFiles: on)),

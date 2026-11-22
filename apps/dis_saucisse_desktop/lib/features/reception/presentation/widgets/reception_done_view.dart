@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/bloc/reception_cubit.dart';
 import 'package:dis_saucisse_desktop/features/reception/domain/entities/received_event.dart';
 import 'package:dis_saucisse_desktop/features/reception/presentation/widgets/reception_done_summary.dart';
@@ -31,7 +32,7 @@ class ReceptionDoneView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Saucisse !', style: DsTextStyles.number.copyWith(fontSize: 52)),
+                      Text(t.reception.done.title, style: DsTextStyles.number.copyWith(fontSize: 52)),
                       const SizedBox(height: DsSpacing.s),
                       ReceptionDoneSummary(
                         received: done.received,
@@ -52,13 +53,13 @@ class ReceptionDoneView extends StatelessWidget {
                         runSpacing: DsSpacing.s,
                         children: <Widget>[
                           DsButton(
-                            label: 'Ouvrir le dossier',
+                            label: t.reception.done.openFolder,
                             variant: DsButtonVariant.dark,
                             expanded: false,
                             onPressed: context.read<ReceptionCubit>().openStorageFolder,
                           ),
                           DsButton(
-                            label: 'Fermer',
+                            label: t.reception.done.close,
                             variant: DsButtonVariant.light,
                             expanded: false,
                             onPressed: context.read<ReceptionCubit>().closeSummary,
@@ -74,7 +75,7 @@ class ReceptionDoneView extends StatelessWidget {
         ),
         const Spacer(),
         Text(
-          'Le téléphone propose maintenant de libérer de la place. Le PC n’a plus rien à faire.',
+          t.reception.done.phoneNext,
           style: DsTextStyles.caption,
           textAlign: TextAlign.center,
         ),

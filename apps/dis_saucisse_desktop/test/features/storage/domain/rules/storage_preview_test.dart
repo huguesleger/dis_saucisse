@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('shows each folder once, nested under its parent', () {
-    expect(storagePreview(StorageLayout.defaults), <PreviewFolder>[
+    expect(storagePreview(StorageLayout.defaults, year: 2026), <PreviewFolder>[
       (depth: 0, name: '2026', isContext: false),
       (depth: 1, name: '2026-11 Novembre', isContext: false),
       (depth: 2, name: '2026-11-08 Anniversaire de mamie', isContext: false),
@@ -20,8 +20,16 @@ void main() {
     expect(
       storagePreview(
         StorageLayout.defaults.copyWith(byYear: false, byMonth: false, byEvent: false, discardedSubfolder: false),
+        year: 2026,
       ),
       isEmpty,
     );
+  });
+
+  test('follows the given year', () {
+    final List<PreviewFolder> folders = storagePreview(StorageLayout.defaults, year: 2027);
+
+    expect(folders.first, (depth: 0, name: '2027', isContext: false));
+    expect(folders.map((PreviewFolder folder) => folder.name), contains('2027-11-08 Anniversaire de mamie'));
   });
 }

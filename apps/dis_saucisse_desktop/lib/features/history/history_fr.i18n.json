@@ -1,0 +1,30 @@
+{
+  "empty": {
+    "title": "Aucune photo reçue pour l’instant",
+    "message": "Associe ton téléphone depuis l’écran Réception, puis envoie tes photos triées : chaque envoi apparaîtra ici.",
+    "goToReception": "Aller à la réception"
+  },
+  "header": {
+    "subtitle": "Tout ce qui a été reçu sur ce PC",
+    "title": "Historique"
+  },
+  "stats": {
+    "photos": "photos rangées en {year}",
+    "events": "événements",
+    "onDisk": "sur le disque",
+    "lostPhotos": "photo perdue"
+  },
+  "transfers": {
+    "title": "Envois"
+  },
+  "transferRow": {
+    "summary": "{photoCount} photos · {eventCount} événements · {size} · depuis {phoneName}",
+    "allVerified": "Tout vérifié",
+    "failed": "{count} en échec",
+    "open": "Ouvrir"
+  },
+  "dates": {
+    "weekdays": ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."],
+    "months": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
+  }
+}

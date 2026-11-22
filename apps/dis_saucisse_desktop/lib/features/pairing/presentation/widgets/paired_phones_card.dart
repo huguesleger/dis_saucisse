@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/domain/entities/paired_phone.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,12 @@ class PairedPhonesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DsSettingsGroup(
-    title: 'Téléphones associés',
+    title: t.pairing.pairedPhones.title,
     children: phones.isEmpty
         ? <Widget>[
             Padding(
               padding: const EdgeInsets.all(DsSpacing.m),
-              child: Text('Aucun téléphone pour l’instant.', style: DsTextStyles.caption),
+              child: Text(t.pairing.pairedPhones.empty, style: DsTextStyles.caption),
             ),
           ]
         : <Widget>[
@@ -22,8 +23,8 @@ class PairedPhonesCard extends StatelessWidget {
               DsSettingsTile(
                 icon: Icons.smartphone_rounded,
                 title: phone.name,
-                subtitle: 'Associé',
-                trailing: const DsStatusBadge(label: 'Prêt'),
+                subtitle: t.pairing.pairedPhones.paired,
+                trailing: DsStatusBadge(label: t.pairing.pairedPhones.ready),
               ),
           ],
   );

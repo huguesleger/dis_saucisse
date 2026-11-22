@@ -23,7 +23,7 @@ Toujours passer par `fvm` (version de Flutter fixée dans `.fvmrc`). `fvm` est d
 - Formatage : `fvm dart format --line-length 120 <chemins>`.
 - Tests : `fvm flutter test` dans chaque package (`core/core`, `core/core_ui`, `apps/dis_saucisse_mobile`, `apps/dis_saucisse_desktop`).
 - Code généré (base drift, routes go_router) : `fvm dart run build_runner build` dans l'app concernée. Ne jamais éditer un `*.g.dart` à la main.
-- Textes de l'app mobile : un fichier `<namespace>_fr.i18n.json` par fonctionnalité (`lib/features/<feature>/`) ou dans `lib/core/presentation/`. Après modification : `fvm dart run slang` dans `apps/dis_saucisse_mobile` pour régénérer `lib/core/i18n/translations*.g.dart`. Dans le code : `t.<namespace>.<clé>`.
+- Textes des apps (mobile et desktop) : un fichier `<namespace>_fr.i18n.json` par fonctionnalité (`lib/features/<feature>/`) ou dans `lib/core/presentation/`, sans tiret bas dans le nom du namespace (`freeSpace_fr`, pas `free_space_fr`). Après modification : `fvm dart run slang` (ou `fvm dart run slang watch`) dans le dossier de l'app pour régénérer `lib/core/i18n/translations*.g.dart`. Dans le code : `t.<namespace>.<clé>`.
 - Assets de `core_ui` (images, animation, polices) : déclarés dans `core/core_ui/pubspec.yaml`, accessibles par la classe générée `Assets` (`Assets.images.mascot.svg()`, `Assets.animations.dsLoader.lottie()`) et `FontFamily`. Après ajout ou renommage d'un asset : `fvm dart run build_runner build` dans `core/core_ui` pour régénérer `lib/src/gen/`.
 - Lancer les apps : configurations « Mobile (iOS / Android) » et « Desktop (macOS) » de `.vscode/launch.json`, ou `fvm flutter run` dans le dossier de l'app (`-d macos` pour le desktop).
 

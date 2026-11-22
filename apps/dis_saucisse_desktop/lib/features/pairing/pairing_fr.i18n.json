@@ -1,0 +1,31 @@
+{
+  "header": {
+    "greeting": "Bonjour ! Le PC est prêt à recevoir les photos",
+    "title": "Associer un téléphone"
+  },
+  "qrCard": {
+    "title": "Scanne avec Dis Saucisse !",
+    "hint": "Dans l’app, touche le bouton ordinateur en haut de l’accueil."
+  },
+  "statusPill": {
+    "waiting": "En attente du téléphone…",
+    "paired": "{name} est associé"
+  },
+  "pairedPhones": {
+    "title": "Téléphones associés",
+    "empty": "Aucun téléphone pour l’instant.",
+    "paired": "Associé",
+    "ready": "Prêt"
+  },
+  "failed": {
+    "noNetwork": {
+      "title": "Pas de réseau Wi-Fi",
+      "message": "Connecte l’ordinateur au Wi-Fi de la maison, puis réessaie."
+    },
+    "serverUnavailable": {
+      "title": "Réception impossible",
+      "message": "Une autre copie de Dis Saucisse ! est peut-être déjà ouverte sur cet ordinateur."
+    },
+    "retry": "Réessayer"
+  }
+}

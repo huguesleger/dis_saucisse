@@ -13,11 +13,15 @@ class _MockStorageSettingsRepository extends Mock implements StorageSettingsRepo
 void main() {
   late _MockStorageSettingsRepository repository;
   final StorageLayout withoutEvents = StorageLayout.defaults.copyWith(byEvent: false);
-  const StorageSettingsLoaded loaded = StorageSettingsLoaded(folderPath: None(), layout: StorageLayout.defaults);
+  const StorageSettingsLoaded loaded = StorageSettingsLoaded(
+    folderPath: None(),
+    layout: StorageLayout.defaults,
+    currentYear: 2026,
+  );
 
   setUp(() => repository = _MockStorageSettingsRepository());
 
-  StorageSettingsCubit buildCubit() => StorageSettingsCubit(repository: repository);
+  StorageSettingsCubit buildCubit() => StorageSettingsCubit(repository: repository, clock: () => DateTime(2026, 5, 3));
 
   blocTest<StorageSettingsCubit, StorageSettingsState>(
     'loads the saved folder and layout',
@@ -26,7 +30,9 @@ void main() {
     ),
     build: buildCubit,
     act: (StorageSettingsCubit cubit) => cubit.load(),
-    expect: () => <StorageSettingsState>[StorageSettingsLoaded(folderPath: some('/Photos'), layout: withoutEvents)],
+    expect: () => <StorageSettingsState>[
+      StorageSettingsLoaded(folderPath: some('/Photos'), layout: withoutEvents, currentYear: 2026),
+    ],
   );
 
   blocTest<StorageSettingsCubit, StorageSettingsState>(

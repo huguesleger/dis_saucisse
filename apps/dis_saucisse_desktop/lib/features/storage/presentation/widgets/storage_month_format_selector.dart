@@ -1,11 +1,19 @@
 import 'package:core_ui/core_ui.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/entities/month_folder_format.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/photo_folder.dart';
+import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
 class StorageMonthFormatSelector extends StatelessWidget {
-  const StorageMonthFormatSelector({super.key, required this.selected, required this.onSelected});
+  const StorageMonthFormatSelector({
+    super.key,
+    required this.year,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final int year;
 
   final Option<MonthFolderFormat> selected;
   final ValueChanged<MonthFolderFormat> onSelected;
@@ -33,7 +41,7 @@ class StorageMonthFormatSelector extends StatelessWidget {
                     boxShadow: selected == some(format) ? DsShadows.card : null,
                   ),
                   child: Text(
-                    monthFolderName(DateTime(2026, 11), format),
+                    monthFolderName(DateTime(year, previewMonth), format),
                     style: DsTextStyles.bodyBold.copyWith(
                       fontSize: 13,
                       color: selected == some(format) ? DsColors.text : DsColors.textSoft,

@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class ReceptionDoneSummary extends StatelessWidget {
@@ -21,18 +22,31 @@ class ReceptionDoneSummary extends StatelessWidget {
       TextSpan(
         style: base,
         children: <InlineSpan>[
-          TextSpan(text: received == 1 ? 'La ' : 'Les '),
-          TextSpan(text: received == 1 ? '1 photo' : '$received photos', style: strong),
-          TextSpan(text: ' du téléphone ${received == 1 ? 'est bien rangée' : 'sont bien rangées'}'),
+          TextSpan(
+            text: received == 1 ? t.reception.doneSummary.articleSingle : t.reception.doneSummary.articleSeveral,
+          ),
+          TextSpan(
+            text: received == 1
+                ? t.reception.doneSummary.photosSingle
+                : t.reception.doneSummary.photosSeveral(count: received),
+            style: strong,
+          ),
+          TextSpan(text: received == 1 ? t.reception.doneSummary.storedSingle : t.reception.doneSummary.storedSeveral),
           if (eventCount > 0) ...<InlineSpan>[
-            const TextSpan(text: ' dans '),
-            TextSpan(text: eventCount == 1 ? '1 événement' : '$eventCount événements', style: strong),
+            TextSpan(text: t.reception.doneSummary.inEvents),
+            TextSpan(
+              text: eventCount == 1
+                  ? t.reception.doneSummary.eventsSingle
+                  : t.reception.doneSummary.eventsSeveral(count: eventCount),
+              style: strong,
+            ),
           ],
           TextSpan(
             text: rejected == 0
-                ? ', toutes vérifiées.'
-                : '. $rejected ${rejected == 1 ? 'photo n’a' : 'photos n’ont'} pas pu être rangée${rejected == 1 ? '' : 's'} : '
-                      'le téléphone ${rejected == 1 ? 'la' : 'les'} renverra au prochain envoi.',
+                ? t.reception.doneSummary.allVerified
+                : rejected == 1
+                ? t.reception.doneSummary.rejectedSingle(count: rejected)
+                : t.reception.doneSummary.rejectedSeveral(count: rejected),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/presentation/desktop_section.dart';
 import 'package:dis_saucisse_desktop/core/presentation/widgets/desktop_connection_cards.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,18 @@ class DesktopSidebar extends StatelessWidget {
         for (final DesktopSection destination in DesktopSection.values)
           DsSidebarItem(
             destination: switch (destination) {
-              DesktopSection.reception => const DsNavDestination(icon: Icons.image_outlined, label: 'Réception'),
-              DesktopSection.storage => const DsNavDestination(
-                icon: Icons.folder_outlined,
-                label: 'Dossier de rangement',
+              DesktopSection.reception => DsNavDestination(
+                icon: Icons.image_outlined,
+                label: t.shell.navigation.reception,
               ),
-              DesktopSection.history => const DsNavDestination(icon: Icons.history_rounded, label: 'Historique'),
+              DesktopSection.storage => DsNavDestination(
+                icon: Icons.folder_outlined,
+                label: t.shell.navigation.storage,
+              ),
+              DesktopSection.history => DsNavDestination(
+                icon: Icons.history_rounded,
+                label: t.shell.navigation.history,
+              ),
             },
             selected: destination == section,
             onTap: () => onSelected(destination),

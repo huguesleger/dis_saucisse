@@ -1,0 +1,40 @@
+{
+  "header": {
+    "subtitle": "Choisis où et comment les photos sont classées",
+    "title": "Dossier de rangement"
+  },
+  "folderRow": {
+    "label": "Dossier principal",
+    "defaultPath": "Images / Dis Saucisse",
+    "defaultFolder": "Dossier proposé par défaut",
+    "chosenFolder": "Choisi par toi",
+    "browse": "Parcourir…"
+  },
+  "options": {
+    "byYear": "Dossier par année",
+    "byMonth": {
+      "title": "Dossier par mois",
+      "subtitle": "Choisis le format du nom"
+    },
+    "byEvent": {
+      "title": "Dossier par événement",
+      "subtitle": "Daté et nommé : 2026-11-08 Anniversaire de mamie"
+    },
+    "discarded": {
+      "title": "Photos écartées",
+      "inSubfolder": "Rangées dans un sous-dossier « {folderName} »",
+      "withOthers": "Rangées avec les autres photos"
+    },
+    "renameFiles": {
+      "title": "Renommer les fichiers",
+      "withDate": "Avec la date de prise de vue (2026-11-08 14.30.12.jpg)",
+      "keepOriginal": "Garder les noms d’origine (IMG_2034.jpg)"
+    }
+  },
+  "preview": {
+    "title": "Aperçu",
+    "subtitle": "avec les photos de novembre",
+    "allInOnePlace": "Toutes les photos au même endroit",
+    "noOverwrite": "Les dossiers déjà existants sont réutilisés, rien n’est jamais écrasé."
+  }
+}

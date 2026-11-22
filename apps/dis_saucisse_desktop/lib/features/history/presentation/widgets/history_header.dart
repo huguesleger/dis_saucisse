@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class HistoryHeader extends StatelessWidget {
@@ -16,8 +17,8 @@ class HistoryHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Tout ce qui a été reçu sur ce PC', style: DsTextStyles.caption.copyWith(fontSize: 13)),
-            Text('Historique', style: DsTextStyles.display),
+            Text(t.history.header.subtitle, style: DsTextStyles.caption.copyWith(fontSize: 13)),
+            Text(t.history.header.title, style: DsTextStyles.display),
           ],
         ),
       ),

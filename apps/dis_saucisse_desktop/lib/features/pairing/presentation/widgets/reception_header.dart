@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:flutter/widgets.dart';
 
 class ReceptionHeader extends StatelessWidget {
@@ -8,9 +9,9 @@ class ReceptionHeader extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      Text('Bonjour ! Le PC est prêt à recevoir les photos', style: DsTextStyles.caption.copyWith(fontSize: 13)),
+      Text(t.pairing.header.greeting, style: DsTextStyles.caption.copyWith(fontSize: 13)),
       const SizedBox(height: DsSpacing.xxs),
-      Text('Associer un téléphone', style: DsTextStyles.display),
+      Text(t.pairing.header.title, style: DsTextStyles.display),
     ],
   );
 }

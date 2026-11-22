@@ -1,0 +1,51 @@
+{
+  "receivedPhotos": {
+    "noEstimate": "photos reçues",
+    "fewSeconds": "photos reçues · encore quelques secondes",
+    "minutes": "photos reçues · encore ~{minutes} min"
+  },
+  "progress": {
+    "phoneWaiting": "Le téléphone attend que tu reprennes",
+    "phoneSending": "{phoneName} envoie ses photos",
+    "titlePaused": "Réception en pause",
+    "titleRunning": "Réception en cours",
+    "resume": "Reprendre",
+    "pause": "Mettre en pause"
+  },
+  "countCard": {
+    "verified": "vérifiées",
+    "errorSingle": "erreur",
+    "errorSeveral": "erreurs",
+    "received": "reçus"
+  },
+  "safetyNote": {
+    "verified": "Chaque photo est vérifiée avant d’être marquée comme rangée. ",
+    "nothingDeleted": "Rien n’est supprimé du téléphone sans son accord."
+  },
+  "currentFolder": {
+    "storingIn": "En train de ranger dans",
+    "waitingFirstPhoto": "En attente de la première photo…",
+    "eventSingle": "Événement {event} · {count} photo rangée ici",
+    "eventSeveral": "Événement {event} · {count} photos rangées ici"
+  },
+  "done": {
+    "title": "Saucisse !",
+    "openFolder": "Ouvrir le dossier",
+    "close": "Fermer",
+    "phoneNext": "Le téléphone propose maintenant de libérer de la place. Le PC n’a plus rien à faire."
+  },
+  "doneSummary": {
+    "articleSingle": "La ",
+    "articleSeveral": "Les ",
+    "photosSingle": "1 photo",
+    "photosSeveral": "{count} photos",
+    "storedSingle": " du téléphone est bien rangée",
+    "storedSeveral": " du téléphone sont bien rangées",
+    "inEvents": " dans ",
+    "eventsSingle": "1 événement",
+    "eventsSeveral": "{count} événements",
+    "allVerified": ", toutes vérifiées.",
+    "rejectedSingle": ". {count} photo n’a pas pu être rangée : le téléphone la renverra au prochain envoi.",
+    "rejectedSeveral": ". {count} photos n’ont pas pu être rangées : le téléphone les renverra au prochain envoi."
+  }
+}

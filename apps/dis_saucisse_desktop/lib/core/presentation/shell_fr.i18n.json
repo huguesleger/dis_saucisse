@@ -1,0 +1,22 @@
+{
+  "appTitle": "Dis Saucisse !",
+  "navigation": {
+    "reception": "Réception",
+    "storage": "Dossier de rangement",
+    "history": "Historique"
+  },
+  "phone": {
+    "title": "Téléphone",
+    "paired": "Associé",
+    "notPaired": "Pas encore associé"
+  },
+  "network": {
+    "title": "Réseau Wi-Fi",
+    "offline": "Hors ligne"
+  },
+  "tray": {
+    "tooltip": "Dis Saucisse ! est prêt à recevoir des photos",
+    "open": "Ouvrir Dis Saucisse !",
+    "quit": "Quitter"
+  }
+}

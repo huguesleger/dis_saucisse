@@ -9,11 +9,13 @@ import 'package:fpdart/fpdart.dart';
 part 'storage_settings_state.dart';
 
 class StorageSettingsCubit extends SafeCubit<StorageSettingsState> {
-  StorageSettingsCubit({StorageSettingsRepository? repository})
+  StorageSettingsCubit({StorageSettingsRepository? repository, DateTime Function()? clock})
     : _repository = repository ?? getIt.get<StorageSettingsRepository>(),
+      _clock = clock ?? DateTime.now,
       super(const StorageSettingsLoading());
 
   final StorageSettingsRepository _repository;
+  final DateTime Function() _clock;
 
   Future<void> load() {
     if (state is StorageSettingsFailed) emit(const StorageSettingsLoading());
@@ -21,7 +23,11 @@ class StorageSettingsCubit extends SafeCubit<StorageSettingsState> {
         .loadSettings()
         .match(
           StorageSettingsFailed.new,
-          (StorageSettings settings) => StorageSettingsLoaded(folderPath: settings.folderPath, layout: settings.layout),
+          (StorageSettings settings) => StorageSettingsLoaded(
+            folderPath: settings.folderPath,
+            layout: settings.layout,
+            currentYear: _clock().year,
+          ),
         )
         .map(emit)
         .run();

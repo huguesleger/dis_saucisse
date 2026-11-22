@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/pairing/presentation/widgets/pairing_status_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -30,9 +31,9 @@ class PairingQrCard extends StatelessWidget {
             dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: DsColors.text),
           ),
         ),
-        Text('Scanne avec Dis Saucisse !', style: DsTextStyles.titleM),
+        Text(t.pairing.qrCard.title, style: DsTextStyles.titleM),
         Text(
-          'Dans l’app, touche le bouton ordinateur en haut de l’accueil.',
+          t.pairing.qrCard.hint,
           style: DsTextStyles.caption,
           textAlign: TextAlign.center,
         ),

@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/bloc/storage_settings_cubit.dart';
@@ -23,8 +24,8 @@ class StorageSettingsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text('Choisis où et comment les photos sont classées', style: DsTextStyles.caption.copyWith(fontSize: 13)),
-            Text('Dossier de rangement', style: DsTextStyles.display),
+            Text(t.storage.header.subtitle, style: DsTextStyles.caption.copyWith(fontSize: 13)),
+            Text(t.storage.header.title, style: DsTextStyles.display),
             const SizedBox(height: DsSpacing.l),
             Expanded(
               child: Row(
@@ -35,13 +36,17 @@ class StorageSettingsScreen extends StatelessWidget {
                     child: StorageOptionsCard(
                       folderPath: loaded.folderPath,
                       layout: loaded.layout,
+                      currentYear: loaded.currentYear,
                       onBrowse: context.read<StorageSettingsCubit>().chooseFolder,
                       onLayoutChanged: context.read<StorageSettingsCubit>().updateLayout,
                     ),
                   ),
                   SizedBox(
                     width: 250,
-                    child: StoragePreviewCard(folderPath: loaded.folderPath, folders: storagePreview(loaded.layout)),
+                    child: StoragePreviewCard(
+                      folderPath: loaded.folderPath,
+                      folders: storagePreview(loaded.layout, year: loaded.currentYear),
+                    ),
                   ),
                 ],
               ),

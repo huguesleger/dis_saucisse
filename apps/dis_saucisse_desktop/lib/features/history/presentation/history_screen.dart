@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/core/presentation/widgets/failure_view.dart';
 import 'package:dis_saucisse_desktop/core/router/routes.dart';
 import 'package:dis_saucisse_desktop/features/history/presentation/bloc/history_cubit.dart';
@@ -15,12 +16,11 @@ class HistoryScreen extends StatelessWidget {
       HistoryLoading() => const Center(child: DsLoader()),
       HistoryFailed(:final failure) => FailureView(failure: failure, onRetry: context.read<HistoryCubit>().load),
       HistoryLoaded(records: <Object>[]) => DsMessageView(
-        title: 'Aucune photo reçue pour l’instant',
-        message:
-            'Associe ton téléphone depuis l’écran Réception, puis envoie tes photos triées : chaque envoi apparaîtra ici.',
+        title: t.history.empty.title,
+        message: t.history.empty.message,
         placement: DsMessagePlacement.panel,
         primaryAction: DsMessageAction(
-          label: 'Aller à la réception',
+          label: t.history.empty.goToReception,
           onPressed: () => const ReceptionPageRoute().go(context),
         ),
       ),

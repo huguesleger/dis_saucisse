@@ -1,4 +1,5 @@
 import 'package:core_ui/core_ui.dart';
+import 'package:dis_saucisse_desktop/core/i18n/translations.g.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/photo_folder.dart';
 import 'package:dis_saucisse_desktop/features/storage/domain/rules/storage_preview.dart';
 import 'package:dis_saucisse_desktop/features/storage/presentation/widgets/storage_preview_folder.dart';
@@ -20,8 +21,8 @@ class StoragePreviewCard extends StatelessWidget {
         Row(
           spacing: DsSpacing.xs,
           children: <Widget>[
-            Text('Aperçu', style: DsTextStyles.titleM.copyWith(fontWeight: FontWeight.w600)),
-            Expanded(child: Text('avec les photos de novembre', style: DsTextStyles.caption)),
+            Text(t.storage.preview.title, style: DsTextStyles.titleM.copyWith(fontWeight: FontWeight.w600)),
+            Expanded(child: Text(t.storage.preview.subtitle, style: DsTextStyles.caption)),
           ],
         ),
         const SizedBox(height: DsSpacing.s),
@@ -47,14 +48,14 @@ class StoragePreviewCard extends StatelessWidget {
                 if (folders.isEmpty)
                   Padding(
                     padding: const EdgeInsets.only(left: DsSpacing.l, top: DsSpacing.xxs),
-                    child: Text('Toutes les photos au même endroit', style: DsTextStyles.caption),
+                    child: Text(t.storage.preview.allInOnePlace, style: DsTextStyles.caption),
                   ),
               ],
             ),
           ),
         ),
         const SizedBox(height: DsSpacing.s),
-        Text('Les dossiers déjà existants sont réutilisés, rien n’est jamais écrasé.', style: DsTextStyles.caption),
+        Text(t.storage.preview.noOverwrite, style: DsTextStyles.caption),
       ],
     ),
   );
